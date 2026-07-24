@@ -1,0 +1,34 @@
+# Alex Maywood
+
+> Alex Maywood is a NASM certified personal trainer and nutrition coach, and the founder of the AEM Method. AEM stands for Audit, Engineer, and Mobilize: a three-phase 1:1 online coaching system that helps high achievers build a lean, muscular physique without the guesswork.
+
+## About
+
+- **Who:** Alex Maywood, 1:1 online fitness and nutrition coach.
+- **Method:** The AEM Method, a three-phase system.
+  - **Audit** — a 90-minute deep-dive on training history, nutrition, sleep, stress, and daily patterns.
+  - **Engineer** — a complete training, nutrition, and habit system built from your Audit data and your actual life.
+  - **Mobilize** — ongoing execution with weekly check-ins, monthly consultations, and data-driven adjustments.
+- **Credentials:** NASM Certified Personal Trainer; Certified Nutrition Coach (Dr. Layne Norton's evidence-based program).
+- **Also:** Co-founder of Yalla Stride, a social and wellness club in Austin, TX. Yalla Stride is a community club, not a coaching platform, and is separate from Alex's 1:1 coaching practice.
+- **Availability:** By application only. Limited to 20 clients at a time.
+- **Results:** 96% client retention; most clients see visible change within about 6 weeks and an average of ~6 lbs lost in the first month.
+
+## Coaching plans
+
+- **Gold** — $79.99/week (billed every 4 weeks). Training program, custom nutrition targets, weekly check-ins, monthly consultations, Mon-Fri coach access. Apply: https://forms.gle/qKe3vV7riGPVmta89
+- **Platinum** — $199.99/week (billed every 4 weeks), limited to 7 clients. Everything in Gold plus private video coaching calls, Mon-Sat priority access, unlimited technique critiques, custom meal plans. Apply: https://forms.gle/L9vUkVpBW9HgHAF26
+- **Guarantee:** 30-day money-back guarantee if you complete the check-ins, consultation, and logging and are not satisfied.
+- **Payments:** Stripe (all major cards); financing via Affirm.
+
+## Common questions
+
+- Will this be different from a coach I tried before? Yes. It starts with a 90-minute audit; everything is built from your data, not a template.
+- Do I have to give up foods I enjoy? No. Nutrition is built around foods you like, including meals out.
+- What if I travel or get busy? The training and nutrition flex around real life, and weekly check-ins keep you on track.
+- How long until results? A sustainable 0.5-1 lb/week; most clients average ~6 lbs in the first month with visible strength and energy gains.
+
+## Contact
+
+- Website: https://www.alexmaywood.com/
+- Apply for coaching: https://www.alexmaywood.com/#pricing
