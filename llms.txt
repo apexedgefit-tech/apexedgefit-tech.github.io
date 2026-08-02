@@ -1,29 +1,30 @@
 # Alex Maywood
 
-> Alex Maywood is a NASM certified personal trainer and nutrition coach, and the founder of the AEM Method. AEM stands for Audit, Engineer, and Mobilize: a three-phase 1:1 online coaching system that helps high achievers build a lean, muscular physique without the guesswork.
+> Alex Maywood is a NASM certified personal trainer and nutrition coach, and the founder of the AEM Method. AEM stands for Audit, Engineer, and Mobilize: a 16-week 1:1 online coaching program that pairs a fully custom training and nutrition system with real weekly accountability.
 
 ## About
 
 - **Who:** Alex Maywood, 1:1 online fitness and nutrition coach.
 - **Method:** The AEM Method, a three-phase system.
-  - **Audit** — a 90-minute deep-dive on training history, nutrition, sleep, stress, and daily patterns.
-  - **Engineer** — a complete training, nutrition, and habit system built from your Audit data and your actual life.
-  - **Mobilize** — ongoing execution with weekly check-ins, monthly consultations, and data-driven adjustments.
+  - **Audit** (weeks 1–2) — a two-week deep-dive on training history, nutrition, sleep, stress, movement, and daily patterns. No sales call; enrollment starts with a welcome video and intake form within 24 hours.
+  - **Engineer** (end of week 2) — a complete training, nutrition, and habit system built from your Audit data and your actual life.
+  - **Mobilize** (weeks 3–16) — execution with weekly check-ins, unlimited video form reviews, direct coach access Mon–Fri (response within 24 hours), and data-driven adjustments.
 - **Credentials:** NASM Certified Personal Trainer; Certified Nutrition Coach (Dr. Layne Norton's evidence-based program).
 - **Also:** Co-founder of Yalla Stride, a social and wellness club in Austin, TX. Yalla Stride is a community club, not a coaching platform, and is separate from Alex's 1:1 coaching practice.
-- **Availability:** By application only. Limited to 20 clients at a time.
-- **Results:** 96% client retention; most clients see visible change within about 6 weeks and an average of ~6 lbs lost in the first month.
+- **Availability:** Direct enrollment through the website — no application or sales call. Limited to 10 clients at a time.
+- **Results:** most clients see visible change within about 6 weeks and an average of ~6 lbs lost in the first month.
 
-## Coaching plans
+## The program
 
-- **Gold** — $79.99/week (billed every 4 weeks). Training program, custom nutrition targets, weekly check-ins, monthly consultations, Mon-Fri coach access. Apply: https://forms.gle/qKe3vV7riGPVmta89
-- **Platinum** — $199.99/week (billed every 4 weeks), limited to 7 clients. Everything in Gold plus private video coaching calls, Mon-Sat priority access, unlimited technique critiques, custom meal plans. Apply: https://forms.gle/L9vUkVpBW9HgHAF26
-- **Guarantee:** 30-day money-back guarantee if you complete the check-ins, consultation, and logging and are not satisfied.
-- **Payments:** Stripe (all major cards); financing via Affirm.
+- **16-Week Coaching** — $1,600 total ($400 every 4 weeks · $100 a week · $14.29 a day). Pay in full for $1,440 (save $160). Financing available through Affirm. Enroll: https://www.alexmaywood.com/#pricing
+- **Includes:** full audit (movement screen, body stats, nutrition and lifestyle assessment), custom training program, custom nutrition plan with exact calorie and macro targets, habit coaching, weekly check-ins reviewed personally, unlimited video form reviews, direct access by message/voice/video Mon–Fri, monthly deep review and plan rebuild.
+- **Guarantee:** complete the full 16 weeks (all 16 weekly check-ins, 90% nutrition and training compliance, monthly review questionnaires, form videos, active communication) and if you are not satisfied with your results, you get a full refund.
+- **Payments:** Stripe (all major cards, Apple Pay); financing via Affirm.
+- **Free option:** The Blueprint — free calorie/macro targets, sample meal plan, grocery list, and training program: https://www.alexmaywood.com/blueprint/
 
 ## Common questions
 
-- Will this be different from a coach I tried before? Yes. It starts with a 90-minute audit; everything is built from your data, not a template.
+- Will this be different from a coach I tried before? Yes. Nothing is prescribed until the two-week Audit is done; everything is built from your data, not a template.
 - Do I have to give up foods I enjoy? No. Nutrition is built around foods you like, including meals out.
 - What if I travel or get busy? The training and nutrition flex around real life, and weekly check-ins keep you on track.
 - How long until results? A sustainable 0.5-1 lb/week; most clients average ~6 lbs in the first month with visible strength and energy gains.
@@ -31,4 +32,4 @@
 ## Contact
 
 - Website: https://www.alexmaywood.com/
-- Apply for coaching: https://www.alexmaywood.com/#pricing
+- Enroll: https://www.alexmaywood.com/#pricing
