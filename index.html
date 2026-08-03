@@ -30,28 +30,52 @@
 <style>
 :root{
   /* Design-system token ramp (warm-neutral) */
-  --color-obsidian:#000000;--color-carbon:#040302;--color-inkwell:#090805;
-  --color-graphite:#14110c;--color-slate:#1f1b15;--color-iron:#322d25;
-  --color-steel:#4b4539;--color-fog:#645d4e;--color-ash:#9d9486;
-  --color-silver:#989080;--color-pearl:#d3ccbb;--color-chalk:#cfc7b6;
-  --color-bone:#e9e2d4;--color-paper:#ffffff;--color-charcoal:#181510;--color-platinum:#ccc6b6;--platinum-rgb:204,198,182;
-  --color-ember-gold:#cc9166;--color-chalk-glow:#fff0cc;
-  --color-molten-gold:linear-gradient(103deg,#ae9357,#fff0cc 40%,#ae9357 70%,rgba(189,157,79,0));
+  --color-obsidian:#000000;--color-carbon:#040302;
+  --color-steel:#4b4539;--color-ash:#9d9486;
+  --color-pearl:#d3ccbb;--color-chalk:#cfc7b6;
+  --color-bone:#e9e2d4;
   --grad-gold:#ff962e;/* flat gold, gradient retired — matches the Blueprint tool */
   /* Semantic aliases (whole site reads from these) */
-  --bg:var(--color-obsidian);--bg-2:var(--color-obsidian);--bg-3:var(--color-carbon);--card:rgba(255,255,255,0.05);
+  --bg:var(--color-obsidian);--bg-3:var(--color-carbon);--card:rgba(255,255,255,0.05);
   --ink:var(--color-bone);--ink-2:var(--color-chalk);--muted:var(--color-pearl);--dim:var(--color-ash);--dim-2:var(--color-steel);
   --accent:#ff962e;--accent-bright:#ffb066;--accent-deep:#c2641e;
-  --ink-rgb:233,226,212;--accent-rgb:255,150,46;--bg-rgb:0,0,0;--card-rgb:10,9,8;
-  --zone:#120e0a;/* warm espresso tonal zone — matches the Blueprint atmosphere */
-  --line:rgba(var(--ink-rgb),0.14);--glow:rgba(var(--accent-rgb),0.32);
+  --ink-rgb:233,226,212;--accent-rgb:255,150,46;--bg-rgb:0,0,0;
+  --glow:rgba(var(--accent-rgb),0.32);
+  /* Persuasion-arc ember ramp — low-chroma warm-neutral washes, NOT the accent.
+     Temperature tracks the page's reading order: cold reality → first ember → building heat → molten decision point → resolution. */
+  --ember-1:#100c07;/* barely warm — first ember, just off canvas */
+  --ember-2:#180f09;/* building heat */
+  --ember-3:#221408;/* hotter — testimonials/results, easing-FAQ */
+  --ember-4:#2c1b0e;/* molten — pricing/guarantee peak */
+  --ember-core-1:rgba(120,68,30,0.20);/* soft distant-fire highlight */
+  --ember-core-2:rgba(150,82,32,0.28);/* deeper ember highlight */
+  --ember-core-3:rgba(168,92,36,0.34);/* molten core highlight, pricing/CTA */
+  --cool-1:rgba(20,23,28,0.5);/* barely-there cool-neutral, problem section only */
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%;font-size:110%;}
 body{background:var(--bg);color:var(--ink);overflow-x:hidden;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
 section{scroll-margin-top:96px;background:transparent!important;}
 /* ── Flow techniques: tonal zones · stat band · early proof (modeled on jamessmith.business) ── */
-.zone-warm{background:var(--zone)!important;}
+/* ── Persuasion-arc atmosphere: declarative ember zones, extending .zone-warm ── */
+/* Cold zone: hero/quotes/stats/problem/why-nothing-worked stay near-black (no class = default transparent → body black). */
+.zone-cool-1{background:radial-gradient(ellipse 60% 45% at 50% 32%,var(--cool-1),transparent 72%),var(--bg)!important;}
+/* First warmth: method/AEM + timeline — the ember enters, distant-fire radial low in the section. */
+.zone-ember-1{background:radial-gradient(ellipse 62% 55% at 50% 46%,var(--ember-core-1),transparent 70%),var(--ember-1)!important;}
+/* Building heat: fan deck gets a rising ember field anchored behind the phone deck's ground shadow. */
+.zone-ember-fan{background:radial-gradient(ellipse 78% 60% at 50% 88%,var(--ember-core-2),transparent 66%),radial-gradient(ellipse 60% 40% at 50% 20%,var(--ember-core-1),transparent 75%),var(--ember-2)!important;}
+/* Building heat: coach / testimonials / results — progressively warmer flat-ish washes with a gentle centered glow. */
+.zone-ember-2{background:radial-gradient(ellipse 65% 50% at 50% 42%,var(--ember-core-1),transparent 72%),var(--ember-2)!important;}
+.zone-ember-3{background:radial-gradient(ellipse 65% 50% at 50% 42%,var(--ember-core-2),transparent 72%),var(--ember-3)!important;}
+/* Bridge into peak heat: top reads like the results zone, bottom hands off hot into pricing. */
+.zone-ember-bridge{background:radial-gradient(ellipse 70% 55% at 50% 48%,var(--ember-core-2),transparent 70%),linear-gradient(180deg,var(--ember-3) 0%,var(--ember-3) 12%,var(--ember-4) 100%)!important;}
+/* Peak heat: pricing — composed molten atmosphere, deep core behind the card, falloff toward the section's own corners (not a vignette overlay — anchored to content). */
+.zone-ember-pricing{background:radial-gradient(ellipse 50% 40% at 50% 30%,var(--ember-core-3),transparent 62%),radial-gradient(ellipse 95% 78% at 50% 42%,var(--ember-4),transparent 76%),radial-gradient(ellipse 150% 110% at 50% 50%,var(--ember-3),transparent 88%),linear-gradient(180deg,var(--ember-4) 0%,var(--ember-3) 100%)!important;background-size:130% 130%,130% 130%,100% 100%,100% 100%;animation:emberDrift 26s ease-in-out infinite alternate;}
+/* Peak heat: guarantee — same molten register, slightly softer core (no card border glow competing with the CTA above). */
+.zone-ember-guarantee{background:radial-gradient(ellipse 55% 48% at 50% 42%,var(--ember-core-2),transparent 66%),radial-gradient(ellipse 120% 95% at 50% 50%,var(--ember-4),transparent 82%),var(--ember-3)!important;}
+/* Resolution: final CTA — heat returns deep and warm; a slow eased drift, disabled under reduced-motion below. */
+.zone-ember-cta{background:radial-gradient(ellipse 60% 55% at 50% 55%,var(--ember-core-3),transparent 68%),radial-gradient(ellipse 130% 95% at 50% 40%,var(--ember-2),transparent 80%),var(--ember-1)!important;background-size:130% 130%,130% 130%,100% 100%;animation:emberDrift 30s ease-in-out infinite alternate;}
+@keyframes emberDrift{0%{background-position:46% 34%,50% 55%,0 0;}100%{background-position:54% 46%,50% 62%,0 0;}}
 .statband{padding:72px 24px;}
 .statband .sb-inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;text-align:center;}
 .statband .sb-item{position:relative;}
@@ -95,7 +119,7 @@ div[style*="background:var(--card)"]{border-color:rgba(var(--ink-rgb),0.16)!impo
 .lever-n{font-family:'Manrope',sans-serif;font-weight:800;color:var(--accent);font-size:1.6rem;line-height:1.1;min-width:36px;}
 .lever div b{display:block;font-family:'Inter',sans-serif;font-weight:600;color:var(--ink);font-size:.95rem;margin-bottom:6px;}
 .lever div p{font-family:'Inter',sans-serif;color:var(--muted);font-size:.86rem;line-height:1.8;margin:0;}
-.bp-tag{font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px;padding:22px 0 6px;}
+.bp-tag{font-family:'Inter',sans-serif;font-size:.75rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px;padding:22px 0 6px;}
 .bp-tag i{flex:1;height:1px;background:rgba(var(--ink-rgb),0.14);}
 .ba-unit{position:relative;background:rgba(255,255,255,0.05);border:1px solid rgba(233,226,212,0.18);border-radius:14px;}
 .ba-unit img{width:100%;height:auto;display:block;border-radius:12px 12px 0 0;}
@@ -116,7 +140,7 @@ main,header,footer{position:relative;z-index:1;}
 .hero-kicker{display:flex;align-items:center;justify-content:space-between;gap:22px;max-width:min(949px,86vw);margin:0 auto 56px;}
 .hero-kicker-label{font-family:'Inter',sans-serif;color:var(--accent);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;}
 .hero-rule{flex:1;height:1px;background:rgba(var(--ink-rgb),0.14);}
-.hero-kicker-meta{font-family:'Inter',sans-serif;color:var(--dim);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;}
+.hero-kicker-meta{font-family:'Inter',sans-serif;color:var(--dim);font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;}
 .hero-h1{font-family:'Manrope',sans-serif;font-weight:800;font-size:clamp(2rem,5.2vw,58px);line-height:1.08;letter-spacing:-0.018em;color:var(--ink);margin:0 auto 44px;text-align:center;}
 .hero-foot{display:grid;grid-template-columns:1fr;gap:36px;justify-items:center;text-align:center;}
 .hero-sub{font-family:'Inter',sans-serif;color:var(--muted);font-size:.95rem;line-height:1.85;max-width:52ch;margin:0 auto;}
@@ -128,7 +152,7 @@ main,header,footer{position:relative;z-index:1;}
   .hero-wrap{min-height:auto;padding:24px 20px 64px;}
   .hero-kicker{flex-direction:column;gap:6px;margin-bottom:26px;}
   .hero-rule{display:none;}
-  .hero-kicker-meta{font-size:.58rem;letter-spacing:.12em;white-space:normal;text-align:center;}
+  .hero-kicker-meta{font-size:.75rem;letter-spacing:.1em;white-space:normal;text-align:center;}
   .hero-h1{margin-bottom:28px;}
   .hero-sub{font-size:.9rem;line-height:1.72;}
   .hero-foot{gap:24px;}
@@ -139,23 +163,24 @@ main,header,footer{position:relative;z-index:1;}
 .ed-eyebrow{display:inline-flex;align-items:center;}
 .ed-eyebrow::before{display:none;}
 a:focus-visible,button:focus-visible,.cta:focus-visible,.cta-o:focus-visible,.cta-dark:focus-visible,.faq-trigger:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px;}
-.pw-ico{flex-shrink:0;width:44px;height:44px;border-radius:10px;background:rgba(var(--accent-rgb),0.08);border:1px solid rgba(var(--accent-rgb),0.22);display:flex;align-items:center;justify-content:center;color:var(--accent);}
-.pw-ico svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
 .ed-head{display:flex;flex-direction:column;align-items:center;text-align:center;}
 .ed-head h2{max-width:none;text-wrap:balance;}
 .ed-head p:not(.ed-eyebrow){text-align:center !important;align-self:center;max-width:60ch;margin-left:auto !important;margin-right:auto !important;}
 /* Ghost background wordmarks — the hero "soul" carried across sections */
 .has-mark{position:relative;}
-.has-mark>div:not(.sec-mark){position:relative;z-index:1;}
+.has-mark>div{position:relative;z-index:1;}
 @media(prefers-reduced-motion:reduce){
   .reveal{transition:none!important;opacity:1!important;transform:none!important;will-change:auto!important;}
   .parallax{transform:none!important;}
   *{animation-duration:.001s!important;animation-iteration-count:1!important;}
   .aem-circle-anim,.aem-line-anim{opacity:1!important;}
   .sticky-bar{transition:none!important;}
+  .faq-body{transition:none!important;}
+  .zone-ember-pricing,.zone-ember-cta{animation:none!important;}
 }
-.faq-body{max-height:0;overflow:hidden;transition:max-height .38s ease;}
-.faq-item.open .faq-body{max-height:1100px;}
+.faq-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .38s ease;}
+.faq-body-inner{min-height:0;overflow:hidden;}
+.faq-item.open .faq-body{grid-template-rows:1fr;}
 .faq-item.open .faq-icon{transform:rotate(45deg);}
 .faq-icon{transition:transform .3s ease;display:inline-block;}
 .cta{display:inline-block;font-family:'Inter',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bg);background:var(--grad-gold);padding:16px 44px;border-radius:4px;transition:box-shadow .25s ease;text-decoration:none;}
@@ -181,7 +206,7 @@ a:focus-visible,button:focus-visible,.cta:focus-visible,.cta-o:focus-visible,.ct
 .tl-dot{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(var(--accent-rgb),0.55);background:var(--bg);margin:9px auto 14px;position:relative;z-index:1;}
 .tl-milestone .tl-dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 16px rgba(var(--accent-rgb),0.45);}
 .tl-t{font-family:'Manrope',sans-serif;font-weight:700;color:var(--ink);font-size:.8rem;line-height:1.3;margin-bottom:4px;}
-.tl-s{font-family:'Inter',sans-serif;color:var(--dim);font-size:.68rem;line-height:1.45;}
+.tl-s{font-family:'Inter',sans-serif;color:var(--dim);font-size:.75rem;line-height:1.45;}
 @media(max-width:800px){
   .tl-rail{flex-direction:column;align-items:stretch;gap:24px;padding:0 0 0 8px;}
   .tl-rail::before{top:8px;bottom:8px;left:16px;right:auto;width:1px;height:auto;}
@@ -198,7 +223,7 @@ a:focus-visible,button:focus-visible,.cta:focus-visible,.cta-o:focus-visible,.ct
 .sticky-bar.on{transform:translateY(0);}
 .sticky-bar .sbar-price{font-family:'Manrope',sans-serif;font-weight:700;color:var(--ink);font-size:.85rem;}
 .sticky-bar .cta{padding:13px 20px !important;font-size:.64rem !important;}
-@media(max-width:800px){.sticky-bar{display:flex;}}
+@media(max-width:800px){.sticky-bar{display:flex;}footer{padding-bottom:calc(64px + env(safe-area-inset-bottom))!important;}}
 
 /* AEM — hidden until JS triggers */
 .aem-circle-anim{opacity:0;}
@@ -262,8 +287,9 @@ a:focus-visible,button:focus-visible,.cta:focus-visible,.cta-o:focus-visible,.ct
 
 </style>
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@graph": [{"@type": "Person", "@id": "https://www.alexmaywood.com/#alex", "name": "Alex Maywood", "jobTitle": "Fitness and Nutrition Coach", "description": "NASM certified personal trainer and nutrition coach, and founder of the AEM Method. Co-founder of Yalla Stride, a social and wellness club in Austin, Texas.", "url": "https://www.alexmaywood.com/", "affiliation": {"@type": "Organization", "name": "Yalla Stride", "description": "Social and wellness club in Austin, Texas"}, "image": "https://www.alexmaywood.com/images/alex-maywood.jpg", "hasCredential": [{"@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "NASM Certified Personal Trainer"}, {"@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "Certified Nutrition Coach (Dr. Layne Norton evidence-based program)"}]}, {"@type": "WebSite", "@id": "https://www.alexmaywood.com/#website", "url": "https://www.alexmaywood.com/", "name": "Alex Maywood", "publisher": {"@id": "https://www.alexmaywood.com/#alex"}, "inLanguage": "en"}, {"@type": "ProfessionalService", "@id": "https://www.alexmaywood.com/#service", "name": "Alex Maywood Coaching (The AEM Method)", "url": "https://www.alexmaywood.com/", "image": "https://www.alexmaywood.com/og-image.png", "description": "1:1 online fitness and nutrition coaching built on the AEM Method (Audit, Engineer, Mobilize): a 16-week program that pairs a fully custom training and nutrition system with real weekly accountability.", "provider": {"@id": "https://www.alexmaywood.com/#alex"}, "serviceType": "Online fitness and nutrition coaching", "areaServed": {"@type": "Place", "name": "Worldwide (online)"}, "aggregateRating": {"@type": "AggregateRating", "ratingValue": "5", "reviewCount": "6", "bestRating": "5"}, "review": [{"@type": "Review", "author": {"@type": "Person", "name": "Raghda"}, "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"}, "reviewBody": "My online experience with Alex has been amazing and very helpful. He listened to my needs and concerns and then took actions that benefited me and my goals. After one month of consistency, I saw improvements and changes that proved his program was working. I went down from a size 6 to a size 4 and most of my clothes are big on me now. I've had three coaches in the last two years including Alex, and Alex has been the best coach I've had so far. I highly recommend Alex as your next coach!"}, {"@type": "Review", "author": {"@type": "Person", "name": "Omar Tarabishi"}, "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"}, "reviewBody": "I lost 10 lbs in the first 6 weeks! Alex helped me optimize my nutrition and protein intake throughout the entire day, not just around my workout. Before starting with Alex, I ate a lot of sweets and now I only have one sweet thing at dinner, if that. I highly recommend Alex as your coach. Access to Alex is great!"}, {"@type": "Review", "author": {"@type": "Person", "name": "Luke M."}, "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"}, "reviewBody": "The moment I started working with Alex I saw major improvements in both how I look and feel. I've lost 20 lbs of fat and gained muscle at the same time. I was already working out and putting in the effort but wasn't seeing real results. He helped optimize my nutrition, habits, and gave me a program tailored to my goals and lifestyle. He guided me through every step of the way and was always there when I needed him."}, {"@type": "Review", "author": {"@type": "Person", "name": "Maha Mahmood"}, "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"}, "reviewBody": "Working with Alex was different from the first conversation. He asked me questions nobody had asked me before, about my schedule, my pain history, my actual goal, and my lifestyle as a whole. I went from deadlifting a 35lb kettlebell to deadlifting 105lb using a trap bar and no back pain or knee pain. My energy is consistent in a way it was not before. Alex is the best and I'm forever grateful."}, {"@type": "Review", "author": {"@type": "Person", "name": "Abdullah Al-Shalabi"}, "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"}, "reviewBody": "Within just 6 weeks I noticed my belt size. I moved from the 3rd hole to the 4th hole. My body composition clearly changed. I lost fat and gained muscle. The biggest change has been understanding that nutrition truly drives results. Alex was extremely supportive and responsive, always answering questions and helping adjust things when needed."}, {"@type": "Review", "author": {"@type": "Person", "name": "Lana Adnan"}, "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"}, "reviewBody": "Training with Alex has been an exceptional experience. From the beginning, he demonstrated a high level of professionalism. Not only is he highly knowledgeable and motivating, but also very patient, making the training journey both easier and more enjoyable. His structured and safety-focused approach allowed me to progress effectively toward my goals and train safely without risk of injury."}], "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Coaching", "itemListElement": [{"@type": "Offer", "name": "16-Week Coaching", "price": "1600", "priceCurrency": "USD", "url": "https://www.alexmaywood.com/#pricing", "availability": "https://schema.org/LimitedAvailability", "description": "A fixed 16-week 1:1 coaching program: full audit, custom training and nutrition system, weekly check-ins reviewed personally, unlimited video form reviews, direct coach access Mon-Fri, monthly deep reviews. $400 every 4 weeks or $1,440 paid in full. Limited to 10 clients at a time."}]}}, {"@type": "FAQPage", "@id": "https://www.alexmaywood.com/#faq", "mainEntity": [{"@type": "Question", "name": "I’ve hired a coach before and it didn’t work. Why is this different?", "acceptedAnswer": {"@type": "Answer", "text": "Some of my current clients came to me after other coaches. Their problem was never effort. What they got was a generic plan, a check-in sheet if they were lucky, and no real accountability. Nothing built from their data, their body, or their life. Here, nothing gets prescribed until the two-week Audit is done. Everything after that is built from what I actually find. It isn’t a template. It’s your system."}}, {"@type": "Question", "name": "There’s no sales call. How do I know you’re legit?", "acceptedAnswer": {"@type": "Answer", "text": "Fair. That’s why there are six named clients with job titles and two video testimonials on this page, and why the guarantee puts the risk on me instead of you. You’re also welcome to message me on Instagram before you buy. I’d rather answer your questions there than on a call designed to pressure you."}}, {"@type": "Question", "name": "What if I start and realize it isn’t for me?", "acceptedAnswer": {"@type": "Answer", "text": "Then message me and I’ll refund you. I’m not interested in holding money from someone who doesn’t want the help. Just know that’s not what the guarantee is for. The guarantee is for people who do the work and don’t get the result."}}, {"@type": "Question", "name": "Do I have to give up the foods I enjoy?", "acceptedAnswer": {"@type": "Answer", "text": "No. Your nutrition is built around food you actually like, including meals out and cultural food. The goal isn’t taking things away. It’s showing you how to eat in a way that works without making you miserable."}}, {"@type": "Question", "name": "Why does it take two weeks to get my plan?", "acceptedAnswer": {"@type": "Answer", "text": "Because a plan built before I understand your life is the same plan that already failed you five times. The first two weeks are the Audit, and they’re the reason the next fourteen work. You’re not idle during them. You’re logging, being assessed, and building the habits the plan depends on."}}, {"@type": "Question", "name": "Is $1,600 expensive?", "acceptedAnswer": {"@type": "Answer", "text": "An in-person trainer is $1,200 to $1,400 a month for sessions alone. This is four months of training, nutrition, and accountability for less than five weeks of that. You’ve probably already spent more than this on memberships, supplements, and programs that didn’t stick. The real question isn’t what this costs. It’s what another year in the same body costs."}}, {"@type": "Question", "name": "What if my life gets busy or I travel?", "acceptedAnswer": {"@type": "Answer", "text": "That’s what the system is built for. Your training works with whatever equipment you have, including a hotel gym or nothing at all. Your nutrition flexes around restaurants, airports, and unpredictable weeks. And when something throws you off, that’s exactly what the weekly check-in catches. One bad week has never derailed a client. The system assumes real life because it’s built around it."}}, {"@type": "Question", "name": "How long before I see results?", "acceptedAnswer": {"@type": "Answer", "text": "It depends on your starting point and your consistency. A sustainable rate is 0.5 to 1 lb per week, and most clients see around 6 lbs in the first month along with visible changes in strength and energy. Muscle takes longer and works differently. Everything runs in phases so results actually last. This is not a quick fix."}}, {"@type": "Question", "name": "What if I want to keep going after 16 weeks?", "acceptedAnswer": {"@type": "Answer", "text": "Most clients do, because after sixteen weeks they have a base and a new goal. Maybe that’s building serious muscle, maybe it’s a 10k, maybe it’s a Hyrox. Each one is its own phase with its own training and nutrition. We talk about it in week fifteen. No auto-renewal, no pressure. The sixteen weeks ends when it ends."}}, {"@type": "Question", "name": "Couldn’t I just figure this out myself?", "acceptedAnswer": {"@type": "Answer", "text": "Probably. You’re smart and the information is free. But you’ve had years to figure it out on your own, and if that were going to work it likely would have by now. That isn’t a knock on you. Doing it alone means you’re the one who decides, executes, tracks, adjusts, and holds yourself to it, all while running the rest of your life. Nobody is good at being their own coach. The people who are hardest on themselves are usually the worst at it."}}, {"@type": "Question", "name": "How do payments work?", "acceptedAnswer": {"@type": "Answer", "text": "Everything runs through Stripe, which accepts all major cards and Apple Pay. Affirm is available if you want to split it into smaller payments over a longer term."}}]}]}
+{"@context": "https://schema.org", "@graph": [{"@type": "Person", "@id": "https://www.alexmaywood.com/#alex", "name": "Alex Maywood", "jobTitle": "Fitness and Nutrition Coach", "description": "NASM certified personal trainer and nutrition coach, and founder of the AEM Method. Co-founder of Yalla Stride, a social and wellness club in Austin, Texas.", "url": "https://www.alexmaywood.com/", "affiliation": {"@type": "Organization", "name": "Yalla Stride", "description": "Social and wellness club in Austin, Texas"}, "image": "https://www.alexmaywood.com/images/alex-maywood.jpg", "hasCredential": [{"@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "NASM Certified Personal Trainer"}, {"@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "Certified Nutrition Coach (Dr. Layne Norton evidence-based program)"}]}, {"@type": "WebSite", "@id": "https://www.alexmaywood.com/#website", "url": "https://www.alexmaywood.com/", "name": "Alex Maywood", "publisher": {"@id": "https://www.alexmaywood.com/#alex"}, "inLanguage": "en"}, {"@type": "ProfessionalService", "@id": "https://www.alexmaywood.com/#service", "name": "Alex Maywood Coaching (The AEM Method)", "url": "https://www.alexmaywood.com/", "image": "https://www.alexmaywood.com/og-image.png", "description": "1:1 online fitness and nutrition coaching built on the AEM Method (Audit, Engineer, Mobilize): a 16-week program that pairs a fully custom training and nutrition system with real weekly accountability.", "provider": {"@id": "https://www.alexmaywood.com/#alex"}, "serviceType": "Online fitness and nutrition coaching", "areaServed": {"@type": "Place", "name": "Worldwide (online)"}, "review": [{"@type": "Review", "author": {"@type": "Person", "name": "Raghda"}, "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"}, "reviewBody": "My online experience with Alex has been amazing and very helpful. He listened to my needs and concerns and then took actions that benefited me and my goals. After one month of consistency, I saw improvements and changes that proved his program was working. I went down from a size 6 to a size 4 and most of my clothes are big on me now. I've had three coaches in the last two years including Alex, and Alex has been the best coach I've had so far. I highly recommend Alex as your next coach!"}, {"@type": "Review", "author": {"@type": "Person", "name": "Omar Tarabishi"}, "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"}, "reviewBody": "I lost 10 lbs in the first 6 weeks! Alex helped me optimize my nutrition and protein intake throughout the entire day, not just around my workout. Before starting with Alex, I ate a lot of sweets and now I only have one sweet thing at dinner, if that. I highly recommend Alex as your coach. Access to Alex is great!"}, {"@type": "Review", "author": {"@type": "Person", "name": "Luke M."}, "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"}, "reviewBody": "The moment I started working with Alex I saw major improvements in both how I look and feel. I've lost 20 lbs of fat and gained muscle at the same time. I was already working out and putting in the effort but wasn't seeing real results. He helped optimize my nutrition, habits, and gave me a program tailored to my goals and lifestyle. He guided me through every step of the way and was always there when I needed him."}, {"@type": "Review", "author": {"@type": "Person", "name": "Maha Mahmood"}, "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"}, "reviewBody": "Working with Alex was different from the first conversation. He asked me questions nobody had asked me before, about my schedule, my pain history, my actual goal, and my lifestyle as a whole. I went from deadlifting a 35lb kettlebell to deadlifting 105lb using a trap bar and no back pain or knee pain. My energy is consistent in a way it was not before. Alex is the best and I'm forever grateful."}, {"@type": "Review", "author": {"@type": "Person", "name": "Abdullah Al-Shalabi"}, "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"}, "reviewBody": "Within just 6 weeks I noticed my belt size. I moved from the 3rd hole to the 4th hole. My body composition clearly changed. I lost fat and gained muscle. The biggest change has been understanding that nutrition truly drives results. Alex was extremely supportive and responsive, always answering questions and helping adjust things when needed."}, {"@type": "Review", "author": {"@type": "Person", "name": "Lana Adnan"}, "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"}, "reviewBody": "Training with Alex has been an exceptional experience. From the beginning, he demonstrated a high level of professionalism. Not only is he highly knowledgeable and motivating, but also very patient, making the training journey both easier and more enjoyable. His structured and safety-focused approach allowed me to progress effectively toward my goals and train safely without risk of injury."}], "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Coaching", "itemListElement": [{"@type": "Offer", "name": "16-Week Coaching", "price": "1600", "priceCurrency": "USD", "url": "https://www.alexmaywood.com/#pricing", "availability": "https://schema.org/LimitedAvailability", "description": "A fixed 16-week 1:1 coaching program: full audit, custom training and nutrition system, weekly check-ins reviewed personally, unlimited video form reviews, direct coach access Mon-Fri, monthly deep reviews. $1,440 paid in full (full price $1,600). Limited to 10 clients at a time."}]}}, {"@type": "FAQPage", "@id": "https://www.alexmaywood.com/#faq", "mainEntity": [{"@type": "Question", "name": "I’ve hired a coach before and it didn’t work. Why is this different?", "acceptedAnswer": {"@type": "Answer", "text": "Some of my current clients came to me after other coaches. Their problem was never effort. What they got was a generic plan, a check-in sheet if they were lucky, and no real accountability. Nothing built from their data, their body, or their life. Here, nothing gets prescribed until the two-week Audit is done. Everything after that is built from what I actually find. It isn’t a template. It’s your system."}}, {"@type": "Question", "name": "There’s no sales call. How do I know you’re legit?", "acceptedAnswer": {"@type": "Answer", "text": "Fair. That’s why there are six named clients with job titles and two video testimonials on this page, and why the guarantee puts the risk on me instead of you. You’re also welcome to message me on Instagram before you buy. I’d rather answer your questions there than on a call designed to pressure you."}}, {"@type": "Question", "name": "What if I start and realize it isn’t for me?", "acceptedAnswer": {"@type": "Answer", "text": "Then message me and I’ll refund you. I’m not interested in holding money from someone who doesn’t want the help. Just know that’s not what the guarantee is for. The guarantee is for people who do the work and don’t get the result."}}, {"@type": "Question", "name": "Do I have to give up the foods I enjoy?", "acceptedAnswer": {"@type": "Answer", "text": "No. Your nutrition is built around food you actually like, including meals out and cultural food. The goal isn’t taking things away. It’s showing you how to eat in a way that works without making you miserable."}}, {"@type": "Question", "name": "Why does it take two weeks to get my plan?", "acceptedAnswer": {"@type": "Answer", "text": "Because a plan built before I understand your life is the same plan that already failed you five times. The first two weeks are the Audit, and they’re the reason the next fourteen work. You’re not idle during them. You’re logging, being assessed, and building the habits the plan depends on."}}, {"@type": "Question", "name": "Is $1,600 expensive?", "acceptedAnswer": {"@type": "Answer", "text": "An in-person trainer is $1,200 to $1,400 a month for sessions alone. This is four months of training, nutrition, and accountability for less than five weeks of that. You’ve probably already spent more than this on memberships, supplements, and programs that didn’t stick. The real question isn’t what this costs. It’s what another year in the same body costs."}}, {"@type": "Question", "name": "What if my life gets busy or I travel?", "acceptedAnswer": {"@type": "Answer", "text": "That’s what the system is built for. Your training works with whatever equipment you have, including a hotel gym or nothing at all. Your nutrition flexes around restaurants, airports, and unpredictable weeks. And when something throws you off, that’s exactly what the weekly check-in catches. One bad week has never derailed a client. The system assumes real life because it’s built around it."}}, {"@type": "Question", "name": "How long before I see results?", "acceptedAnswer": {"@type": "Answer", "text": "It depends on your starting point and your consistency. A sustainable rate is 0.5 to 1 lb per week, and most clients see around 6 lbs in the first month along with visible changes in strength and energy. Muscle takes longer and works differently. Everything runs in phases so results actually last. This is not a quick fix."}}, {"@type": "Question", "name": "What if I want to keep going after 16 weeks?", "acceptedAnswer": {"@type": "Answer", "text": "Most clients do, because after sixteen weeks they have a base and a new goal. Maybe that’s building serious muscle, maybe it’s a 10k, maybe it’s a Hyrox. Each one is its own phase with its own training and nutrition. We talk about it in week fifteen. No auto-renewal, no pressure. The sixteen weeks ends when it ends."}}, {"@type": "Question", "name": "Couldn’t I just figure this out myself?", "acceptedAnswer": {"@type": "Answer", "text": "Probably. You’re smart and the information is free. But you’ve had years to figure it out on your own, and if that were going to work it likely would have by now. That isn’t a knock on you. Doing it alone means you’re the one who decides, executes, tracks, adjusts, and holds yourself to it, all while running the rest of your life. Nobody is good at being their own coach. The people who are hardest on themselves are usually the worst at it."}}, {"@type": "Question", "name": "How do payments work?", "acceptedAnswer": {"@type": "Answer", "text": "Everything runs through Stripe, which accepts all major cards and Apple Pay. Affirm is available if you want to split it into smaller payments over a longer term."}}]}]}
 </script>
+<noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -292,14 +318,14 @@ a:focus-visible,button:focus-visible,.cta:focus-visible,.cta-o:focus-visible,.ct
       <div class="reveal hero-cta-col">
         <div style="display:inline-flex;align-items:center;gap:14px;">
           <div style="display:flex;align-items:center;">
-            <img src="images/avatars/raghda.jpg" alt="client" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--bg);margin-left:0;" loading="lazy"><img src="images/avatars/omar.jpg" alt="client" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--bg);margin-left:-12px;" loading="lazy"><img src="images/avatars/luke.jpg" alt="client" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--bg);margin-left:-12px;" loading="lazy"><img src="images/avatars/maha.jpg" alt="client" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--bg);margin-left:-12px;" loading="lazy"><img src="images/avatars/abdullah.jpg" alt="client" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--bg);margin-left:-12px;" loading="lazy"><img src="images/avatars/lana.jpg" alt="client" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--bg);margin-left:-12px;" loading="lazy">
+            <img src="images/avatars/raghda.jpg" alt="Raghda, client" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--bg);margin-left:0;" loading="lazy"><img src="images/avatars/omar.jpg" alt="Omar, client" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--bg);margin-left:-12px;" loading="lazy"><img src="images/avatars/luke.jpg" alt="Luke, client" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--bg);margin-left:-12px;" loading="lazy"><img src="images/avatars/maha.jpg" alt="Maha, client" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--bg);margin-left:-12px;" loading="lazy"><img src="images/avatars/abdullah.jpg" alt="Abdullah, client" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--bg);margin-left:-12px;" loading="lazy"><img src="images/avatars/lana.jpg" alt="Lana, client" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--bg);margin-left:-12px;" loading="lazy">
           </div>
           <div style="display:flex;flex-direction:column;gap:3px;">
             <span style="color:var(--accent);font-size:.78rem;letter-spacing:1px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
             <p style="font-family:'Inter',sans-serif;font-size:.75rem;color:var(--muted);line-height:1;">Real results. You&rsquo;re next.</p>
           </div>
         </div>
-        <a href="javascript:void(0)" onclick="scrollToSection('pricing')" class="cta">Start My 16 Weeks</a>
+        <a href="#pricing" onclick="return scrollToSection('pricing')" class="cta">Start My 16 Weeks</a>
     <p class="cta-note" style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.74rem;letter-spacing:.05em;margin-top:14px;">16-week program &middot; Founding rate &middot; Limited to 10 clients</p>
       </div>
     </div>
@@ -330,7 +356,6 @@ VSL-END -->
       <div class="pq-by">
         <img src="images/avatars/luke.jpg" alt="Luke M." style="width:34px;height:34px;border-radius:50%;object-fit:cover;" loading="lazy">
         <span><b>Luke M.</b> &middot; Senior Data Analyst</span>
-        <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(29,155,240,0.12);border:1px solid rgba(29,155,240,0.3);padding:3px 9px;border-radius:20px;"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="6" fill="#1D9BF0"/><polyline points="3,6 5,8.5 9,4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-family:'Inter',sans-serif;font-size:.6rem;font-weight:600;color:#1D9BF0;letter-spacing:.06em;">VERIFIED</span></span>
       </div>
     </div>
     <div class="pq-item">
@@ -338,14 +363,13 @@ VSL-END -->
       <div class="pq-by">
         <img src="images/avatars/raghda.jpg" alt="Raghda" style="width:34px;height:34px;border-radius:50%;object-fit:cover;" loading="lazy">
         <span><b>Raghda</b> &middot; Program Coordinator</span>
-        <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(29,155,240,0.12);border:1px solid rgba(29,155,240,0.3);padding:3px 9px;border-radius:20px;"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="6" fill="#1D9BF0"/><polyline points="3,6 5,8.5 9,4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-family:'Inter',sans-serif;font-size:.6rem;font-weight:600;color:#1D9BF0;letter-spacing:.06em;">VERIFIED</span></span>
       </div>
     </div>
   </div>
 </section>
 
 <!-- PROOF NUMBERS — oversized gold numerals as rhythm/punctuation (warm tonal zone) -->
-<section class="statband zone-warm">
+<section class="statband">
   <div class="sb-inner reveal">
     <div class="sb-item"><div class="sb-num">6</div><div class="sb-lab">Weeks to visible change</div></div>
     <div class="sb-item"><div class="sb-num">16</div><div class="sb-lab">Week program, start to finish</div></div>
@@ -354,11 +378,11 @@ VSL-END -->
 </section>
 
 <!-- THE PROBLEM — six recognition scenes, concrete only; diagnosis lives in the next section -->
-<section style="background:var(--bg);padding:84px 24px;">
+<section class="zone-cool-1" style="padding:84px 24px;">
   <div style="max-width:680px;margin:0 auto;">
     <div class="reveal ed-head" style="margin-bottom:52px;">
       <p class="ed-eyebrow" style="font-family:'Inter',sans-serif;color:var(--accent);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:22px;">Sound Familiar?</p>
-      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.6rem,3.6vw,40px);line-height:1.08;letter-spacing:-0.015em;">You are not the problem. <span style="color:var(--ink);">Nobody was watching.</span></h2>
+      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.6rem,3.6vw,40px);line-height:1.08;letter-spacing:-0.015em;">You are not the problem. Nobody was watching.</h2>
     </div>
     <div class="reveal" style="margin-bottom:32px;text-align:center;">
       <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.92rem;line-height:1.9;margin-bottom:14px;max-width:560px;margin-left:auto;margin-right:auto;">Nobody who knows you would call you undisciplined. You&rsquo;ve built teams, shipped things, carried people who were counting on you. You do hard things on schedule and you do them well.</p>
@@ -407,7 +431,7 @@ VSL-END -->
 <hr style="max-width:1100px;margin:0 auto;border:none;height:1px;background:linear-gradient(to right,transparent,rgba(var(--ink-rgb),0.1) 50%,transparent);">
 
 <!-- WHY IT HASN'T WORKED — pure diagnosis, no new scenes -->
-<section class="zone-warm" style="background:var(--bg);padding:84px 24px;">
+<section style="background:var(--bg);padding:84px 24px;">
   <div style="max-width:740px;margin:0 auto;">
     <div class="reveal ed-head" style="margin-bottom:48px;">
       <p class="ed-eyebrow" style="font-family:'Inter',sans-serif;color:var(--accent);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:22px;">Here&rsquo;s Why Nothing Worked</p>
@@ -458,11 +482,11 @@ VSL-END -->
 <hr style="max-width:1100px;margin:0 auto;border:none;height:1px;background:linear-gradient(to right,transparent,rgba(var(--ink-rgb),0.1) 50%,transparent);">
 
 <!-- AEM METHOD + 16-WEEK TIMELINE -->
-<section class="has-mark glow-wash gw-r" style="background:var(--bg);padding:84px 24px;">
+<section class="has-mark glow-wash gw-r zone-ember-1" style="padding:84px 24px;">
   <div style="max-width:1100px;margin:0 auto;padding:0 8px;">
     <div class="reveal ed-head" style="margin-bottom:56px;">
       <p class="ed-eyebrow" style="font-family:'Inter',sans-serif;color:var(--accent);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:22px;">How It Works</p>
-      <h2 data-nofit style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.6rem,3.2vw,38px);line-height:1.12;letter-spacing:-0.015em;">Audit. Engineer. Mobilize. <span style="color:var(--ink);">Sixteen weeks, and you always know where you are.</span></h2>
+      <h2 data-nofit style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.6rem,3.2vw,38px);line-height:1.12;letter-spacing:-0.015em;">Audit. Engineer. Mobilize. Sixteen weeks, and you always know where you are.</h2>
       <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.88rem;margin-top:18px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.8;">Most programs hand you a plan on day one. That&rsquo;s how you end up with a plan built for a life you don&rsquo;t have. Here&rsquo;s the actual sequence, starting the moment you enroll.</p>
     </div>
     <!-- AEM FLOW DIAGRAM -->
@@ -497,13 +521,13 @@ VSL-END -->
       </div>
     </div>
     <div class="reveal" style="text-align:center;margin-top:52px;">
-      <a href="javascript:void(0)" onclick="scrollToSection('pricing')" class="cta-o">See Pricing</a>
+      <a href="#pricing" onclick="return scrollToSection('pricing')" class="cta-o">See Pricing</a>
     </div>
   </div>
 </section>
 
 <!-- SIXTEEN WEEKS IS THE FOUNDATION — deliberately plain -->
-<section style="background:var(--bg);padding:72px 24px;">
+<section class="zone-ember-1" style="padding:72px 24px;">
   <div class="reveal" style="max-width:560px;margin:0 auto;text-align:center;">
     <h3 style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.25rem,2.4vw,1.6rem);line-height:1.25;letter-spacing:-0.01em;margin-bottom:24px;">Sixteen weeks is where you start. Not where you stop.</h3>
     <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.9rem;line-height:1.95;margin-bottom:16px;">Sixteen weeks isn&rsquo;t an arbitrary number. It&rsquo;s roughly what it takes to change your body composition meaningfully, build habits that hold, and turn training into something you do rather than something you&rsquo;re trying to do.</p>
@@ -520,9 +544,6 @@ VSL-END -->
   .manifesto{padding:36px 24px !important;}
 }
 @property --p{syntax:'<number>';inherits:false;initial-value:0;}
-.phone-row{display:flex;gap:16px;justify-content:center;align-items:flex-start;flex-wrap:wrap;padding:6px 4px 28px;}
-.phone-mini{flex:0 0 auto;width:236px;height:436px;overflow:hidden;}
-.phone-scale{width:394px;transform:scale(0.6);transform-origin:top left;}
 .phone-screen{--phone-screen-bg:#f3f1ec;--bg-3:#ffffff;--card:#ffffff;--ink:#191510;--ink-2:#2b2720;--ink-rgb:25,21,16;--muted:#4c473d;--dim:#6b6456;--dim-2:#9a9184;color:var(--ink);}
 .phone-screen,.phone-screen *{font-family:'Inter','system-ui',sans-serif !important;}
 .wyg-feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:34px 48px;margin-top:8px;border-top:1px solid rgba(var(--ink-rgb),0.07);padding-top:48px;}
@@ -531,21 +552,40 @@ VSL-END -->
 .wyg-feats .wyg-p{font-family:'Inter',sans-serif;color:var(--muted);font-size:.88rem;line-height:1.75;margin-bottom:22px;}
 .wyg-feats .wyg-badges{display:flex;flex-wrap:wrap;gap:8px;}
 .wyg-feats .wyg-badges span{font-family:'Inter',sans-serif;font-size:.7rem;color:rgba(var(--accent-rgb),0.9);border:1px solid rgba(var(--accent-rgb),0.3);background:rgba(var(--accent-rgb),0.06);padding:5px 12px;letter-spacing:.03em;border-radius:3px;}
-@media(max-width:560px){.phone-mini{width:200px;height:372px;}.phone-scale{transform:scale(0.508);}}
 @keyframes ringFill{from{--p:0;}to{--p:var(--tp);}}
 #wyg .ring-anim{background:conic-gradient(var(--rc) 0 calc(var(--p)*1%),rgba(var(--ink-rgb),0.08) calc(var(--p)*1%) 100%);}
 #wyg .rings-go .ring-anim{animation:ringFill 1.3s cubic-bezier(.22,.61,.36,1) forwards;animation-delay:var(--d,0s);}
 @media (prefers-reduced-motion:reduce){#wyg .ring-anim{animation:none !important;--p:var(--tp);}}
+
+/* Device cluster: fanned deck of four iPhone mockups (hand-of-cards) */
+.device-cluster{position:relative;width:100%;max-width:1040px;margin:0 auto;height:calc(500px * var(--dc-scale));overflow:hidden;--dc-scale:min(1,calc((100vw - 48px)/1040px));}
+.dc-canvas{position:absolute;left:50%;top:0;width:1040px;height:500px;margin-left:-520px;transform:scale(var(--dc-scale));transform-origin:top center;}
+.dc-ground{position:absolute;left:170px;top:412px;width:700px;height:60px;background:radial-gradient(ellipse at center,rgba(0,0,0,0.5),rgba(0,0,0,0) 72%);filter:blur(9px);z-index:0;}
+.dc-fan-phone{position:absolute;left:520px;width:236.4px;margin-left:-118.2px;transform:rotate(var(--r));}
+.dc-fan-phone .dc-fan-scale{width:394px;transform:scale(0.6);transform-origin:top left;}
+.dc-fan-1{--r:-10.5deg;top:45px;left:307.3px;z-index:1;}
+.dc-fan-2{--r:-3.5deg;top:15px;left:449.1px;z-index:2;}
+.dc-fan-3{--r:3.5deg;top:15px;left:590.9px;z-index:3;}
+.dc-fan-4{--r:10.5deg;top:45px;left:732.7px;z-index:4;}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  .dc-fan-phone{transition:transform .3s ease-out;}
+  .dc-fan-phone:hover{transform:translateY(-10px) rotate(var(--r));z-index:5;}
+}
 </style>
-<section id="wyg" style="background:var(--bg);padding:84px 24px;">
+<section id="wyg" class="zone-ember-fan" style="padding:84px 24px;">
   <div style="max-width:1080px;margin:0 auto;">
     <div class="reveal ed-head" style="margin-bottom:44px;">
       <p class="ed-eyebrow" style="font-family:'Inter',sans-serif;color:var(--accent);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:22px;">Here&rsquo;s Everything You Get</p>
-      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.6rem,3.6vw,40px);line-height:1.08;letter-spacing:-0.015em;">Everything you need. <span style="color:var(--ink);">Nothing you don&rsquo;t.</span></h2>
+      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.6rem,3.6vw,40px);line-height:1.08;letter-spacing:-0.015em;">Everything you need. Nothing you don&rsquo;t.</h2>
       <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.85rem;margin-top:14px;">Data-driven coaching built around your actual life. Never guesswork.</p>
     </div>
-    <div class="reveal phone-row">
-      <div class="phone-mini"><div class="phone-scale"><div style="width:min(394px,100%);flex:none;background:linear-gradient(150deg,#3A332A,var(--card));border-radius:56px;padding:13px;border:1.5px solid rgba(var(--ink-rgb),0.06);box-shadow:0 40px 80px -40px rgba(0,0,0,0.9);position:relative;">
+    <div class="reveal device-cluster">
+      <div class="dc-canvas">
+        <div class="dc-ground"></div>
+
+        <!-- PHONE 1 — "Your Plan · Unified", leftmost, back layer. -->
+        <div class="dc-fan-phone dc-fan-1">
+          <div class="dc-fan-scale"><div style="width:min(394px,100%);flex:none;background:linear-gradient(150deg,#3A332A,var(--card));border-radius:56px;padding:13px;border:1.5px solid rgba(var(--ink-rgb),0.06);box-shadow:0 40px 80px -40px rgba(0,0,0,0.9);position:relative;">
 <div class="phone-screen" style="background:var(--phone-screen-bg);border-radius:46px;overflow:hidden;position:relative;display:flex;flex-direction:column;min-height:690px;">
 <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);width:86px;height:25px;background:#000;border-radius:14px;z-index:6;"></div>
 <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 9px;flex:none;z-index:5;">
@@ -597,8 +637,71 @@ VSL-END -->
       </div>
 <div style="flex:none;display:flex;justify-content:center;padding:6px 0 9px;"><div style="width:118px;height:5px;border-radius:3px;background:rgba(var(--ink-rgb),0.32);"></div></div>
 </div>
-</div></div></div>
-      <div class="phone-mini"><div class="phone-scale"><div style="width:min(394px,100%);flex:none;background:linear-gradient(150deg,#3A332A,var(--card));border-radius:56px;padding:13px;border:1.5px solid rgba(var(--ink-rgb),0.06);box-shadow:0 40px 80px -40px rgba(0,0,0,0.9);position:relative;">
+</div></div>
+        </div>
+
+        <!-- PHONE 2 — "Your Dashboard" with progress rings. js-rings/ring-anim kept intact for the global IntersectionObserver. -->
+        <div class="dc-fan-phone dc-fan-2">
+          <div class="dc-fan-scale"><div style="width:min(394px,100%);flex:none;background:linear-gradient(150deg,#3A332A,var(--card));border-radius:56px;padding:13px;border:1.5px solid rgba(var(--ink-rgb),0.06);box-shadow:0 40px 80px -40px rgba(0,0,0,0.9);position:relative;">
+<div class="phone-screen" style="background:var(--phone-screen-bg);border-radius:46px;overflow:hidden;position:relative;display:flex;flex-direction:column;min-height:690px;">
+<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);width:86px;height:25px;background:#000;border-radius:14px;z-index:6;"></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 9px;flex:none;z-index:5;">
+<span style="font-family:'Manrope',sans-serif;font-size:.76rem;font-weight:700;color:var(--ink);letter-spacing:.02em;">9:41</span>
+<div style="display:flex;align-items:center;gap:6px;">
+<svg width="18" height="11" viewBox="0 0 18 11" fill="var(--ink)"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="6" rx="1"/><rect x="10" y="2.5" width="3" height="8.5" rx="1"/><rect x="15" y="0" width="3" height="11" rx="1"/></svg>
+<svg width="16" height="12" viewBox="0 0 16 12" fill="var(--ink)"><path d="M8 2C5.2 2 2.7 3 0.8 4.8L2.2 6.3C3.7 4.8 5.8 4 8 4s4.3 0.8 5.8 2.3l1.4-1.5C13.3 3 10.8 2 8 2z"/><path d="M8 6.2c-1.5 0-2.9 0.6-3.9 1.6l1.4 1.5C6.1 8.7 7 8.3 8 8.3s1.9 0.4 2.5 1l1.4-1.5C10.9 6.8 9.5 6.2 8 6.2z"/><circle cx="8" cy="10.5" r="1.3"/></svg>
+<svg width="26" height="12" viewBox="0 0 26 12"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="var(--ink)" stroke-opacity="0.5"/><rect x="2" y="2" width="17" height="8" rx="1.5" fill="var(--ink)"/><rect x="24" y="3.5" width="1.5" height="5" rx="0.75" fill="var(--ink)" fill-opacity="0.5"/></svg>
+</div>
+</div>
+<div style="flex:1;padding:4px 15px 14px;overflow:hidden;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;"><span style="font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);">Your Dashboard</span><span style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--accent);display:inline-flex;align-items:center;gap:6px;"><span style="width:6px;height:6px;background:var(--accent);border-radius:50%;"></span>live</span></div>
+        <div class="js-rings" style="--rs:clamp(54px,calc((100vw - 124px)/3),80px);display:flex;gap:14px;margin-bottom:22px;"><div style="flex:1;text-align:center;"><div class="ring-anim" style="--rc:var(--accent);--tp:88;--d:0s;width:var(--rs,80px);height:var(--rs,80px);margin:0 auto 9px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><div style="width:calc(var(--rs,80px) - 18px);height:calc(var(--rs,80px) - 18px);border-radius:50%;background:var(--bg-3);display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-family:'Manrope',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);">88</span><span style="font-family:'Inter',sans-serif;font-size:.7rem;font-weight:600;color:var(--muted);">%</span></div></div><div style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--muted);">Sleep</div></div><div style="flex:1;text-align:center;"><div class="ring-anim" style="--rc:#5FB37A;--tp:74;--d:.13s;width:var(--rs,80px);height:var(--rs,80px);margin:0 auto 9px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><div style="width:calc(var(--rs,80px) - 18px);height:calc(var(--rs,80px) - 18px);border-radius:50%;background:var(--bg-3);display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-family:'Manrope',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);">74</span><span style="font-family:'Inter',sans-serif;font-size:.7rem;font-weight:600;color:var(--muted);">%</span></div></div><div style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--muted);">Recovery</div></div><div style="flex:1;text-align:center;"><div class="ring-anim" style="--rc:var(--accent-bright);--tp:61;--d:.26s;width:var(--rs,80px);height:var(--rs,80px);margin:0 auto 9px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><div style="width:calc(var(--rs,80px) - 18px);height:calc(var(--rs,80px) - 18px);border-radius:50%;background:var(--bg-3);display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-family:'Manrope',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);">61</span><span style="font-family:'Inter',sans-serif;font-size:.7rem;font-weight:600;color:var(--muted);">%</span></div></div><div style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--muted);">Strain</div></div></div>
+        <div style="background:var(--bg-3);border:1px solid rgba(var(--ink-rgb),0.06);border-radius:11px;padding:16px;margin-bottom:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><span style="font-family:'Inter',sans-serif;font-size:.74rem;color:var(--ink-2);">Training volume</span><span style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--accent);">↑ 18% · 8 wks</span></div>
+          <div style="display:flex;align-items:flex-end;gap:7px;height:72px;"><div style="flex:1;height:34%;background:rgba(var(--ink-rgb),0.14);border-radius:3px;"></div><div style="flex:1;height:46%;background:rgba(var(--ink-rgb),0.14);border-radius:3px;"></div><div style="flex:1;height:40%;background:rgba(var(--ink-rgb),0.14);border-radius:3px;"></div><div style="flex:1;height:58%;background:rgba(var(--ink-rgb),0.14);border-radius:3px;"></div><div style="flex:1;height:54%;background:rgba(var(--ink-rgb),0.14);border-radius:3px;"></div><div style="flex:1;height:70%;background:rgba(var(--accent-rgb),0.4);border-radius:3px;"></div><div style="flex:1;height:82%;background:rgba(var(--accent-rgb),0.7);border-radius:3px;"></div><div style="flex:1;height:100%;background:var(--accent);border-radius:3px;"></div></div>
+        </div>
+        <div style="display:flex;gap:10px;"><div style="flex:1;background:var(--bg-3);border:1px solid rgba(var(--ink-rgb),0.06);border-radius:10px;padding:11px 12px;"><div style="font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-size:.55rem;margin-bottom:4px;">Synced</div><div style="font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;color:var(--ink);">Whoop · Apple</div></div><div style="flex:1;background:var(--bg-3);border:1px solid rgba(var(--ink-rgb),0.06);border-radius:10px;padding:11px 12px;"><div style="font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-size:.55rem;margin-bottom:4px;">Steps</div><div style="font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;color:var(--ink);">12,840</div></div><div style="flex:1;background:var(--bg-3);border:1px solid rgba(var(--ink-rgb),0.06);border-radius:10px;padding:11px 12px;"><div style="font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-size:.55rem;margin-bottom:4px;">Sleep</div><div style="font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;color:var(--ink);">7h 42m</div></div></div>
+      </div>
+<div style="flex:none;display:flex;justify-content:center;padding:6px 0 9px;"><div style="width:118px;height:5px;border-radius:3px;background:rgba(var(--ink-rgb),0.32);"></div></div>
+</div>
+</div></div>
+        </div>
+
+        <!-- PHONE 3 — "Monday Check-in". #a04e00 accents preserved (WCAG contrast fix). -->
+        <div class="dc-fan-phone dc-fan-3">
+          <div class="dc-fan-scale"><div style="width:min(394px,100%);flex:none;background:linear-gradient(150deg,#3A332A,var(--card));border-radius:56px;padding:13px;border:1.5px solid rgba(var(--ink-rgb),0.06);box-shadow:0 40px 80px -40px rgba(0,0,0,0.9);position:relative;">
+<div class="phone-screen" style="background:var(--phone-screen-bg);border-radius:46px;overflow:hidden;position:relative;display:flex;flex-direction:column;min-height:690px;">
+<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);width:86px;height:25px;background:#000;border-radius:14px;z-index:6;"></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 9px;flex:none;z-index:5;">
+<span style="font-family:'Manrope',sans-serif;font-size:.76rem;font-weight:700;color:var(--ink);letter-spacing:.02em;">9:41</span>
+<div style="display:flex;align-items:center;gap:6px;">
+<svg width="18" height="11" viewBox="0 0 18 11" fill="var(--ink)"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="6" rx="1"/><rect x="10" y="2.5" width="3" height="8.5" rx="1"/><rect x="15" y="0" width="3" height="11" rx="1"/></svg>
+<svg width="16" height="12" viewBox="0 0 16 12" fill="var(--ink)"><path d="M8 2C5.2 2 2.7 3 0.8 4.8L2.2 6.3C3.7 4.8 5.8 4 8 4s4.3 0.8 5.8 2.3l1.4-1.5C13.3 3 10.8 2 8 2z"/><path d="M8 6.2c-1.5 0-2.9 0.6-3.9 1.6l1.4 1.5C6.1 8.7 7 8.3 8 8.3s1.9 0.4 2.5 1l1.4-1.5C10.9 6.8 9.5 6.2 8 6.2z"/><circle cx="8" cy="10.5" r="1.3"/></svg>
+<svg width="26" height="12" viewBox="0 0 26 12"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="var(--ink)" stroke-opacity="0.5"/><rect x="2" y="2" width="17" height="8" rx="1.5" fill="var(--ink)"/><rect x="24" y="3.5" width="1.5" height="5" rx="0.75" fill="var(--ink)" fill-opacity="0.5"/></svg>
+</div>
+</div>
+<div style="flex:1;padding:4px 15px 14px;overflow:hidden;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;"><span style="font-family:'Manrope',sans-serif;font-size:.9rem;font-weight:600;color:var(--ink);">Monday Check-in</span><span style="font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);">Week 16</span></div>
+        <div style="display:flex;gap:7px;margin-bottom:22px;"><div style="flex:1;text-align:center;"><div style="height:34px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:5px;"><span style="color:var(--bg);font-weight:700;font-size:.8rem;">✓</span></div><div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--muted);">M</div></div><div style="flex:1;text-align:center;"><div style="height:34px;border-radius:8px;background:rgba(var(--accent-rgb),0.16);border:1px solid rgba(var(--accent-rgb),0.3);display:flex;align-items:center;justify-content:center;margin-bottom:5px;"><span style="color:#a04e00;font-weight:700;font-size:.8rem;">✓</span></div><div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--muted);">T</div></div><div style="flex:1;text-align:center;"><div style="height:34px;border-radius:8px;background:rgba(var(--accent-rgb),0.16);border:1px solid rgba(var(--accent-rgb),0.3);display:flex;align-items:center;justify-content:center;margin-bottom:5px;"><span style="color:#a04e00;font-weight:700;font-size:.8rem;">✓</span></div><div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--muted);">W</div></div><div style="flex:1;text-align:center;"><div style="height:34px;border-radius:8px;background:rgba(var(--ink-rgb),0.05);border:1px solid rgba(var(--ink-rgb),0.07);margin-bottom:5px;"></div><div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--dim);">T</div></div><div style="flex:1;text-align:center;"><div style="height:34px;border-radius:8px;background:rgba(var(--ink-rgb),0.05);border:1px solid rgba(var(--ink-rgb),0.07);margin-bottom:5px;"></div><div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--dim);">F</div></div><div style="flex:1;text-align:center;"><div style="height:34px;border-radius:8px;background:rgba(var(--ink-rgb),0.05);border:1px solid rgba(var(--ink-rgb),0.07);margin-bottom:5px;"></div><div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--dim);">S</div></div><div style="flex:1;text-align:center;"><div style="height:34px;border-radius:8px;background:rgba(var(--ink-rgb),0.05);border:1px solid rgba(var(--ink-rgb),0.07);margin-bottom:5px;"></div><div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--dim);">S</div></div></div>
+        <div style="display:flex;flex-direction:column;gap:13px;margin-bottom:20px;"><div style="display:flex;align-items:center;gap:14px;"><span style="font-family:'Inter',sans-serif;font-size:.8rem;color:var(--ink-2);width:78px;">Training</span><div style="flex:1;height:6px;background:rgba(var(--ink-rgb),0.06);border-radius:3px;overflow:hidden;"><div style="height:100%;width:90%;background:var(--accent);border-radius:3px;"></div></div><span style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-2);width:30px;text-align:right;">9/10</span></div><div style="display:flex;align-items:center;gap:14px;"><span style="font-family:'Inter',sans-serif;font-size:.8rem;color:var(--ink-2);width:78px;">Nutrition</span><div style="flex:1;height:6px;background:rgba(var(--ink-rgb),0.06);border-radius:3px;overflow:hidden;"><div style="height:100%;width:80%;background:var(--accent);border-radius:3px;"></div></div><span style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-2);width:30px;text-align:right;">8/10</span></div><div style="display:flex;align-items:center;gap:14px;"><span style="font-family:'Inter',sans-serif;font-size:.8rem;color:var(--ink-2);width:78px;">Energy</span><div style="flex:1;height:6px;background:rgba(var(--ink-rgb),0.06);border-radius:3px;overflow:hidden;"><div style="height:100%;width:70%;background:rgba(var(--ink-rgb),0.5);border-radius:3px;"></div></div><span style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-2);width:30px;text-align:right;">7/10</span></div><div style="display:flex;align-items:center;gap:14px;"><span style="font-family:'Inter',sans-serif;font-size:.8rem;color:var(--ink-2);width:78px;">Stress</span><div style="flex:1;height:6px;background:rgba(var(--ink-rgb),0.06);border-radius:3px;overflow:hidden;"><div style="height:100%;width:40%;background:rgba(var(--ink-rgb),0.5);border-radius:3px;"></div></div><span style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-2);width:30px;text-align:right;">4/10</span></div></div>
+        <div style="display:flex;align-items:center;gap:9px;padding-top:16px;border-top:1px solid rgba(var(--ink-rgb),0.06);font-family:'Inter',sans-serif;font-size:.74rem;color:#a04e00;"><span style="width:6px;height:6px;background:var(--accent);border-radius:50%;display:inline-block;"></span>Reviewed by Alex · plan adjusted</div>
+        <div style="background:var(--bg-3);border:1px solid rgba(var(--ink-rgb),0.06);border-radius:11px;padding:14px 16px;margin-top:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><span style="font-family:'Manrope',sans-serif;font-size:.9rem;font-weight:600;color:var(--ink);">Bodyweight</span><span style="font-family:'Inter',sans-serif;font-size:.72rem;color:#a04e00;">184.2 lb · ↓ 1.8 / 4 wks</span></div>
+          <svg width="100%" height="34" viewBox="0 0 100 34" preserveAspectRatio="none" style="display:block;"><polyline points="0,8 20,12 40,9 60,17 80,15 100,23" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/><circle cx="100" cy="23" r="2.2" fill="var(--accent)"/></svg>
+        </div>
+        <div style="display:flex;gap:11px;align-items:flex-start;background:var(--bg-3);border:1px solid rgba(var(--ink-rgb),0.06);border-radius:11px;padding:13px 15px;margin-top:11px;">
+          <div style="width:28px;height:28px;flex:none;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-deep));display:flex;align-items:center;justify-content:center;font-family:'Manrope',sans-serif;font-size:.66rem;font-weight:700;color:var(--bg);">AM</div>
+          <div><div style="font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:4px;">Note from Alex</div><p style="margin:0;font-family:'Inter',sans-serif;font-size:.78rem;line-height:1.5;color:var(--ink-2);">Strong training week. Energy dipped midweek so we'll protect your sleep window. Hold the deficit.</p></div>
+        </div>
+      </div>
+<div style="flex:none;display:flex;justify-content:center;padding:6px 0 9px;"><div style="width:118px;height:5px;border-radius:3px;background:rgba(var(--ink-rgb),0.32);"></div></div>
+</div>
+</div></div>
+        </div>
+
+        <!-- PHONE 4 — coach chat with squat-video bubble, rightmost, front layer. -->
+        <div class="dc-fan-phone dc-fan-4">
+          <div class="dc-fan-scale"><div style="width:min(394px,100%);flex:none;background:linear-gradient(150deg,#3A332A,var(--card));border-radius:56px;padding:13px;border:1.5px solid rgba(var(--ink-rgb),0.06);box-shadow:0 40px 80px -40px rgba(0,0,0,0.9);position:relative;">
 <div class="phone-screen" style="background:var(--phone-screen-bg);border-radius:46px;overflow:hidden;position:relative;display:flex;flex-direction:column;min-height:690px;">
 <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);width:86px;height:25px;background:#000;border-radius:14px;z-index:6;"></div>
 <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 9px;flex:none;z-index:5;">
@@ -636,58 +739,9 @@ VSL-END -->
       </div>
 <div style="flex:none;display:flex;justify-content:center;padding:6px 0 9px;"><div style="width:118px;height:5px;border-radius:3px;background:rgba(var(--ink-rgb),0.32);"></div></div>
 </div>
-</div></div></div>
-      <div class="phone-mini"><div class="phone-scale"><div style="width:min(394px,100%);flex:none;background:linear-gradient(150deg,#3A332A,var(--card));border-radius:56px;padding:13px;border:1.5px solid rgba(var(--ink-rgb),0.06);box-shadow:0 40px 80px -40px rgba(0,0,0,0.9);position:relative;">
-<div class="phone-screen" style="background:var(--phone-screen-bg);border-radius:46px;overflow:hidden;position:relative;display:flex;flex-direction:column;min-height:690px;">
-<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);width:86px;height:25px;background:#000;border-radius:14px;z-index:6;"></div>
-<div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 9px;flex:none;z-index:5;">
-<span style="font-family:'Manrope',sans-serif;font-size:.76rem;font-weight:700;color:var(--ink);letter-spacing:.02em;">9:41</span>
-<div style="display:flex;align-items:center;gap:6px;">
-<svg width="18" height="11" viewBox="0 0 18 11" fill="var(--ink)"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="6" rx="1"/><rect x="10" y="2.5" width="3" height="8.5" rx="1"/><rect x="15" y="0" width="3" height="11" rx="1"/></svg>
-<svg width="16" height="12" viewBox="0 0 16 12" fill="var(--ink)"><path d="M8 2C5.2 2 2.7 3 0.8 4.8L2.2 6.3C3.7 4.8 5.8 4 8 4s4.3 0.8 5.8 2.3l1.4-1.5C13.3 3 10.8 2 8 2z"/><path d="M8 6.2c-1.5 0-2.9 0.6-3.9 1.6l1.4 1.5C6.1 8.7 7 8.3 8 8.3s1.9 0.4 2.5 1l1.4-1.5C10.9 6.8 9.5 6.2 8 6.2z"/><circle cx="8" cy="10.5" r="1.3"/></svg>
-<svg width="26" height="12" viewBox="0 0 26 12"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="var(--ink)" stroke-opacity="0.5"/><rect x="2" y="2" width="17" height="8" rx="1.5" fill="var(--ink)"/><rect x="24" y="3.5" width="1.5" height="5" rx="0.75" fill="var(--ink)" fill-opacity="0.5"/></svg>
-</div>
-</div>
-<div style="flex:1;padding:4px 15px 14px;overflow:hidden;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;"><span style="font-family:'Manrope',sans-serif;font-size:.9rem;font-weight:600;color:var(--ink);">Monday Check-in</span><span style="font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);">Week 16</span></div>
-        <div style="display:flex;gap:7px;margin-bottom:22px;"><div style="flex:1;text-align:center;"><div style="height:34px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:5px;"><span style="color:var(--bg);font-weight:700;font-size:.8rem;">✓</span></div><div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--muted);">M</div></div><div style="flex:1;text-align:center;"><div style="height:34px;border-radius:8px;background:rgba(var(--accent-rgb),0.16);border:1px solid rgba(var(--accent-rgb),0.3);display:flex;align-items:center;justify-content:center;margin-bottom:5px;"><span style="color:var(--accent);font-weight:700;font-size:.8rem;">✓</span></div><div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--muted);">T</div></div><div style="flex:1;text-align:center;"><div style="height:34px;border-radius:8px;background:rgba(var(--accent-rgb),0.16);border:1px solid rgba(var(--accent-rgb),0.3);display:flex;align-items:center;justify-content:center;margin-bottom:5px;"><span style="color:var(--accent);font-weight:700;font-size:.8rem;">✓</span></div><div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--muted);">W</div></div><div style="flex:1;text-align:center;"><div style="height:34px;border-radius:8px;background:rgba(var(--ink-rgb),0.05);border:1px solid rgba(var(--ink-rgb),0.07);margin-bottom:5px;"></div><div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--dim);">T</div></div><div style="flex:1;text-align:center;"><div style="height:34px;border-radius:8px;background:rgba(var(--ink-rgb),0.05);border:1px solid rgba(var(--ink-rgb),0.07);margin-bottom:5px;"></div><div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--dim);">F</div></div><div style="flex:1;text-align:center;"><div style="height:34px;border-radius:8px;background:rgba(var(--ink-rgb),0.05);border:1px solid rgba(var(--ink-rgb),0.07);margin-bottom:5px;"></div><div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--dim);">S</div></div><div style="flex:1;text-align:center;"><div style="height:34px;border-radius:8px;background:rgba(var(--ink-rgb),0.05);border:1px solid rgba(var(--ink-rgb),0.07);margin-bottom:5px;"></div><div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--dim);">S</div></div></div>
-        <div style="display:flex;flex-direction:column;gap:13px;margin-bottom:20px;"><div style="display:flex;align-items:center;gap:14px;"><span style="font-family:'Inter',sans-serif;font-size:.8rem;color:var(--ink-2);width:78px;">Training</span><div style="flex:1;height:6px;background:rgba(var(--ink-rgb),0.06);border-radius:3px;overflow:hidden;"><div style="height:100%;width:90%;background:var(--accent);border-radius:3px;"></div></div><span style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-2);width:30px;text-align:right;">9/10</span></div><div style="display:flex;align-items:center;gap:14px;"><span style="font-family:'Inter',sans-serif;font-size:.8rem;color:var(--ink-2);width:78px;">Nutrition</span><div style="flex:1;height:6px;background:rgba(var(--ink-rgb),0.06);border-radius:3px;overflow:hidden;"><div style="height:100%;width:80%;background:var(--accent);border-radius:3px;"></div></div><span style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-2);width:30px;text-align:right;">8/10</span></div><div style="display:flex;align-items:center;gap:14px;"><span style="font-family:'Inter',sans-serif;font-size:.8rem;color:var(--ink-2);width:78px;">Energy</span><div style="flex:1;height:6px;background:rgba(var(--ink-rgb),0.06);border-radius:3px;overflow:hidden;"><div style="height:100%;width:70%;background:rgba(var(--ink-rgb),0.5);border-radius:3px;"></div></div><span style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-2);width:30px;text-align:right;">7/10</span></div><div style="display:flex;align-items:center;gap:14px;"><span style="font-family:'Inter',sans-serif;font-size:.8rem;color:var(--ink-2);width:78px;">Stress</span><div style="flex:1;height:6px;background:rgba(var(--ink-rgb),0.06);border-radius:3px;overflow:hidden;"><div style="height:100%;width:40%;background:rgba(var(--ink-rgb),0.5);border-radius:3px;"></div></div><span style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-2);width:30px;text-align:right;">4/10</span></div></div>
-        <div style="display:flex;align-items:center;gap:9px;padding-top:16px;border-top:1px solid rgba(var(--ink-rgb),0.06);font-family:'Inter',sans-serif;font-size:.74rem;color:var(--accent);"><span style="width:6px;height:6px;background:var(--accent);border-radius:50%;display:inline-block;"></span>Reviewed by Alex · plan adjusted</div>
-        <div style="background:var(--bg-3);border:1px solid rgba(var(--ink-rgb),0.06);border-radius:11px;padding:14px 16px;margin-top:16px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><span style="font-family:'Manrope',sans-serif;font-size:.9rem;font-weight:600;color:var(--ink);">Bodyweight</span><span style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--accent);">184.2 lb · ↓ 1.8 / 4 wks</span></div>
-          <svg width="100%" height="34" viewBox="0 0 100 34" preserveAspectRatio="none" style="display:block;"><polyline points="0,8 20,12 40,9 60,17 80,15 100,23" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/><circle cx="100" cy="23" r="2.2" fill="var(--accent)"/></svg>
-        </div>
-        <div style="display:flex;gap:11px;align-items:flex-start;background:var(--bg-3);border:1px solid rgba(var(--ink-rgb),0.06);border-radius:11px;padding:13px 15px;margin-top:11px;">
-          <div style="width:28px;height:28px;flex:none;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-deep));display:flex;align-items:center;justify-content:center;font-family:'Manrope',sans-serif;font-size:.66rem;font-weight:700;color:var(--bg);">AM</div>
-          <div><div style="font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:4px;">Note from Alex</div><p style="margin:0;font-family:'Inter',sans-serif;font-size:.78rem;line-height:1.5;color:var(--ink-2);">Strong training week. Energy dipped midweek so we'll protect your sleep window. Hold the deficit.</p></div>
+</div></div>
         </div>
       </div>
-<div style="flex:none;display:flex;justify-content:center;padding:6px 0 9px;"><div style="width:118px;height:5px;border-radius:3px;background:rgba(var(--ink-rgb),0.32);"></div></div>
-</div>
-</div></div></div>
-      <div class="phone-mini"><div class="phone-scale"><div style="width:min(394px,100%);flex:none;background:linear-gradient(150deg,#3A332A,var(--card));border-radius:56px;padding:13px;border:1.5px solid rgba(var(--ink-rgb),0.06);box-shadow:0 40px 80px -40px rgba(0,0,0,0.9);position:relative;">
-<div class="phone-screen" style="background:var(--phone-screen-bg);border-radius:46px;overflow:hidden;position:relative;display:flex;flex-direction:column;min-height:690px;">
-<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);width:86px;height:25px;background:#000;border-radius:14px;z-index:6;"></div>
-<div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 9px;flex:none;z-index:5;">
-<span style="font-family:'Manrope',sans-serif;font-size:.76rem;font-weight:700;color:var(--ink);letter-spacing:.02em;">9:41</span>
-<div style="display:flex;align-items:center;gap:6px;">
-<svg width="18" height="11" viewBox="0 0 18 11" fill="var(--ink)"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="6" rx="1"/><rect x="10" y="2.5" width="3" height="8.5" rx="1"/><rect x="15" y="0" width="3" height="11" rx="1"/></svg>
-<svg width="16" height="12" viewBox="0 0 16 12" fill="var(--ink)"><path d="M8 2C5.2 2 2.7 3 0.8 4.8L2.2 6.3C3.7 4.8 5.8 4 8 4s4.3 0.8 5.8 2.3l1.4-1.5C13.3 3 10.8 2 8 2z"/><path d="M8 6.2c-1.5 0-2.9 0.6-3.9 1.6l1.4 1.5C6.1 8.7 7 8.3 8 8.3s1.9 0.4 2.5 1l1.4-1.5C10.9 6.8 9.5 6.2 8 6.2z"/><circle cx="8" cy="10.5" r="1.3"/></svg>
-<svg width="26" height="12" viewBox="0 0 26 12"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="var(--ink)" stroke-opacity="0.5"/><rect x="2" y="2" width="17" height="8" rx="1.5" fill="var(--ink)"/><rect x="24" y="3.5" width="1.5" height="5" rx="0.75" fill="var(--ink)" fill-opacity="0.5"/></svg>
-</div>
-</div>
-<div style="flex:1;padding:4px 15px 14px;overflow:hidden;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;"><span style="font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);">Your Dashboard</span><span style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--accent);display:inline-flex;align-items:center;gap:6px;"><span style="width:6px;height:6px;background:var(--accent);border-radius:50%;"></span>live</span></div>
-        <div class="js-rings" style="--rs:clamp(54px,calc((100vw - 124px)/3),80px);display:flex;gap:14px;margin-bottom:22px;"><div style="flex:1;text-align:center;"><div class="ring-anim" style="--rc:var(--accent);--tp:88;--d:0s;width:var(--rs,80px);height:var(--rs,80px);margin:0 auto 9px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><div style="width:calc(var(--rs,80px) - 18px);height:calc(var(--rs,80px) - 18px);border-radius:50%;background:var(--bg-3);display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-family:'Manrope',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);">88</span><span style="font-family:'Inter',sans-serif;font-size:.7rem;font-weight:600;color:var(--muted);">%</span></div></div><div style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--muted);">Sleep</div></div><div style="flex:1;text-align:center;"><div class="ring-anim" style="--rc:#5FB37A;--tp:74;--d:.13s;width:var(--rs,80px);height:var(--rs,80px);margin:0 auto 9px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><div style="width:calc(var(--rs,80px) - 18px);height:calc(var(--rs,80px) - 18px);border-radius:50%;background:var(--bg-3);display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-family:'Manrope',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);">74</span><span style="font-family:'Inter',sans-serif;font-size:.7rem;font-weight:600;color:var(--muted);">%</span></div></div><div style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--muted);">Recovery</div></div><div style="flex:1;text-align:center;"><div class="ring-anim" style="--rc:var(--accent-bright);--tp:61;--d:.26s;width:var(--rs,80px);height:var(--rs,80px);margin:0 auto 9px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><div style="width:calc(var(--rs,80px) - 18px);height:calc(var(--rs,80px) - 18px);border-radius:50%;background:var(--bg-3);display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-family:'Manrope',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);">61</span><span style="font-family:'Inter',sans-serif;font-size:.7rem;font-weight:600;color:var(--muted);">%</span></div></div><div style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--muted);">Strain</div></div></div>
-        <div style="background:var(--bg-3);border:1px solid rgba(var(--ink-rgb),0.06);border-radius:11px;padding:16px;margin-bottom:14px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><span style="font-family:'Inter',sans-serif;font-size:.74rem;color:var(--ink-2);">Training volume</span><span style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--accent);">↑ 18% · 8 wks</span></div>
-          <div style="display:flex;align-items:flex-end;gap:7px;height:72px;"><div style="flex:1;height:34%;background:rgba(var(--ink-rgb),0.14);border-radius:3px;"></div><div style="flex:1;height:46%;background:rgba(var(--ink-rgb),0.14);border-radius:3px;"></div><div style="flex:1;height:40%;background:rgba(var(--ink-rgb),0.14);border-radius:3px;"></div><div style="flex:1;height:58%;background:rgba(var(--ink-rgb),0.14);border-radius:3px;"></div><div style="flex:1;height:54%;background:rgba(var(--ink-rgb),0.14);border-radius:3px;"></div><div style="flex:1;height:70%;background:rgba(var(--accent-rgb),0.4);border-radius:3px;"></div><div style="flex:1;height:82%;background:rgba(var(--accent-rgb),0.7);border-radius:3px;"></div><div style="flex:1;height:100%;background:var(--accent);border-radius:3px;"></div></div>
-        </div>
-        <div style="display:flex;gap:10px;"><div style="flex:1;background:var(--bg-3);border:1px solid rgba(var(--ink-rgb),0.06);border-radius:10px;padding:11px 12px;"><div style="font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-size:.55rem;margin-bottom:4px;">Synced</div><div style="font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;color:var(--ink);">Whoop · Apple</div></div><div style="flex:1;background:var(--bg-3);border:1px solid rgba(var(--ink-rgb),0.06);border-radius:10px;padding:11px 12px;"><div style="font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-size:.55rem;margin-bottom:4px;">Steps</div><div style="font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;color:var(--ink);">12,840</div></div><div style="flex:1;background:var(--bg-3);border:1px solid rgba(var(--ink-rgb),0.06);border-radius:10px;padding:11px 12px;"><div style="font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-size:.55rem;margin-bottom:4px;">Sleep</div><div style="font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;color:var(--ink);">7h 42m</div></div></div>
-      </div>
-<div style="flex:none;display:flex;justify-content:center;padding:6px 0 9px;"><div style="width:118px;height:5px;border-radius:3px;background:rgba(var(--ink-rgb),0.32);"></div></div>
-</div>
-</div></div></div>
     </div>
     <div class="reveal wyg-feats">
       <div>
@@ -712,11 +766,11 @@ VSL-END -->
 <hr style="max-width:1100px;margin:0 auto;border:none;height:1px;background:linear-gradient(to right,transparent,rgba(var(--ink-rgb),0.1) 50%,transparent);">
 
 <!-- YOUR COACH -->
-<section class="has-mark glow-wash gw-l zone-warm" style="background:var(--bg);padding:84px 24px;">
+<section class="has-mark glow-wash gw-l zone-ember-2" style="padding:84px 24px;">
   <div style="max-width:1100px;margin:0 auto;">
     <div class="reveal ed-head" style="margin-bottom:44px;">
       <p class="ed-eyebrow" style="font-family:'Inter',sans-serif;color:var(--accent);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:22px;">Your Coach</p>
-      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.6rem,3.6vw,40px);line-height:1.08;letter-spacing:-0.015em;">I built this because I needed it <span style="color:var(--ink);">before anyone paid me for it.</span></h2>
+      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.6rem,3.6vw,40px);line-height:1.08;letter-spacing:-0.015em;">I built this because I needed it before anyone paid me for it.</h2>
       <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.92rem;line-height:1.75;max-width:540px;margin:18px auto 0;">Data analyst turned coach.</p>
     </div>
     <div class="grid-coach">
@@ -791,11 +845,11 @@ VSL-END -->
 <hr style="max-width:1100px;margin:0 auto;border:none;height:1px;background:linear-gradient(to right,transparent,rgba(var(--ink-rgb),0.1) 50%,transparent);">
 
 <!-- TESTIMONIALS -->
-<section id="testimonials" style="background:var(--bg);padding:84px 24px;">
+<section id="testimonials" class="zone-ember-3" style="padding:84px 24px;">
   <div style="max-width:1100px;margin:0 auto;">
     <div class="reveal ed-head" style="margin-bottom:44px;">
       <p class="ed-eyebrow" style="font-family:'Inter',sans-serif;color:var(--accent);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:22px;">Real Results From Real Clients</p>
-      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.6rem,3.6vw,40px);line-height:1.08;letter-spacing:-0.015em;">People who stopped guessing <span style="color:var(--ink);">and started seeing results.</span></h2>
+      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.6rem,3.6vw,40px);line-height:1.08;letter-spacing:-0.015em;">People who stopped guessing and started seeing results.</h2>
       <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.92rem;line-height:1.75;max-width:540px;margin:18px auto 0;">Analysts, engineers, and founders with demanding jobs. In their own words.</p>
     </div>
   </div>
@@ -803,10 +857,6 @@ VSL-END -->
       <div class="reveal" style="background:var(--card);border:1px solid rgba(var(--ink-rgb),0.07);padding:32px;display:flex;flex-direction:column;">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
     <span style="color:var(--accent);font-size:.85rem;letter-spacing:2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-    <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(29,155,240,0.12);border:1px solid rgba(29,155,240,0.3);padding:3px 10px;border-radius:20px;">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="6" fill="#1D9BF0"/><polyline points="3,6 5,8.5 9,4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span style="font-family:'Inter',sans-serif;font-size:.65rem;font-weight:600;color:#1D9BF0;letter-spacing:.06em;">VERIFIED</span>
-    </span>
   </div>
   <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.85rem;line-height:1.9;font-style:italic;flex:1;margin-bottom:24px;">&ldquo;My online experience with Alex has been amazing and very helpful. He listened to my needs and concerns and then took actions that benefited me and my goals. After one month of consistency, I saw improvements and changes that proved his program was working. I went down from a size 6 to a size 4 and most of my clothes are big on me now. I&rsquo;ve had three coaches in the last two years including Alex, and Alex has been the best coach I&rsquo;ve had so far. I highly recommend Alex as your next coach!&rdquo;</p>
   <div style="display:flex;align-items:center;gap:14px;padding-top:20px;border-top:1px solid rgba(var(--ink-rgb),0.06);">
@@ -814,16 +864,13 @@ VSL-END -->
     <div>
       <p style="font-family:'Inter',sans-serif;font-weight:600;color:var(--ink);font-size:.85rem;">Raghda</p>
       <p style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.75rem;">Program Coordinator</p>
+      <p style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.72rem;margin-top:2px;">Video testimonial below</p>
     </div>
   </div>
 </div>
       <div class="reveal" style="background:var(--card);border:1px solid rgba(var(--ink-rgb),0.07);padding:32px;display:flex;flex-direction:column;">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
     <span style="color:var(--accent);font-size:.85rem;letter-spacing:2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-    <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(29,155,240,0.12);border:1px solid rgba(29,155,240,0.3);padding:3px 10px;border-radius:20px;">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="6" fill="#1D9BF0"/><polyline points="3,6 5,8.5 9,4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span style="font-family:'Inter',sans-serif;font-size:.65rem;font-weight:600;color:#1D9BF0;letter-spacing:.06em;">VERIFIED</span>
-    </span>
   </div>
   <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.85rem;line-height:1.9;font-style:italic;flex:1;margin-bottom:24px;">&ldquo;Working with Alex was different from the first conversation. He asked me questions nobody had asked me before, about my schedule, my pain history, my actual goal, and my lifestyle as a whole. I went from deadlifting a 35lb kettlebell to deadlifting 105lb using a trap bar and no back pain or knee pain. My energy is consistent in a way it was not before. Alex is the best and I&rsquo;m forever grateful.&rdquo;</p>
   <div style="display:flex;align-items:center;gap:14px;padding-top:20px;border-top:1px solid rgba(var(--ink-rgb),0.06);">
@@ -837,10 +884,6 @@ VSL-END -->
       <div class="reveal" style="background:var(--card);border:1px solid rgba(var(--ink-rgb),0.07);padding:32px;display:flex;flex-direction:column;">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
     <span style="color:var(--accent);font-size:.85rem;letter-spacing:2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-    <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(29,155,240,0.12);border:1px solid rgba(29,155,240,0.3);padding:3px 10px;border-radius:20px;">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="6" fill="#1D9BF0"/><polyline points="3,6 5,8.5 9,4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span style="font-family:'Inter',sans-serif;font-size:.65rem;font-weight:600;color:#1D9BF0;letter-spacing:.06em;">VERIFIED</span>
-    </span>
   </div>
   <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.85rem;line-height:1.9;font-style:italic;flex:1;margin-bottom:24px;">&ldquo;I lost 10 lbs in the first 6 weeks! Alex helped me optimize my nutrition and protein intake throughout the entire day, not just around my workout. Before starting with Alex, I ate a lot of sweets and now I only have one sweet thing at dinner, if that. I highly recommend Alex as your coach. Access to Alex is great!&rdquo;</p>
   <div style="display:flex;align-items:center;gap:14px;padding-top:20px;border-top:1px solid rgba(var(--ink-rgb),0.06);">
@@ -848,16 +891,13 @@ VSL-END -->
     <div>
       <p style="font-family:'Inter',sans-serif;font-weight:600;color:var(--ink);font-size:.85rem;">Omar Tarabishi</p>
       <p style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.75rem;">Founder, Leftover Love Inc.</p>
+      <p style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.72rem;margin-top:2px;">Video testimonial below</p>
     </div>
   </div>
 </div>
       <div class="reveal" style="background:var(--card);border:1px solid rgba(var(--ink-rgb),0.07);padding:32px;display:flex;flex-direction:column;">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
     <span style="color:var(--accent);font-size:.85rem;letter-spacing:2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-    <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(29,155,240,0.12);border:1px solid rgba(29,155,240,0.3);padding:3px 10px;border-radius:20px;">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="6" fill="#1D9BF0"/><polyline points="3,6 5,8.5 9,4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span style="font-family:'Inter',sans-serif;font-size:.65rem;font-weight:600;color:#1D9BF0;letter-spacing:.06em;">VERIFIED</span>
-    </span>
   </div>
   <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.85rem;line-height:1.9;font-style:italic;margin-bottom:24px;">&ldquo;The moment I started working with Alex I saw major improvements in both how I look and feel. I&rsquo;ve lost 20 lbs of fat and gained muscle at the same time. I was already working out and putting in the effort but wasn&rsquo;t seeing real results. He helped optimize my nutrition, habits, and gave me a program tailored to my goals and lifestyle. He guided me through every step of the way and was always there when I needed him. I didn&rsquo;t feel like I was left to figure things out on my own.&rdquo;</p>
     <div style="display:flex;align-items:center;gap:14px;padding-top:20px;border-top:1px solid rgba(var(--ink-rgb),0.06);">
@@ -871,10 +911,6 @@ VSL-END -->
             <div class="reveal" style="background:var(--card);border:1px solid rgba(var(--ink-rgb),0.07);padding:32px;display:flex;flex-direction:column;">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
     <span style="color:var(--accent);font-size:.85rem;letter-spacing:2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-    <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(29,155,240,0.12);border:1px solid rgba(29,155,240,0.3);padding:3px 10px;border-radius:20px;">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="6" fill="#1D9BF0"/><polyline points="3,6 5,8.5 9,4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span style="font-family:'Inter',sans-serif;font-size:.65rem;font-weight:600;color:#1D9BF0;letter-spacing:.06em;">VERIFIED</span>
-    </span>
   </div>
   <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.85rem;line-height:1.9;font-style:italic;margin-bottom:24px;">&ldquo;Within just 6 weeks I noticed my belt size. I moved from the 3rd hole to the 4th hole. My body composition clearly changed. I lost fat and gained muscle. The biggest change has been understanding that nutrition truly drives results. Alex was extremely supportive and responsive, always answering questions and helping adjust things when needed.&rdquo;</p>
     <div style="display:flex;align-items:center;gap:14px;padding-top:20px;border-top:1px solid rgba(var(--ink-rgb),0.06);">
@@ -888,10 +924,6 @@ VSL-END -->
       <div class="reveal" style="background:var(--card);border:1px solid rgba(var(--ink-rgb),0.07);padding:32px;display:flex;flex-direction:column;">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
     <span style="color:var(--accent);font-size:.85rem;letter-spacing:2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-    <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(29,155,240,0.12);border:1px solid rgba(29,155,240,0.3);padding:3px 10px;border-radius:20px;">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="6" fill="#1D9BF0"/><polyline points="3,6 5,8.5 9,4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span style="font-family:'Inter',sans-serif;font-size:.65rem;font-weight:600;color:#1D9BF0;letter-spacing:.06em;">VERIFIED</span>
-    </span>
   </div>
   <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.85rem;line-height:1.9;font-style:italic;flex:1;margin-bottom:24px;">&ldquo;Training with Alex has been an exceptional experience. From the beginning, he demonstrated a high level of professionalism. Not only is he highly knowledgeable and motivating, but also very patient, making the training journey both easier and more enjoyable. His structured and safety-focused approach allowed me to progress effectively toward my goals and train safely without risk of injury.&rdquo;</p>
   <div style="display:flex;align-items:center;gap:14px;padding-top:20px;border-top:1px solid rgba(var(--ink-rgb),0.06);">
@@ -909,11 +941,11 @@ VSL-END -->
 <hr style="max-width:1100px;margin:0 auto;border:none;height:1px;background:linear-gradient(to right,transparent,rgba(var(--ink-rgb),0.1) 50%,transparent);">
 
 <!-- RESULTS SECTION -->
-<section class="zone-warm" style="background:var(--bg);padding:84px 24px;">
+<section class="zone-ember-3" style="padding:84px 24px;">
   <div style="max-width:1000px;margin:0 auto;">
     <div class="reveal ed-head" style="margin-bottom:70px;">
       <p class="ed-eyebrow" style="font-family:'Inter',sans-serif;color:var(--accent);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:22px;">The Results</p>
-      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.6rem,3.6vw,40px);line-height:1.08;letter-spacing:-0.015em;">Before &amp; After. <span style="color:var(--ink);">The proof is in the people.</span></h2>
+      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.6rem,3.6vw,40px);line-height:1.08;letter-spacing:-0.015em;">Before &amp; After. The proof is in the people.</h2>
       <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.92rem;line-height:1.75;max-width:540px;margin:18px auto 0;">Real clients, real photos, real work.</p>
     </div>
     <div style="display:grid;grid-template-columns:1fr;gap:56px;max-width:720px;margin:0 auto;">
@@ -969,7 +1001,10 @@ VSL-END -->
         <!-- OMAR -->
         <div class="reveal" style="text-align:center;">
           <div style="position:relative;width:100%;padding-bottom:177.78%;border-radius:14px;overflow:hidden;background:var(--card);">
-            <iframe src="https://www.youtube.com/embed/xvERIBby2xg" title="Omar testimonial" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>
+            <button type="button" class="yt-facade" data-video-id="xvERIBby2xg" aria-label="Play Omar Tarabishi's video testimonial" style="position:absolute;inset:0;width:100%;height:100%;border:none;padding:0;margin:0;cursor:pointer;background:#000 center/cover no-repeat url('https://i.ytimg.com/vi/xvERIBby2xg/hqdefault.jpg');">
+              <span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.12),rgba(0,0,0,0.45));"></span>
+              <svg aria-hidden="true" width="56" height="56" viewBox="0 0 56 56" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);"><circle cx="28" cy="28" r="27" fill="rgba(0,0,0,0.55)" stroke="#fff" stroke-opacity="0.85" stroke-width="1.5"/><polygon points="23,18 23,38 40,28" fill="#fff"/></svg>
+            </button>
           </div>
           <p style="font-family:'Inter',sans-serif;font-weight:600;color:var(--ink);font-size:.85rem;margin-top:14px;">Omar Tarabishi</p>
           <p style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.72rem;">Founder, Leftover Love Inc.</p>
@@ -977,7 +1012,10 @@ VSL-END -->
         <!-- RAGHDA -->
         <div class="reveal" style="text-align:center;">
           <div style="position:relative;width:100%;padding-bottom:177.78%;border-radius:14px;overflow:hidden;background:var(--card);">
-            <iframe src="https://www.youtube.com/embed/V8GRGtSlNwY" title="Raghda testimonial" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>
+            <button type="button" class="yt-facade" data-video-id="V8GRGtSlNwY" aria-label="Play Raghda's video testimonial" style="position:absolute;inset:0;width:100%;height:100%;border:none;padding:0;margin:0;cursor:pointer;background:#000 center/cover no-repeat url('https://i.ytimg.com/vi/V8GRGtSlNwY/hqdefault.jpg');">
+              <span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.12),rgba(0,0,0,0.45));"></span>
+              <svg aria-hidden="true" width="56" height="56" viewBox="0 0 56 56" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);"><circle cx="28" cy="28" r="27" fill="rgba(0,0,0,0.55)" stroke="#fff" stroke-opacity="0.85" stroke-width="1.5"/><polygon points="23,18 23,38 40,28" fill="#fff"/></svg>
+            </button>
           </div>
           <p style="font-family:'Inter',sans-serif;font-weight:600;color:var(--ink);font-size:.85rem;margin-top:14px;">Raghda</p>
           <p style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.72rem;">Program Coordinator</p>
@@ -991,7 +1029,7 @@ VSL-END -->
 
 
 <!-- §9 closing line -->
-<section style="background:var(--bg);padding:64px 24px 48px;">
+<section class="zone-ember-bridge" style="padding:64px 24px 48px;">
   <div class="reveal" style="max-width:1100px;margin:0 auto;text-align:center;">
     <p style="font-family:'Manrope',sans-serif;font-weight:700;color:var(--ink);font-size:clamp(1.3rem,2.6vw,1.7rem);line-height:1.3;margin:0 auto;max-width:620px;">These results aren&rsquo;t luck. They&rsquo;re the system working. <span style="color:var(--accent);">Yours is next.</span></p>
   </div>
@@ -1000,11 +1038,11 @@ VSL-END -->
 <hr style="max-width:1100px;margin:0 auto;border:none;height:1px;background:linear-gradient(to right,transparent,rgba(var(--ink-rgb),0.1) 50%,transparent);">
 
 <!-- PRICING — single tier, direct purchase -->
-<section id="pricing" class="has-mark glow-wash gw-r" style="background:var(--bg);padding:84px 24px;">
+<section id="pricing" class="has-mark glow-wash gw-r zone-ember-pricing" style="padding:84px 24px;">
   <div style="max-width:760px;margin:0 auto;">
     <div class="reveal ed-head" style="margin-bottom:26px;">
       <p class="ed-eyebrow" style="font-family:'Inter',sans-serif;color:var(--accent);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:22px;">The Investment</p>
-      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.6rem,3.6vw,40px);line-height:1.08;letter-spacing:-0.015em;">One program. One price. <span style="color:var(--ink);">Sixteen weeks.</span></h2>
+      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.6rem,3.6vw,40px);line-height:1.08;letter-spacing:-0.015em;">One program. One price. Sixteen weeks.</h2>
     </div>
     <p class="reveal" style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.88rem;line-height:1.85;text-align:center;max-width:640px;margin:0 auto 52px;">A qualified in-person trainer charges $100 to $120 per session. Train three times a week and that&rsquo;s $1,200 to $1,400 a month, for sessions only. No nutrition coaching. No accountability between sessions. Nothing built around your actual life. The entire 16-week program below costs less than five weeks of that.</p>
     <div class="reveal" style="background:var(--card);border:1px solid rgba(var(--accent-rgb),0.45);padding:clamp(28px,5vw,48px);border-radius:14px;text-align:center;">
@@ -1014,7 +1052,8 @@ VSL-END -->
         <button class="pay-btn" id="pay-inst-btn" onclick="setPay('installments')">4 Installments</button>
       </div>
       <p id="pay-price" style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(3rem,8vw,4.6rem);line-height:1;letter-spacing:-.02em;margin-bottom:10px;">$1,440 <span style="font-size:.32em;font-weight:600;color:var(--dim);letter-spacing:0;">total</span></p>
-      <p id="pay-sub" style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.8rem;margin-bottom:0;">One payment &middot; save $160 &middot; works out to $90 a week</p>
+      <p id="pay-sub" style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.8rem;margin-bottom:0;">One payment &middot; works out to $90 a week</p>
+      <p style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.76rem;margin-top:8px;">Full price $1,600 &mdash; save $160 paid in full</p>
       <hr style="border:none;height:1px;background:linear-gradient(to right,transparent,rgba(var(--ink-rgb),0.1) 50%,transparent);margin:30px 0;">
       <ul style="list-style:none;padding:0;margin:0 0 32px;display:flex;flex-direction:column;gap:14px;text-align:left;max-width:520px;margin-left:auto;margin-right:auto;">
           <li style="display:flex;align-items:flex-start;gap:12px;font-family:'Inter',sans-serif;color:var(--muted);font-size:.85rem;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:1px;"><polyline points="3,8 6.5,11.5 13,5" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Full Audit: movement screen, body stats, nutrition and lifestyle assessment</li>
@@ -1043,7 +1082,7 @@ VSL-END -->
         </div>
     </div>
     <div class="reveal" style="text-align:center;margin-top:40px;">
-      <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.88rem;line-height:1.85;max-width:600px;margin:0 auto;">That&rsquo;s $14.29 a day. The confidence to wear what you want. The energy to show up fully. A body that finally matches who you already are everywhere else. The number on the card is just what it costs to get there.</p>
+      <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.88rem;line-height:1.85;max-width:600px;margin:0 auto;">The confidence to wear what you want. The energy to show up fully. A body that finally matches who you already are everywhere else. The number on the card is just what it costs to get there.</p>
     </div>
   </div>
 </section>
@@ -1051,7 +1090,7 @@ VSL-END -->
 <hr style="max-width:1100px;margin:0 auto;border:none;height:1px;background:linear-gradient(to right,transparent,rgba(var(--ink-rgb),0.1) 50%,transparent);">
 
 <!-- GUARANTEE — conditional only; quit-and-refund lives in the FAQ by design -->
-<section style="background:var(--bg);padding:84px 24px;">
+<section class="zone-ember-guarantee" style="padding:84px 24px;">
   <div class="reveal" style="max-width:640px;margin:0 auto;text-align:center;background:linear-gradient(160deg,rgba(var(--accent-rgb),0.05),rgba(255,255,255,0.03));border:1px solid rgba(var(--accent-rgb),0.4);border-radius:14px;padding:clamp(32px,5vw,52px);">
     <svg style="margin:0 auto 24px;display:block;" width="64" height="64" viewBox="0 0 100 100" fill="none" aria-hidden="true">
       <path d="M50 8L88 22L88 50C88 70 70 88 50 95C30 88 12 70 12 50L12 22Z" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round"/>
@@ -1069,6 +1108,7 @@ VSL-END -->
         <li style="display:flex;align-items:flex-start;gap:12px;font-family:'Inter',sans-serif;color:var(--muted);font-size:.87rem;line-height:1.7;text-align:left;"><span style="color:var(--accent);flex:none;">&#10003;</span>Active communication with me throughout, so I&rsquo;m coaching you instead of guessing and chasing you down</li>
     </ul>
     <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.88rem;line-height:1.9;">I&rsquo;m not asking you to trust a stranger with $1,600. I&rsquo;m asking you to do the work for 16 weeks. If you do it and it doesn&rsquo;t work, that&rsquo;s on me and I&rsquo;ll pay for it. If you do it and it works, you&rsquo;ll wish you&rsquo;d started sooner.</p>
+    <p style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.78rem;line-height:1.8;margin-top:18px;">Not sure you&rsquo;ll stick with it? If you start and realize it isn&rsquo;t for you, message me and I&rsquo;ll refund you. The guarantee above is for people who do the work.</p>
   </div>
 </section>
 
@@ -1097,7 +1137,7 @@ VSL-END -->
     <div class="reveal" style="margin-top:44px;padding-top:34px;border-top:1px solid rgba(var(--ink-rgb),0.14);">
       <p style="font-family:'Inter',sans-serif;color:var(--ink);font-size:.92rem;line-height:1.9;margin-bottom:14px;">If you read those and thought &ldquo;fine, that&rsquo;s fair,&rdquo; you&rsquo;re exactly who I built this for.</p>
       <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.9rem;line-height:1.9;margin-bottom:34px;">And if some part of you is thinking you&rsquo;re just not a gym person, not a disciplined person, not someone this works for: that isn&rsquo;t an identity. It&rsquo;s what years without structure feels like from the inside.</p>
-      <div style="text-align:center;"><a href="javascript:void(0)" onclick="scrollToSection('pricing')" class="cta-dark">Start My 16 Weeks</a></div>
+      <div style="text-align:center;"><a href="#pricing" onclick="return scrollToSection('pricing')" class="cta-dark">Start My 16 Weeks</a></div>
     </div>
   </div>
 </section>
@@ -1105,7 +1145,7 @@ VSL-END -->
 <hr style="max-width:1100px;margin:0 auto;border:none;height:1px;background:linear-gradient(to right,transparent,rgba(var(--ink-rgb),0.1) 50%,transparent);">
 
 <!-- FAQ -->
-<section class="zone-warm" style="background:var(--bg);padding:84px 24px;">
+<section class="zone-ember-2" style="padding:84px 24px;">
   <div style="max-width:780px;margin:0 auto;">
     <div class="reveal ed-head" style="margin-bottom:44px;">
       <p class="ed-eyebrow" style="font-family:'Inter',sans-serif;color:var(--accent);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:22px;">Before You Decide</p>
@@ -1117,7 +1157,9 @@ VSL-END -->
     <span class="faq-icon" style="color:var(--accent);font-size:1.5rem;line-height:1;flex-shrink:0;">+</span>
   </button>
   <div class="faq-body">
+  <div class="faq-body-inner">
     <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.87rem;line-height:1.9;padding-bottom:28px;">Some of my current clients came to me after other coaches. Their problem was never effort. What they got was a generic plan, a check-in sheet if they were lucky, and no real accountability. Nothing built from their data, their body, or their life. Here, nothing gets prescribed until the two-week Audit is done. Everything after that is built from what I actually find. It isn&rsquo;t a template. It&rsquo;s your system.</p>
+  </div>
   </div>
 </div>
     <div class="faq-item" style="border-top:1px solid rgba(var(--ink-rgb),0.06);">
@@ -1126,7 +1168,9 @@ VSL-END -->
     <span class="faq-icon" style="color:var(--accent);font-size:1.5rem;line-height:1;flex-shrink:0;">+</span>
   </button>
   <div class="faq-body">
+  <div class="faq-body-inner">
     <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.87rem;line-height:1.9;padding-bottom:28px;">Fair. That&rsquo;s why there are six named clients with job titles and two video testimonials on this page, and why the guarantee puts the risk on me instead of you. You&rsquo;re also welcome to message me on Instagram before you buy. I&rsquo;d rather answer your questions there than on a call designed to pressure you.</p>
+  </div>
   </div>
 </div>
     <div class="faq-item" style="border-top:1px solid rgba(var(--ink-rgb),0.06);">
@@ -1135,7 +1179,9 @@ VSL-END -->
     <span class="faq-icon" style="color:var(--accent);font-size:1.5rem;line-height:1;flex-shrink:0;">+</span>
   </button>
   <div class="faq-body">
+  <div class="faq-body-inner">
     <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.87rem;line-height:1.9;padding-bottom:28px;">Then message me and I&rsquo;ll refund you. I&rsquo;m not interested in holding money from someone who doesn&rsquo;t want the help. Just know that&rsquo;s not what the guarantee is for. The guarantee is for people who do the work and don&rsquo;t get the result.</p>
+  </div>
   </div>
 </div>
     <div class="faq-item" style="border-top:1px solid rgba(var(--ink-rgb),0.06);">
@@ -1144,7 +1190,9 @@ VSL-END -->
     <span class="faq-icon" style="color:var(--accent);font-size:1.5rem;line-height:1;flex-shrink:0;">+</span>
   </button>
   <div class="faq-body">
+  <div class="faq-body-inner">
     <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.87rem;line-height:1.9;padding-bottom:28px;">No. Your nutrition is built around food you actually like, including meals out and cultural food. The goal isn&rsquo;t taking things away. It&rsquo;s showing you how to eat in a way that works without making you miserable.</p>
+  </div>
   </div>
 </div>
     <div class="faq-item" style="border-top:1px solid rgba(var(--ink-rgb),0.06);">
@@ -1153,7 +1201,9 @@ VSL-END -->
     <span class="faq-icon" style="color:var(--accent);font-size:1.5rem;line-height:1;flex-shrink:0;">+</span>
   </button>
   <div class="faq-body">
+  <div class="faq-body-inner">
     <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.87rem;line-height:1.9;padding-bottom:28px;">Because a plan built before I understand your life is the same plan that already failed you five times. The first two weeks are the Audit, and they&rsquo;re the reason the next fourteen work. You&rsquo;re not idle during them. You&rsquo;re logging, being assessed, and building the habits the plan depends on.</p>
+  </div>
   </div>
 </div>
     <div class="faq-item" style="border-top:1px solid rgba(var(--ink-rgb),0.06);">
@@ -1162,7 +1212,9 @@ VSL-END -->
     <span class="faq-icon" style="color:var(--accent);font-size:1.5rem;line-height:1;flex-shrink:0;">+</span>
   </button>
   <div class="faq-body">
+  <div class="faq-body-inner">
     <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.87rem;line-height:1.9;padding-bottom:28px;">An in-person trainer is $1,200 to $1,400 a month for sessions alone. This is four months of training, nutrition, and accountability for less than five weeks of that. You&rsquo;ve probably already spent more than this on memberships, supplements, and programs that didn&rsquo;t stick. The real question isn&rsquo;t what this costs. It&rsquo;s what another year in the same body costs.</p>
+  </div>
   </div>
 </div>
     <div class="faq-item" style="border-top:1px solid rgba(var(--ink-rgb),0.06);">
@@ -1171,7 +1223,9 @@ VSL-END -->
     <span class="faq-icon" style="color:var(--accent);font-size:1.5rem;line-height:1;flex-shrink:0;">+</span>
   </button>
   <div class="faq-body">
+  <div class="faq-body-inner">
     <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.87rem;line-height:1.9;padding-bottom:28px;">That&rsquo;s what the system is built for. Your training works with whatever equipment you have, including a hotel gym or nothing at all. Your nutrition flexes around restaurants, airports, and unpredictable weeks. And when something throws you off, that&rsquo;s exactly what the weekly check-in catches. One bad week has never derailed a client. The system assumes real life because it&rsquo;s built around it.</p>
+  </div>
   </div>
 </div>
     <div class="faq-item" style="border-top:1px solid rgba(var(--ink-rgb),0.06);">
@@ -1180,7 +1234,9 @@ VSL-END -->
     <span class="faq-icon" style="color:var(--accent);font-size:1.5rem;line-height:1;flex-shrink:0;">+</span>
   </button>
   <div class="faq-body">
+  <div class="faq-body-inner">
     <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.87rem;line-height:1.9;padding-bottom:28px;">It depends on your starting point and your consistency. A sustainable rate is 0.5 to 1 lb per week, and most clients see around 6 lbs in the first month along with visible changes in strength and energy. Muscle takes longer and works differently. Everything runs in phases so results actually last. This is not a quick fix.</p>
+  </div>
   </div>
 </div>
     <div class="faq-item" style="border-top:1px solid rgba(var(--ink-rgb),0.06);">
@@ -1189,7 +1245,9 @@ VSL-END -->
     <span class="faq-icon" style="color:var(--accent);font-size:1.5rem;line-height:1;flex-shrink:0;">+</span>
   </button>
   <div class="faq-body">
+  <div class="faq-body-inner">
     <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.87rem;line-height:1.9;padding-bottom:28px;">Most clients do, because after sixteen weeks they have a base and a new goal. Maybe that&rsquo;s building serious muscle, maybe it&rsquo;s a 10k, maybe it&rsquo;s a Hyrox. Each one is its own phase with its own training and nutrition. We talk about it in week fifteen. No auto-renewal, no pressure. The sixteen weeks ends when it ends.</p>
+  </div>
   </div>
 </div>
     <div class="faq-item" style="border-top:1px solid rgba(var(--ink-rgb),0.06);">
@@ -1198,7 +1256,9 @@ VSL-END -->
     <span class="faq-icon" style="color:var(--accent);font-size:1.5rem;line-height:1;flex-shrink:0;">+</span>
   </button>
   <div class="faq-body">
+  <div class="faq-body-inner">
     <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.87rem;line-height:1.9;padding-bottom:28px;">Probably. You&rsquo;re smart and the information is free. But you&rsquo;ve had years to figure it out on your own, and if that were going to work it likely would have by now. That isn&rsquo;t a knock on you. Doing it alone means you&rsquo;re the one who decides, executes, tracks, adjusts, and holds yourself to it, all while running the rest of your life. Nobody is good at being their own coach. The people who are hardest on themselves are usually the worst at it.</p>
+  </div>
   </div>
 </div>
     <div class="faq-item" style="border-top:1px solid rgba(var(--ink-rgb),0.06);">
@@ -1207,7 +1267,9 @@ VSL-END -->
     <span class="faq-icon" style="color:var(--accent);font-size:1.5rem;line-height:1;flex-shrink:0;">+</span>
   </button>
   <div class="faq-body">
+  <div class="faq-body-inner">
     <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.87rem;line-height:1.9;padding-bottom:28px;">Everything runs through Stripe, which accepts all major cards and Apple Pay. Affirm is available if you want to split it into smaller payments over a longer term.</p>
+  </div>
   </div>
 </div>
     <div class="reveal" style="margin-top:52px;border:1px solid rgba(var(--accent-rgb),0.35);border-radius:14px;padding:32px;text-align:center;">
@@ -1219,7 +1281,7 @@ VSL-END -->
 <hr style="max-width:1100px;margin:0 auto;border:none;height:1px;background:linear-gradient(to right,transparent,rgba(var(--ink-rgb),0.1) 50%,transparent);">
 
 <!-- BLUEPRINT CAPTURE — below the FAQ; quieter than pricing, on purpose -->
-<section style="background:var(--bg);padding:80px 24px;">
+<section class="zone-ember-1" style="padding:80px 24px;">
   <div class="reveal" style="max-width:620px;margin:0 auto;text-align:center;">
     <p class="ed-eyebrow" style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:22px;">Not ready yet?</p>
     <h2 style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.4rem,3vw,32px);line-height:1.12;letter-spacing:-0.015em;margin-bottom:22px;">Then let me prove the point. Here&rsquo;s your plan, free.</h2>
@@ -1232,12 +1294,12 @@ VSL-END -->
 <hr style="max-width:1100px;margin:0 auto;border:none;height:1px;background:linear-gradient(to right,transparent,rgba(var(--ink-rgb),0.1) 50%,transparent);">
 
 <!-- CLOSING -->
-<section class="glow-wash gw-l" style="background:var(--bg);padding:96px 24px 120px;text-align:center;">
+<section class="glow-wash gw-l zone-ember-cta" style="padding:96px 24px 120px;text-align:center;">
   <div class="reveal" style="max-width:900px;margin:0 auto;">
     <h2 style="font-family:'Manrope',sans-serif;font-weight:800;color:var(--ink);font-size:clamp(1.6rem,3.6vw,40px);line-height:1.08;letter-spacing:-0.015em;margin-bottom:14px;">Your discipline built everything else.</h2>
     <p style="font-family:'Manrope',sans-serif;color:var(--accent);font-size:clamp(1.2rem,2.4vw,1.75rem);margin-bottom:44px;">It&rsquo;s time your body caught up.</p>
     <p style="font-family:'Inter',sans-serif;color:var(--muted);font-size:.88rem;margin-bottom:44px;">The decision you make today decides who you are sixteen weeks from now.</p>
-    <a href="javascript:void(0)" onclick="scrollToSection('pricing')" class="cta">Start My 16 Weeks</a>
+    <a href="#pricing" onclick="return scrollToSection('pricing')" class="cta">Start My 16 Weeks</a>
     <p class="cta-note" style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.74rem;letter-spacing:.05em;margin-top:14px;">16-week program &middot; Founding rate &middot; Limited to 10 clients</p>
   </div>
 </section>
@@ -1248,7 +1310,7 @@ VSL-END -->
 <footer style="background:transparent;border-top:1px solid rgba(var(--ink-rgb),0.05);padding:40px 24px;">
   <div style="max-width:1100px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:14px;">
     <img src="logo-am/logo-am-header.png" alt="" width="119" height="128" loading="lazy" decoding="async" style="height:46px;width:auto;">
-    <p style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;">&copy; 2026 Alex Maywood. All rights reserved.</p>
+    <p style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.75rem;letter-spacing:.03em;">&copy; 2026 Alex Maywood. All rights reserved.</p>
     <div style="display:flex;gap:28px;">
       <a href="privacy.html" style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.7rem;text-decoration:none;padding:12px 6px;display:inline-block;">Privacy Policy</a>
       <a href="terms.html" style="font-family:'Inter',sans-serif;color:var(--dim);font-size:.7rem;text-decoration:none;padding:12px 6px;display:inline-block;">Terms &amp; Conditions</a>
@@ -1258,8 +1320,8 @@ VSL-END -->
 
 <!-- STICKY MOBILE CTA BAR -->
 <div class="sticky-bar" id="sticky-bar" aria-hidden="true">
-  <span class="sbar-price">$1,600 &middot; 16 weeks</span>
-  <a href="javascript:void(0)" onclick="scrollToSection('pricing')" class="cta">Start My 16 Weeks</a>
+  <span class="sbar-price">$1,440 &middot; 16 weeks</span>
+  <a href="#pricing" onclick="return scrollToSection('pricing')" class="cta">Start My 16 Weeks</a>
 </div>
 
 <script>
@@ -1289,15 +1351,27 @@ const ringObs = new IntersectionObserver(entries => {
 }, {threshold:0.85, rootMargin:'0px 0px -12% 0px'});
 document.querySelectorAll('.js-rings').forEach(el => ringObs.observe(el));
 
+document.querySelectorAll('.yt-facade').forEach(btn => {
+  btn.addEventListener('click', function(){
+    var id = btn.getAttribute('data-video-id');
+    var label = btn.getAttribute('aria-label') || '';
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1';
+    iframe.title = label;
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('allow', 'accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture');
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;';
+    btn.replaceWith(iframe);
+  });
+});
+
 document.querySelectorAll('.faq-item').forEach(item => {
   const trig = item.querySelector('.faq-trigger');
   trig.addEventListener('click', () => {
     const wasOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i => {
-      i.classList.remove('open');
-      i.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
-    });
-    if(!wasOpen){ item.classList.add('open'); trig.setAttribute('aria-expanded', 'true'); }
+    item.classList.toggle('open', !wasOpen);
+    trig.setAttribute('aria-expanded', wasOpen ? 'false' : 'true');
   });
 });
 
@@ -1305,7 +1379,7 @@ document.querySelectorAll('.faq-item').forEach(item => {
 // Smooth scroll with settle correction — late font/media loads above the target can shift it mid-scroll
 function scrollToSection(id){
   var el = document.getElementById(id);
-  if(!el) return;
+  if(!el) return false;
   var smooth = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches);
   el.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
   var lastY = -1, still = 0, frames = 0;
@@ -1319,6 +1393,7 @@ function scrollToSection(id){
     }
     requestAnimationFrame(settle);
   })();
+  return false;
 }
 
 // Trigger scroll-based animations
@@ -1362,7 +1437,7 @@ function scrollToSection(id){
   var heads = Array.prototype.slice.call(document.querySelectorAll('.ed-head h2:not([data-nofit])'));
   if(!heads.length) return;
   function fit(){
-    var wide = window.innerWidth >= 880;
+    var wide = window.innerWidth >= 1000;
     heads.forEach(function(el){
       el.style.fontSize = '';
       el.style.whiteSpace = '';
@@ -1390,7 +1465,14 @@ var PAY_LINKS = {
   full: "https://buy.stripe.com/eVq7sN2SM54FbwK8I53Ru01",
   installments: "" /* STRIPE-INSTALLMENTS */
 };
+(function(){
+  if(!PAY_LINKS.installments){
+    var toggle = document.querySelector('.pay-toggle');
+    if(toggle) toggle.style.display = 'none';
+  }
+})();
 function setPay(mode){
+  if(!PAY_LINKS.installments) mode = 'full';
   var full = mode === 'full';
   document.getElementById('pay-full-btn').className = 'pay-btn' + (full ? ' active' : '');
   document.getElementById('pay-inst-btn').className = 'pay-btn' + (full ? '' : ' active');
@@ -1398,7 +1480,7 @@ function setPay(mode){
     ? '$1,440 <span style="font-size:.32em;font-weight:600;color:var(--dim);letter-spacing:0;">total</span>'
     : '$400 <span style="font-size:.32em;font-weight:600;color:var(--dim);letter-spacing:0;">&times; 4</span>';
   document.getElementById('pay-sub').innerHTML = full
-    ? 'One payment &middot; save $160 &middot; works out to $90 a week'
+    ? 'One payment &middot; works out to $90 a week'
     : '$400 every 4 weeks &middot; $1,600 total &middot; $100 a week';
   var btn = document.getElementById('buy-btn');
   var note = document.getElementById('pay-note');
@@ -1410,7 +1492,7 @@ function setPay(mode){
     note.innerHTML = 'Founding rate &middot; This price goes up as spots fill &middot; Limited to 10 clients';
   } else {
     btn.classList.add('cta-disabled');
-    btn.setAttribute('href', 'javascript:void(0)');
+    btn.setAttribute('href', '#pricing');
     btn.setAttribute('aria-disabled', 'true');
     note.innerHTML = 'Installment checkout opens shortly &mdash; choose Pay in Full to start today';
   }
@@ -1421,8 +1503,16 @@ function setPay(mode){
   var bar = document.getElementById('sticky-bar');
   var hero = document.querySelector('.hero-wrap');
   if(!bar || !hero || !('IntersectionObserver' in window)) return;
+  var link = bar.querySelector('a');
   var o = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){ bar.classList.toggle('on', !e.isIntersecting); });
+    entries.forEach(function(e){
+      var show = !e.isIntersecting;
+      bar.classList.toggle('on', show);
+      bar.setAttribute('aria-hidden', show ? 'false' : 'true');
+      if(link){
+        if(show){ link.removeAttribute('tabindex'); } else { link.setAttribute('tabindex', '-1'); }
+      }
+    });
   }, {threshold: 0});
   o.observe(hero);
 })();
