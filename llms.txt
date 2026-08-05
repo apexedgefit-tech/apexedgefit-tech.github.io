@@ -1,10 +1,11 @@
 # Alex Maywood
 
-> Alex Maywood is a NASM certified personal trainer and nutrition coach, and the founder of the AEM Method. AEM stands for Audit, Engineer, and Mobilize: a 16-week 1:1 online coaching program that pairs a fully custom training and nutrition system with real weekly accountability.
+> Alex Maywood is a NASM certified personal trainer and nutrition coach, and the founder of the AEM Method. AEM stands for Audit, Engineer, and Mobilize: a 16-week 1:1 online coaching program that pairs a fully custom training and nutrition system with real weekly accountability. Coaching is built for Arab and Middle Eastern diaspora professionals in the US — people carrying demanding careers, family expectations, and two cultures — and open to clients of every background.
 
 ## About
 
 - **Who:** Alex Maywood, 1:1 online fitness and nutrition coach.
+- **Who it's for:** Arab and Middle Eastern diaspora professionals in the US — first- and second-generation Arab-Americans balancing careers, family, and cultural food traditions. Nutrition is built around the food clients actually eat, including Arab and Levantine dishes and family meals; food and family are never treated as the problem. Clients of every background are welcome.
 - **Method:** The AEM Method, a three-phase system.
   - **Audit** (weeks 1–2) — a two-week deep-dive on training history, nutrition, sleep, stress, movement, and daily patterns. No sales call; enrollment starts with a welcome video and intake form within 24 hours.
   - **Engineer** (end of week 2) — a complete training, nutrition, and habit system built from your Audit data and your actual life.
@@ -26,6 +27,7 @@
 
 - Will this be different from a coach I tried before? Yes. Nothing is prescribed until the two-week Audit is done; everything is built from your data, not a template.
 - Do I have to give up foods I enjoy? No. Nutrition is built around foods you like, including meals out.
+- Does the nutrition plan work with Arab food? Yes. Plans are built around the meals you already eat — rice dishes, Levantine and Gulf cooking, family dinners, Ramadan included. Nothing needs translating and nothing is off the table.
 - What if I travel or get busy? The training and nutrition flex around real life, and weekly check-ins keep you on track.
 - How long until results? A sustainable 0.5-1 lb/week; most clients average ~6 lbs in the first month with visible strength and energy gains.
 
