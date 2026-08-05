@@ -1,11 +1,11 @@
 # Alex Maywood
 
-> Alex Maywood is a NASM certified personal trainer and nutrition coach, and the founder of the AEM Method. AEM stands for Audit, Engineer, and Mobilize: a 16-week 1:1 online coaching program that pairs a fully custom training and nutrition system with real weekly accountability. Coaching is built for Arab and Middle Eastern diaspora professionals in the US — people carrying demanding careers, family expectations, and two cultures — and open to clients of every background.
+> Alex Maywood is a NASM certified personal trainer and nutrition coach, and the founder of the AEM Method. AEM stands for Audit, Engineer, and Mobilize: a 16-week 1:1 online coaching program that pairs a fully custom training and nutrition system with real weekly accountability. Coaching is built for Arab American and Middle Eastern professionals in the US — people carrying demanding careers, family expectations, and two cultures — and open to clients of every background.
 
 ## About
 
 - **Who:** Alex Maywood, 1:1 online fitness and nutrition coach.
-- **Who it's for:** Arab and Middle Eastern diaspora professionals in the US — first- and second-generation Arab-Americans balancing careers, family, and cultural food traditions. Nutrition is built around the food clients actually eat, including Arab and Levantine dishes and family meals; food and family are never treated as the problem. Clients of every background are welcome.
+- **Who it's for:** Arab American and Middle Eastern professionals — Arabs in the US, first- and second-generation, balancing careers, family, and cultural food traditions. Nutrition is built around the food clients actually eat, including Arab and Levantine dishes and family meals; food and family are never treated as the problem. Clients of every background are welcome.
 - **Method:** The AEM Method, a three-phase system.
   - **Audit** (weeks 1–2) — a two-week deep-dive on training history, nutrition, sleep, stress, movement, and daily patterns. No sales call; enrollment starts with a welcome video and intake form within 24 hours.
   - **Engineer** (end of week 2) — a complete training, nutrition, and habit system built from your Audit data and your actual life.
