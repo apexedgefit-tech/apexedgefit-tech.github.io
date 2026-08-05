@@ -62,6 +62,10 @@ section{scroll-margin-top:96px;background:transparent!important;}
 .zone-cool-1{background:radial-gradient(ellipse 60% 45% at 50% 32%,var(--cool-1),transparent 72%),var(--bg)!important;}
 /* First warmth: method/AEM + timeline — the ember enters, distant-fire radial low in the section. */
 .zone-ember-1{background:radial-gradient(ellipse 62% 55% at 50% 46%,var(--ember-core-1),transparent 70%),var(--ember-1)!important;}
+/* Lead-in: bottom of the section before the first ember fades black → ember-1 so the warmth has no hard edge. */
+.zone-ember-lead{background:linear-gradient(180deg,var(--bg) 0%,var(--bg) 45%,var(--ember-1) 100%)!important;}
+/* Eased first ember: same register as zone-ember-1 but the glow sits lower and builds inside the section instead of arriving at its top edge. */
+.zone-ember-ease{background:radial-gradient(ellipse 62% 55% at 50% 60%,var(--ember-core-1),transparent 70%),linear-gradient(180deg,var(--ember-1) 0%,var(--ember-1) 100%)!important;}
 /* Building heat: fan deck gets a rising ember field anchored behind the phone deck's ground shadow. */
 .zone-ember-fan{background:radial-gradient(ellipse 78% 60% at 50% 88%,var(--ember-core-2),transparent 66%),radial-gradient(ellipse 60% 40% at 50% 20%,var(--ember-core-1),transparent 75%),var(--ember-2)!important;}
 /* Building heat: coach / testimonials / results — progressively warmer flat-ish washes with a gentle centered glow. */
@@ -431,7 +435,7 @@ VSL-END -->
 <hr style="max-width:1100px;margin:0 auto;border:none;height:1px;background:linear-gradient(to right,transparent,rgba(var(--ink-rgb),0.1) 50%,transparent);">
 
 <!-- WHY IT HASN'T WORKED — pure diagnosis, no new scenes -->
-<section style="background:var(--bg);padding:84px 24px;">
+<section class="zone-ember-lead" style="background:var(--bg);padding:84px 24px;">
   <div style="max-width:740px;margin:0 auto;">
     <div class="reveal ed-head" style="margin-bottom:48px;">
       <p class="ed-eyebrow" style="font-family:'Inter',sans-serif;color:var(--accent);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:22px;">Here&rsquo;s Why Nothing Worked</p>
@@ -482,7 +486,7 @@ VSL-END -->
 <hr style="max-width:1100px;margin:0 auto;border:none;height:1px;background:linear-gradient(to right,transparent,rgba(var(--ink-rgb),0.1) 50%,transparent);">
 
 <!-- AEM METHOD + 16-WEEK TIMELINE -->
-<section class="has-mark glow-wash gw-r zone-ember-1" style="padding:84px 24px;">
+<section class="has-mark glow-wash gw-r zone-ember-ease" style="padding:84px 24px;">
   <div style="max-width:1100px;margin:0 auto;padding:0 8px;">
     <div class="reveal ed-head" style="margin-bottom:56px;">
       <p class="ed-eyebrow" style="font-family:'Inter',sans-serif;color:var(--accent);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:22px;">How It Works</p>
