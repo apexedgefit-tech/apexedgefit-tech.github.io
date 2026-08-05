@@ -74,12 +74,11 @@ section{scroll-margin-top:96px;background:transparent!important;}
 /* Bridge into peak heat: top reads like the results zone, bottom hands off hot into pricing. */
 .zone-ember-bridge{background:radial-gradient(ellipse 70% 55% at 50% 48%,var(--ember-core-2),transparent 70%),linear-gradient(180deg,var(--ember-3) 0%,var(--ember-3) 12%,var(--ember-4) 100%)!important;}
 /* Peak heat: pricing — composed molten atmosphere, deep core behind the card, falloff toward the section's own corners (not a vignette overlay — anchored to content). */
-.zone-ember-pricing{background:radial-gradient(ellipse 50% 40% at 50% 30%,var(--ember-core-3),transparent 62%),radial-gradient(ellipse 95% 78% at 50% 42%,var(--ember-4),transparent 76%),radial-gradient(ellipse 150% 110% at 50% 50%,var(--ember-3),transparent 88%),linear-gradient(180deg,var(--ember-4) 0%,var(--ember-3) 100%)!important;background-size:130% 130%,130% 130%,100% 100%,100% 100%;animation:emberDrift 26s ease-in-out infinite alternate;}
+.zone-ember-pricing{background:radial-gradient(ellipse 50% 40% at 50% 30%,var(--ember-core-3),transparent 62%),radial-gradient(ellipse 95% 78% at 50% 42%,var(--ember-4),transparent 76%),radial-gradient(ellipse 150% 110% at 50% 50%,var(--ember-3),transparent 88%),linear-gradient(180deg,var(--ember-4) 0%,var(--ember-3) 100%)!important;background-size:130% 130%,130% 130%,100% 100%,100% 100%;background-position:50% 40%,50% 58%,0 0,0 0!important;}
 /* Peak heat: guarantee — same molten register, slightly softer core (no card border glow competing with the CTA above). */
 .zone-ember-guarantee{background:radial-gradient(ellipse 55% 48% at 50% 42%,var(--ember-core-2),transparent 66%),radial-gradient(ellipse 120% 95% at 50% 50%,var(--ember-4),transparent 82%),var(--ember-3)!important;}
-/* Resolution: final CTA — heat returns deep and warm; a slow eased drift, disabled under reduced-motion below. */
-.zone-ember-cta{background:radial-gradient(ellipse 60% 55% at 50% 55%,var(--ember-core-3),transparent 68%),radial-gradient(ellipse 130% 95% at 50% 40%,var(--ember-2),transparent 80%),var(--ember-1)!important;background-size:130% 130%,130% 130%,100% 100%;animation:emberDrift 30s ease-in-out infinite alternate;}
-@keyframes emberDrift{0%{background-position:46% 34%,50% 55%,0 0;}100%{background-position:54% 46%,50% 62%,0 0;}}
+/* Resolution: final CTA — heat returns deep and warm. Static composition: the old emberDrift background-position animation repainted these full-width gradient stacks every frame for the page's whole life. */
+.zone-ember-cta{background:radial-gradient(ellipse 60% 55% at 50% 55%,var(--ember-core-3),transparent 68%),radial-gradient(ellipse 130% 95% at 50% 40%,var(--ember-2),transparent 80%),var(--ember-1)!important;background-size:130% 130%,130% 130%,100% 100%;background-position:50% 40%,50% 58%,0 0!important;}
 .statband{padding:72px 24px;}
 .statband .sb-inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;text-align:center;}
 .statband .sb-item{position:relative;}
@@ -134,7 +133,7 @@ div[style*="background:var(--card)"]{border-color:rgba(var(--ink-rgb),0.16)!impo
 .orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;opacity:.3;display:block;}
 main,header,footer{position:relative;z-index:1;}
 @media(max-width:800px){.orb{opacity:.22;}}
-.grain{position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 /* Subtle parallax layer */
 .parallax{will-change:transform;}
 .hero-glow{position:absolute;left:50%;top:38%;width:min(720px,94%);height:480px;background:radial-gradient(ellipse at center,var(--glow),transparent 62%);pointer-events:none;z-index:0;opacity:.22;transform:translate(-50%,calc(-50% + var(--py,0px)));}
@@ -180,7 +179,6 @@ a:focus-visible,button:focus-visible,.cta:focus-visible,.cta-o:focus-visible,.ct
   .aem-circle-anim,.aem-line-anim{opacity:1!important;}
   .sticky-bar{transition:none!important;}
   .faq-body{transition:none!important;}
-  .zone-ember-pricing,.zone-ember-cta{animation:none!important;}
 }
 .faq-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .38s ease;}
 .faq-body-inner{min-height:0;overflow:hidden;}
@@ -1420,11 +1418,21 @@ function scrollToSection(id){
   var els = Array.prototype.slice.call(document.querySelectorAll('[data-speed]'));
   if(!els.length || (window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches)) return;
   var ticking = false;
-  function update(){
-    var vh = window.innerHeight;
-    els.forEach(function(el){
+  // Cache each element's untransformed document-space center once: reading
+  // getBoundingClientRect() inside the scroll rAF forces a layout pass per frame.
+  var bases = [];
+  function measure(){
+    bases = els.map(function(el){
       var r = el.getBoundingClientRect();
-      var center = r.top + r.height / 2;
+      var py = parseFloat(getComputedStyle(el).getPropertyValue('--py')) || 0;
+      return r.top + window.scrollY + r.height / 2 - py;
+    });
+  }
+  function update(){
+    var vh = window.innerHeight || 800;
+    els.forEach(function(el, i){
+      var center = bases[i] - window.scrollY;
+      if(center < -vh || center > vh * 2) return;
       var off = (center - vh / 2) * -parseFloat(el.dataset.speed);
       el.style.setProperty('--py', off.toFixed(1) + 'px');
     });
@@ -1432,8 +1440,8 @@ function scrollToSection(id){
   }
   function onScroll(){ if(!ticking){ requestAnimationFrame(update); ticking = true; } }
   window.addEventListener('scroll', onScroll, {passive:true});
-  window.addEventListener('resize', onScroll, {passive:true});
-  update();
+  window.addEventListener('resize', function(){ measure(); onScroll(); }, {passive:true});
+  measure(); update();
 })();
 
 // Keep section headlines on a single line at desktop widths (no cramped wrapping)
