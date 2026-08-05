@@ -177,7 +177,6 @@ a:focus-visible,button:focus-visible,.cta:focus-visible,.cta-o:focus-visible,.ct
   .parallax{transform:none!important;}
   *{animation-duration:.001s!important;animation-iteration-count:1!important;}
   .aem-circle-anim,.aem-line-anim{opacity:1!important;}
-  .sticky-bar{transition:none!important;}
   .faq-body{transition:none!important;}
 }
 .faq-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .38s ease;}
@@ -221,11 +220,6 @@ a:focus-visible,button:focus-visible,.cta:focus-visible,.cta-o:focus-visible,.ct
 @media(max-width:800px){.why-num{font-size:1.9rem;width:52px;-webkit-text-stroke:1px rgba(var(--accent-rgb),0.85);}}
 
 /* Sticky mobile CTA bar — appears after the hero scrolls out; opacity/transform only, no will-change */
-.sticky-bar{position:fixed;left:0;right:0;bottom:0;z-index:10001;display:none;align-items:center;justify-content:space-between;gap:14px;background:rgba(8,7,6,0.97);border-top:1px solid rgba(var(--accent-rgb),0.25);padding:8px 16px calc(8px + env(safe-area-inset-bottom));transform:translateY(110%);transition:transform .28s ease;}
-.sticky-bar.on{transform:translateY(0);}
-.sticky-bar .sbar-price{font-family:'Manrope',sans-serif;font-weight:700;color:var(--ink);font-size:.85rem;}
-.sticky-bar .cta{padding:13px 20px !important;font-size:.64rem !important;}
-@media(max-width:800px){.sticky-bar{display:flex;}footer{padding-bottom:calc(64px + env(safe-area-inset-bottom))!important;}}
 
 /* AEM — hidden until JS triggers */
 .aem-circle-anim{opacity:0;}
@@ -1329,12 +1323,6 @@ VSL-END -->
   </div>
 </footer>
 
-<!-- STICKY MOBILE CTA BAR -->
-<div class="sticky-bar" id="sticky-bar" aria-hidden="true">
-  <span class="sbar-price">$1,440 &middot; 16 weeks</span>
-  <a href="#pricing" onclick="return scrollToSection('pricing')" class="cta">Start My 16 Weeks</a>
-</div>
-
 <script>
 (function(){
   // Stagger reveals that share a parent so sections resolve element-by-element
@@ -1519,24 +1507,6 @@ function setPay(mode){
   }
 }
 
-// Sticky mobile CTA bar — shows once the hero has fully scrolled out of view
-(function(){
-  var bar = document.getElementById('sticky-bar');
-  var hero = document.querySelector('.hero-wrap');
-  if(!bar || !hero || !('IntersectionObserver' in window)) return;
-  var link = bar.querySelector('a');
-  var o = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      var show = !e.isIntersecting;
-      bar.classList.toggle('on', show);
-      bar.setAttribute('aria-hidden', show ? 'false' : 'true');
-      if(link){
-        if(show){ link.removeAttribute('tabindex'); } else { link.setAttribute('tabindex', '-1'); }
-      }
-    });
-  }, {threshold: 0});
-  o.observe(hero);
-})();
 </script>
 </body>
 </html>
