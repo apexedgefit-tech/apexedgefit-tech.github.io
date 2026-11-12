@@ -1,40 +1,50 @@
 # Alex Maywood
 
-> Alex Maywood is a NASM certified personal trainer and nutrition coach, and the founder of the AEM Method. AEM stands for Audit, Engineer, and Mobilize: a 16-week 1:1 online coaching program that pairs a fully custom training and nutrition system with real weekly accountability. Coaching is built for Arab American and Middle Eastern professionals in the US — people carrying demanding careers, family expectations, and two cultures — and open to clients of every background.
+> Alex Maywood is a NASM certified personal trainer, Strength Coach Level 1 and certified nutrition coach. He offers 1:1 remote coaching, individually designed around each client's history, how they move and how they live, so the results last after coaching ends. The business is APEX EDGE FIT LLC.
 
 ## About
 
-- **Who:** Alex Maywood, 1:1 online fitness and nutrition coach.
-- **Who it's for:** Arab American and Middle Eastern professionals — Arabs in the US, first- and second-generation, balancing careers, family, and cultural food traditions. Nutrition is built around the food clients actually eat, including Arab and Levantine dishes and family meals; food and family are never treated as the problem. Clients of every background are welcome.
-- **Method:** The AEM Method, a three-phase system.
-  - **Audit** (weeks 1–2) — a two-week deep-dive on training history, nutrition, sleep, stress, movement, and daily patterns. No sales call; enrollment starts with a welcome video and intake form within 24 hours.
-  - **Engineer** (end of week 2) — a complete training, nutrition, and habit system built from your Audit data and your actual life.
-  - **Mobilize** (weeks 3–16) — execution with weekly check-ins, unlimited video form reviews, direct coach access Mon–Fri (response within 24 hours), and data-driven adjustments.
-- **Credentials:** NASM Certified Personal Trainer; Certified Nutrition Coach (Dr. Layne Norton's evidence-based program).
-- **Also:** Co-founder of Yalla Stride, a social and wellness club in Austin, TX. Yalla Stride is a community club, not a coaching platform, and is separate from Alex's 1:1 coaching practice.
-- **Availability:** Direct enrollment through the website — no application or sales call. Limited to 10 clients at a time.
-- **Not a fit for:** anyone wanting a quick hack, secret supplement, or detox; unrealistic timelines (20 lbs in 6 weeks); aesthetics-only goals; program hopping; or a plan without accountability, food logging, and ownership.
-- **Results:** most clients see visible change within about 6 weeks and an average of ~6 lbs lost in the first month.
+- **Who:** Alex Maywood, 1:1 remote fitness and nutrition coach.
+- **Who it's for:** people who have tried diets, apps, classes and templates and are done starting over; who want to lose fat, build muscle or get stronger and are ready to give it the time it takes; and who are comfortable training on their own with remote coaching.
+- **Not a fit for:** anyone looking for a quick fix, anyone who won't train on their own or do weekly check-ins, or anyone not ready to commit to at least six months.
+- **Method:** AAEM, four phases.
+  - **Audit** (how you live): goals, history, injuries, job, family and how you eat today. Nothing gets prescribed until the coach understands the client's life.
+  - **Assess** (how you move): movement, strength, work capacity and body composition, tested instead of guessed.
+  - **Engineer** (build the plan): training, nutrition and lifestyle built as one plan, foundation first, at the dose the body can handle.
+  - **Mobilize** (execute and adjust): weekly check-ins, wearable data (sleep, recovery, daily movement) in every adjustment, and a monthly retest.
+- **Credentials:** NASM Certified Personal Trainer; Strength Coach Level 1, Strength System International; Certified Nutrition Coach (Dr. Layne Norton's evidence-based program).
+- **Also:** Co-founder of Yalla Stride, a social run club in Austin, TX. Yalla Stride is a community club, separate from Alex's 1:1 coaching.
+- **Capacity:** Alex coaches 15 people at a time so he can review every check-in himself.
 
-## The program
+## Coaching options
 
-- **16-Week Coaching** — $1,600 total ($400 every 4 weeks · $100 a week · $14.29 a day). Pay in full for $1,440 (save $160). Financing available through Affirm. Enroll: https://www.alexmaywood.com/#pricing
-- **Includes:** full audit (movement screen, body stats, nutrition and lifestyle assessment), custom training program, custom nutrition plan with exact calorie and macro targets, habit coaching, weekly check-ins reviewed personally, unlimited video form reviews, direct access by message/voice/video Mon–Fri, monthly deep review and plan rebuild.
-- **Guarantee:** complete the full 16 weeks (all 16 weekly check-ins, 90% nutrition and training compliance, monthly review questionnaires, form videos, active communication) and if you are not satisfied with your results, you get a full refund.
-- **Payments:** Stripe (all major cards, Apple Pay); financing via Affirm.
-- **Free option:** The Blueprint — free calorie/macro targets, sample meal plan, grocery list, and training program: https://www.alexmaywood.com/blueprint/
+Coaching starts with a six-month commitment.
+
+- **Foundation:** 6 months, $450 a month. Pay in full and save $405.
+- **Elite (recommended):** 12 months, $350 a month. Save up to $1,830.
+- **Apex (best value):** 24 months, $300 a month. Save up to $4,680.
+
+Savings are compared with the 6-month rate; the maximum saving includes 15% off when paying in full.
+
+- **Every option includes:** personalized strength training program, personalized nutrition, lifestyle and habit coaching, weekly check-ins, wearable sync, monthly 30-minute video consultations, direct access by text and voice message, unlimited video form reviews, and up to 20% off supplements.
+- **Guarantee:** the Right Fit Guarantee. Try it for 30 days from the day you pay; if it's not the right fit, every payment is refunded.
+
+## How to start
+
+1. Apply and book a 30-minute call: https://calendly.com/alex-maywood/30min
+2. A no-pressure conversation to see if it's a good fit.
+3. Onboarding and assessment in the coaching app (usually one to two weeks).
+4. Coaching begins. It's fully remote: train on your own, check in weekly, meet monthly by video.
 
 ## Common questions
 
-- Will this be different from a coach I tried before? Yes. Nothing is prescribed until the two-week Audit is done; everything is built from your data, not a template.
-- Do I have to give up foods I enjoy? No. Nutrition is built around foods you like, including meals out.
-- Does the nutrition plan work with Arab food? Yes. Plans are built around the meals you already eat — rice dishes, Levantine and Gulf cooking, family dinners, Ramadan included. Nothing needs translating and nothing is off the table.
-- What if I travel or get busy? The training and nutrition flex around real life, and weekly check-ins keep you on track.
-- How long until results? A sustainable 0.5-1 lb/week; most clients average ~6 lbs in the first month with visible strength and energy gains.
+- **How much time does this take?** The plan works around the client's time and current life, built in the right order for long-term goals.
+- **Do I have to follow a strict diet?** No. Nutrition works with the food you like; you learn how and when to track, without a restrictive diet.
+- **How is progress tracked?** Weekly check-ins, lift progress, lifestyle metrics, body composition, progress photos and measurements, plus sleep and recovery data from a wearable.
+- **What about busy weeks or travel?** The plan is reviewed weekly and adjusts to what's going on.
+- **Do I need a gym?** No. The program is designed around the equipment and space available.
 
 ## Contact
 
 - Website: https://www.alexmaywood.com/
-- Enroll: https://www.alexmaywood.com/#pricing
-- Instagram: https://www.instagram.com/alex.maywood/
-- TikTok: https://www.tiktok.com/@alex.maywood
+- Apply: https://calendly.com/alex-maywood/30min
