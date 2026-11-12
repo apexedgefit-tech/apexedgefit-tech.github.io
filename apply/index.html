@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apply for coaching | Alex Maywood</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #2f6bff;
+    --accent-text: #ffffff;
+    --bg: #08090b;
+    --text: #f4f5f7;
+    --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --muted: color-mix(in srgb, var(--text) 62%, transparent);
+    --line: color-mix(in srgb, var(--text) 22%, transparent);
+    --panel: color-mix(in srgb, var(--text) 7%, transparent);
+    --error: #ff5a5f;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    min-height: 100vh;
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+  }
+  button, input, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+  .top { position: fixed; top: 0; left: 0; right: 0; z-index: 5; }
+  .bar { height: 4px; background: var(--line); }
+  .bar > div { height: 100%; width: 0; background: var(--accent); transition: width .4s ease; }
+  .back {
+    display: none; margin: 10px 8px 0; min-height: 44px; min-width: 44px; padding: 0 14px;
+    background: none; border: 0; border-radius: 8px; color: var(--muted); cursor: pointer; font-size: 1rem;
+  }
+  .back.show { display: inline-flex; align-items: center; gap: 8px; }
+  .back:hover { color: var(--text); }
+
+  main { min-height: 100vh; min-height: 100dvh; display: flex; }
+  .screen {
+    width: 100%; max-width: 760px; margin: 0 auto; padding: 96px 20px 64px;
+    display: flex; flex-direction: column; justify-content: center; min-height: 100vh; min-height: 100dvh;
+    animation: in-fwd .45s cubic-bezier(.2,.7,.2,1) both;
+  }
+  .screen.back-dir { animation-name: in-back; }
+  @keyframes in-fwd { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+  @keyframes in-back { from { opacity: 0; transform: translateY(-28px); } to { opacity: 1; transform: none; } }
+
+  .num { font-size: .875rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 14px; }
+  .num .opt { color: var(--muted); letter-spacing: .04em; text-transform: none; font-weight: 400; margin-left: 8px; }
+  h1, .q { font-size: clamp(1.9rem, 6vw, 3.25rem); line-height: 1.1; font-weight: 800; letter-spacing: -.02em; margin: 0; display: block; }
+  .help, .lead { font-size: 1.125rem; color: var(--muted); margin: 14px 0 0; line-height: 1.5; }
+  .field { margin-top: 36px; }
+  .text-in {
+    width: 100%; background: transparent; border: 0; border-bottom: 2px solid var(--line); border-radius: 0;
+    padding: 10px 0; font-size: clamp(1.4rem, 4.5vw, 2.1rem); caret-color: var(--accent); resize: none;
+  }
+  .text-in::placeholder { color: color-mix(in srgb, var(--text) 30%, transparent); }
+  .text-in:focus { outline: none; border-bottom-color: var(--accent); }
+  .text-in:focus-visible { outline: none; }
+  .err { min-height: 1.5em; margin: 12px 0 0; color: var(--error); font-size: 1rem; }
+
+  .choices { display: grid; gap: 10px; margin-top: 36px; }
+  .choice {
+    display: flex; align-items: center; gap: 14px; width: 100%; min-height: 56px; padding: 12px 16px; text-align: left;
+    background: var(--panel); border: 2px solid var(--line); border-radius: 12px; cursor: pointer; font-size: 1.125rem;
+    transition: border-color .15s, background .15s;
+  }
+  .choice:hover { border-color: var(--accent); }
+  .choice .key {
+    flex: none; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center;
+    border: 2px solid var(--line); border-radius: 6px; font-size: .8rem; font-weight: 700; color: var(--muted);
+  }
+  .choice[aria-checked="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 22%, transparent); }
+  .choice[aria-checked="true"] .key { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+
+  .actions { display: flex; align-items: center; gap: 16px; margin-top: 28px; flex-wrap: wrap; }
+  .btn {
+    min-height: 52px; min-width: 120px; padding: 0 28px; border: 0; border-radius: 10px; cursor: pointer;
+    background: var(--accent); color: var(--accent-text); font-size: 1.125rem; font-weight: 700;
+    transition: transform .12s, filter .12s;
+  }
+  .btn:hover { filter: brightness(1.12); }
+  .btn:active { transform: translateY(1px); }
+  .btn[disabled] { opacity: .6; cursor: default; }
+  .hint { color: var(--muted); font-size: .9rem; }
+
+  .link { color: var(--accent); }
+  .cal { margin-top: 24px; min-width: 320px; height: 700px; }
+  .fallback { margin-top: 16px; color: var(--muted); }
+  .screen.wide { max-width: 1000px; justify-content: flex-start; }
+
+  .hp { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .screen { animation: none; }
+    .bar > div, .choice, .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="bar" role="progressbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="fill"></div></div>
+  <button type="button" class="back" id="back" aria-label="Go back"><span aria-hidden="true">&larr;</span> Back</button>
+</div>
+<div class="hp" aria-hidden="true"><input type="text" name="website" id="website" tabindex="-1" autocomplete="off"></div>
+<main id="main"></main>
+
+<script src="config.js"></script>
+<script>
+(function () {
+  'use strict';
+  var CFG = window.FORM_CONFIG || {};
+  var QS = CFG.questions || [];
+  var N = QS.length;
+  var main = document.getElementById('main');
+  var backBtn = document.getElementById('back');
+  var fill = document.getElementById('fill');
+  var bar = document.querySelector('.bar');
+  var honeypot = document.getElementById('website');
+
+  // Theme
+  var th = CFG.theme || {};
+  var root = document.documentElement.style;
+  if (th.accent) root.setProperty('--accent', th.accent);
+  if (th.accentText) root.setProperty('--accent-text', th.accentText);
+  if (th.background) root.setProperty('--bg', th.background);
+  if (th.text) root.setProperty('--text', th.text);
+  if (th.fontFamily) root.setProperty('--font', th.fontFamily);
+
+  // State: step -1 = welcome, 0..N-1 = questions, N = finished
+  var state = { step: -1, answers: {} };
+  window.__formState = state;
+  var submitting = false;
+  var advanceTimer = null;
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+
+  function mount(node, backwards, wide) {
+    main.innerHTML = '';
+    node.className += ' screen' + (backwards ? ' back-dir' : '') + (wide ? ' wide' : '');
+    main.appendChild(node);
+    window.scrollTo(0, 0);
+  }
+
+  function setProgress() {
+    var pct = 0;
+    if (state.step >= N) pct = 100;
+    else if (state.step >= 0) pct = Math.round(((state.step + 1) / N) * 100);
+    fill.style.width = pct + '%';
+    bar.setAttribute('aria-valuenow', String(pct));
+    backBtn.className = 'back' + (state.step >= 0 && state.step < N ? ' show' : '');
+  }
+
+  function focusSoon(node) {
+    if (node) setTimeout(function () { try { node.focus(); } catch (e) {} }, 60);
+  }
+
+  // Screens
+  function renderWelcome(backwards) {
+    var s = el('section');
+    s.appendChild(el('h1', '', CFG.title || 'Welcome'));
+    if (CFG.intro) s.appendChild(el('p', 'lead', CFG.intro));
+    var actions = el('div', 'actions');
+    var b = el('button', 'btn', CFG.startLabel || 'Start');
+    b.type = 'button';
+    b.addEventListener('click', function () { go(0); });
+    actions.appendChild(b);
+    actions.appendChild(el('span', 'hint', 'Press Enter'));
+    s.appendChild(actions);
+    mount(s, backwards);
+    focusSoon(b);
+  }
+
+  function renderQuestion(i, backwards) {
+    var q = QS[i];
+    var s = el('section');
+    var num = el('p', 'num', (i + 1) + ' of ' + N);
+    if (!q.required) num.appendChild(el('span', 'opt', 'Optional'));
+    s.appendChild(num);
+
+    var inputId = 'q-' + q.id;
+    var errId = 'err-' + q.id;
+    var label = el('label', 'q', q.label);
+    label.id = 'lbl-' + q.id;
+    var input = null;
+    var group = null;
+
+    if (q.type === 'choice') {
+      label.removeAttribute('for');
+      s.appendChild(label);
+    } else {
+      label.setAttribute('for', inputId);
+      s.appendChild(label);
+    }
+    if (q.help) {
+      var h = el('p', 'help', q.help);
+      h.id = 'help-' + q.id;
+      s.appendChild(h);
+    }
+
+    var err = el('p', 'err');
+    err.id = errId;
+    err.setAttribute('aria-live', 'polite');
+
+    var field = el('div', 'field');
+    var cur = state.answers[q.id];
+
+    if (q.type === 'choice') {
+      field.className = '';
+      group = el('div', 'choices');
+      group.setAttribute('role', 'radiogroup');
+      group.setAttribute('aria-labelledby', label.id);
+      (q.options || []).forEach(function (opt, k) {
+        var b = el('button', 'choice');
+        b.type = 'button';
+        b.setAttribute('role', 'radio');
+        b.setAttribute('aria-checked', cur === opt.value ? 'true' : 'false');
+        b.dataset.value = opt.value;
+        b.appendChild(el('span', 'key', String.fromCharCode(65 + k)));
+        b.appendChild(el('span', '', opt.label));
+        b.addEventListener('click', function () { pick(i, opt.value, group); });
+        group.appendChild(b);
+      });
+      s.appendChild(group);
+    } else {
+      if (q.type === 'longtext') {
+        input = el('textarea', 'text-in');
+        input.rows = 3;
+      } else {
+        input = el('input', 'text-in');
+        input.type = q.type === 'email' ? 'email' : (q.type === 'tel' ? 'tel' : 'text');
+        if (q.type === 'email') input.autocomplete = 'email';
+        if (q.type === 'tel') input.autocomplete = 'tel';
+        if (q.id === 'first_name') input.autocomplete = 'given-name';
+      }
+      input.id = inputId;
+      input.name = q.id;
+      if (q.placeholder) input.placeholder = q.placeholder;
+      input.value = cur || '';
+      input.setAttribute('aria-describedby', (q.help ? 'help-' + q.id + ' ' : '') + errId);
+      if (q.required) input.setAttribute('aria-required', 'true');
+      field.appendChild(input);
+      s.appendChild(field);
+    }
+
+    s.appendChild(err);
+
+    var actions = el('div', 'actions');
+    var ok = el('button', 'btn', i === N - 1 ? 'Finish' : 'OK');
+    ok.type = 'button';
+    ok.addEventListener('click', function () { next(); });
+    actions.appendChild(ok);
+    actions.appendChild(el('span', 'hint', q.type === 'longtext' ? 'Press Enter. Shift+Enter for a new line' : 'Press Enter'));
+    s.appendChild(actions);
+
+    mount(s, backwards);
+    if (input) focusSoon(input);
+    else {
+      var sel = group.querySelector('[aria-checked="true"]') || group.querySelector('button');
+      focusSoon(sel);
+    }
+  }
+
+  function currentInput() {
+    return main.querySelector('.text-in');
+  }
+
+  function showError(q, msg) {
+    var err = document.getElementById('err-' + q.id);
+    if (err) err.textContent = msg;
+    var input = currentInput();
+    if (input) {
+      if (msg) input.setAttribute('aria-invalid', 'true'); else input.removeAttribute('aria-invalid');
+      if (msg) input.focus();
+    }
+  }
+
+  function validate(q, val) {
+    var v = (val || '').trim();
+    if (!v) return q.required ? 'This one is required.' : '';
+    if (q.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return 'Enter a valid email address.';
+    if (q.type === 'tel') {
+      var digits = v.replace(/\D/g, '');
+      if (!/^[0-9\s+\-()]+$/.test(v) || digits.length < 7) return 'Enter a valid phone number.';
+    }
+    return '';
+  }
+
+  function pick(i, value, group) {
+    if (state.step !== i || submitting) return;
+    state.answers[QS[i].id] = value;
+    Array.prototype.forEach.call(group.children, function (b) {
+      b.setAttribute('aria-checked', b.dataset.value === value ? 'true' : 'false');
+    });
+    showError(QS[i], '');
+    clearTimeout(advanceTimer);
+    advanceTimer = setTimeout(function () { if (state.step === i) next(); }, 320);
+  }
+
+  function next() {
+    clearTimeout(advanceTimer);
+    var i = state.step;
+    if (i < 0 || i >= N || submitting) return;
+    var q = QS[i];
+    var val;
+    if (q.type === 'choice') {
+      val = state.answers[q.id] || '';
+    } else {
+      var inp = currentInput();
+      val = inp ? inp.value.trim() : '';
+    }
+    var msg = validate(q, val);
+    if (msg) { showError(q, msg); return; }
+    if (q.type !== 'choice') state.answers[q.id] = val;
+    if (i === N - 1) finish(); else go(i + 1);
+  }
+
+  function back() {
+    clearTimeout(advanceTimer);
+    if (submitting) return;
+    if (state.step === 0) go(-1);
+    else if (state.step > 0 && state.step < N) go(state.step - 1);
+  }
+
+  function go(step) {
+    var backwards = step < state.step;
+    state.step = step;
+    setProgress();
+    if (step < 0) renderWelcome(backwards);
+    else renderQuestion(step, backwards);
+  }
+
+  // Finish
+  function isQualified() {
+    for (var i = 0; i < QS.length; i++) {
+      var q = QS[i];
+      if (q.type !== 'choice') continue;
+      var v = state.answers[q.id];
+      var opts = q.options || [];
+      for (var k = 0; k < opts.length; k++) {
+        if (opts[k].value === v && opts[k].disqualify) return false;
+      }
+    }
+    return true;
+  }
+
+  function finish() {
+    if (submitting) return;
+    submitting = true;
+    var qualified = isQualified();
+    var payload = {};
+    QS.forEach(function (q) { payload[q.id] = state.answers[q.id] || ''; });
+    payload.qualified = qualified ? 'yes' : 'no';
+    // Flag-only options: the person still books, but the Sheet row is marked.
+    var flags = [];
+    QS.forEach(function (q) {
+      if (q.type !== 'choice') return;
+      (q.options || []).forEach(function (o) {
+        if (o.value === state.answers[q.id] && o.flag) flags.push(o.flag === true ? o.label : String(o.flag));
+      });
+    });
+    payload.flagged = flags.join('; ');
+    payload.submittedAt = new Date().toISOString();
+    payload.page = location.href;
+    payload.website = honeypot ? honeypot.value : '';
+
+    state.step = N;
+    setProgress();
+    renderSending();
+
+    send(payload).then(function () { showResult(qualified); });
+  }
+
+  function send(payload) {
+    if (!CFG.sheetEndpoint) {
+      console.log('[form] submission', payload);
+      return Promise.resolve();
+    }
+    var req;
+    try {
+      req = fetch(CFG.sheetEndpoint, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      }).catch(function () {});
+    } catch (e) { req = Promise.resolve(); }
+    var wait = new Promise(function (resolve) { setTimeout(resolve, 2500); });
+    return Promise.race([req, wait]);
+  }
+
+  function renderSending() {
+    var s = el('section');
+    var h = el('h1', '', 'One moment');
+    h.tabIndex = -1;
+    s.appendChild(h);
+    mount(s, false);
+    focusSoon(h);
+  }
+
+  function showResult(qualified) {
+    if (!qualified) {
+      var d = CFG.disqualifiedScreen || {};
+      var s = el('section');
+      var h = el('h1', '', d.heading || 'Thanks');
+      h.tabIndex = -1;
+      s.appendChild(h);
+      if (d.body) s.appendChild(el('p', 'lead', d.body));
+      mount(s, false);
+      focusSoon(h);
+      return;
+    }
+    var url = CFG.calendlyUrl || '';
+    var name = state.answers.first_name;
+    var email = state.answers.email;
+    var hasPrefill = QS.some(function (q) { return q.id === 'first_name'; }) &&
+                     QS.some(function (q) { return q.id === 'email'; });
+
+    if (CFG.calendlyMode === 'redirect') {
+      var target = url;
+      try {
+        var u = new URL(url);
+        if (hasPrefill) {
+          if (name) u.searchParams.set('name', name);
+          if (email) u.searchParams.set('email', email);
+        }
+        target = u.toString();
+      } catch (e) {}
+      var r = el('section');
+      var rh = el('h1', '', 'Pick a time');
+      rh.tabIndex = -1;
+      r.appendChild(rh);
+      var p = el('p', 'lead', 'Taking you to the calendar. ');
+      var a = el('a', 'link', 'Open it now');
+      a.href = target;
+      p.appendChild(a);
+      r.appendChild(p);
+      mount(r, false);
+      focusSoon(rh);
+      setTimeout(function () { location.href = target; }, 400);
+      return;
+    }
+
+    var c = el('section');
+    var ch = el('h1', '', 'Pick a time');
+    ch.tabIndex = -1;
+    c.appendChild(ch);
+    var cal = el('div', 'cal');
+    c.appendChild(cal);
+    var fb = el('p', 'fallback', 'Calendar not loading? ');
+    var fa = el('a', 'link', 'Open it in a new tab');
+    fa.href = url;
+    fa.target = '_blank';
+    fa.rel = 'noopener';
+    fb.appendChild(fa);
+    c.appendChild(fb);
+    mount(c, false, true);
+    focusSoon(ch);
+
+    var opts = { url: url, parentElement: cal };
+    if (hasPrefill) {
+      opts.prefill = {};
+      if (name) opts.prefill.name = name;
+      if (email) opts.prefill.email = email;
+    }
+    loadCalendly(function () {
+      try { window.Calendly.initInlineWidget(opts); } catch (e) {}
+    });
+  }
+
+  function loadCalendly(cb) {
+    if (window.Calendly) { cb(); return; }
+    var sc = document.createElement('script');
+    sc.src = 'https://assets.calendly.com/assets/external/widget.js';
+    sc.async = true;
+    sc.onload = cb;
+    sc.onerror = function () {};
+    document.head.appendChild(sc);
+  }
+
+  // Keyboard
+  document.addEventListener('keydown', function (e) {
+    if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
+    var t = e.target;
+    var tag = t && t.tagName;
+    if (e.key === 'Enter') {
+      if (state.step === -1) {
+        if (tag === 'BUTTON') return;
+        e.preventDefault(); go(0); return;
+      }
+      if (state.step >= 0 && state.step < N) {
+        if (tag === 'BUTTON') return;
+        if (tag === 'TEXTAREA' && e.shiftKey) return;
+        e.preventDefault();
+        next();
+      }
+      return;
+    }
+    if (state.step >= 0 && state.step < N && QS[state.step].type === 'choice' && !submitting) {
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      if (e.key.length !== 1) return;
+      var idx = e.key.toUpperCase().charCodeAt(0) - 65;
+      var opts = QS[state.step].options || [];
+      if (idx >= 0 && idx < opts.length) {
+        e.preventDefault();
+        pick(state.step, opts[idx].value, main.querySelector('.choices'));
+      }
+    }
+  });
+
+  backBtn.addEventListener('click', back);
+
+  setProgress();
+  renderWelcome(false);
+})();
+</script>
+</body>
+</html>
