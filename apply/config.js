@@ -3,9 +3,14 @@
 
 window.FORM_CONFIG = {
   // Welcome screen
+  eyebrow: "Apply for coaching",
   title: "Let's see if we're a fit",
-  intro: "Answer a few quick questions. It takes about a minute.",
+  intro: "A few questions about you and your goals, then you pick a time for a short call with me.",
+  meta: ["6 questions", "About a minute", "Then book your call"],
   startLabel: "Start",
+  finishLabel: "See call times",
+  // Line under "Pick a time". {name} becomes their first name.
+  bookingLead: "Thanks, {name}. Pick a time that suits you and I'll see you on the call.",
 
   // QUESTIONS
   // id:          short name, no spaces. Becomes the column name in your Sheet.
