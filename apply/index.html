@@ -134,10 +134,17 @@
     transition: background-color .18s, transform .12s;
   }
   .btn .arr { transition: transform .18s var(--ease); }
+  .btn.ghost { background: transparent; color: var(--text); border: 1.5px solid var(--line); min-width: 0; padding: 0 20px; }
+  .btn.ghost .arr { color: var(--muted); }
+  #back { display: none; }
+  .choice .txt { display: flex; flex-direction: column; gap: 3px; }
+  .choice .note { font-size: .9rem; color: var(--muted); line-height: 1.4; }
   /* hover only on real pointers: on phones a tap leaves :hover stuck on the next screen's button */
   @media (hover: hover) {
     .btn:hover { background: var(--accent-deep); }
     .btn:hover .arr { transform: translateX(3px); }
+    .btn.ghost:hover { background: var(--panel); border-color: color-mix(in srgb, var(--text) 40%, transparent); }
+    .btn.ghost:hover .arr { transform: translateX(-3px); color: var(--text); }
   }
   .btn:active { transform: translateY(1px); }
   .btn[disabled] { opacity: .6; cursor: default; }
@@ -163,7 +170,8 @@
     .screen { padding: 96px 20px 48px; justify-content: flex-start; }
     .screen.q-screen { padding-top: 18vh; }
     .screen.welcome { justify-content: center; padding-bottom: 96px; }
-    .actions .btn { flex: 1 1 100%; }
+    .actions .btn { flex: 1 1 0; }
+    .actions .btn.ghost { flex: 0 0 auto; }
     .cal { margin: 16px -20px 0; height: 1000px; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -342,7 +350,10 @@
         b.setAttribute('aria-checked', cur === opt.value ? 'true' : 'false');
         b.dataset.value = opt.value;
         b.appendChild(el('span', 'key', String.fromCharCode(65 + k)));
-        b.appendChild(el('span', '', opt.label));
+        var txt = el('span', 'txt');
+        txt.appendChild(el('span', '', opt.label));
+        if (opt.note) txt.appendChild(el('span', 'note', opt.note));
+        b.appendChild(txt);
         b.addEventListener('click', function () { pick(i, opt.value, group); });
         group.appendChild(b);
       });
@@ -373,6 +384,14 @@
     s.appendChild(err);
 
     var actions = el('div', 'actions');
+    var bk = el('button', 'btn ghost');
+    bk.type = 'button';
+    bk.setAttribute('aria-label', 'Back to the previous question');
+    var ba = el('span', 'arr', '\u2190'); ba.setAttribute('aria-hidden', 'true');
+    bk.appendChild(ba);
+    bk.appendChild(el('span', '', 'Back'));
+    bk.addEventListener('click', function () { back(); });
+    actions.appendChild(bk);
     var ok = btn(i === N - 1 ? (CFG.finishLabel || 'Finish') : 'Next');
     ok.addEventListener('click', function () { next(); });
     actions.appendChild(ok);
@@ -599,6 +618,9 @@
     c.appendChild(ch);
     var lead = (CFG.bookingLead || '').replace('{name}', name || 'there');
     if (lead) c.appendChild(el('p', 'lead', lead));
+    if (CFG.guestNote && CFG.guestNote.when && state.answers[CFG.guestNote.when.id] === CFG.guestNote.when.value) {
+      c.appendChild(el('p', 'lead', CFG.guestNote.text));
+    }
     var cal = el('div', 'cal');
     c.appendChild(cal);
     var fb = el('p', 'fallback', 'Calendar not loading? ');

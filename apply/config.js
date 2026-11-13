@@ -71,14 +71,20 @@ window.FORM_CONFIG = {
       id: "decision",
       type: "choice",
       label: "Is this decision yours alone, or is someone else part of it?",
-      help: "If someone else is part of it, they're welcome on the call.",
       required: true,
       options: [
         { label: "Mine alone", value: "mine_alone" },
-        { label: "Someone else is part of it", value: "someone_else" }
+        { label: "Someone else is part of it", value: "someone_else",
+          note: "You can add them as a guest when you book the call." }
       ]
     }
   ],
+
+  // Extra line on the booking screen, shown only for the matching answer.
+  guestNote: {
+    when: { id: "decision", value: "someone_else" },
+    text: "To bring them along, tap \"Add Guests\" after you pick a time and enter their email."
+  },
 
   // CALENDLY
   calendlyUrl: "https://calendly.com/alex-maywood/30min",
