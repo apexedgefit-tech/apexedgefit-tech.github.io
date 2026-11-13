@@ -54,7 +54,7 @@
     opacity: 0; visibility: hidden; transition: opacity .2s, color .15s;
   }
   .back.show { opacity: 1; visibility: visible; }
-  .back:hover { color: var(--text); }
+  @media (hover: hover) { .back:hover { color: var(--text); } }
 
   main { position: relative; z-index: 1; min-height: 100vh; min-height: 100dvh; display: flex; }
   .screen {
@@ -84,6 +84,8 @@
     font-family: var(--display); font-stretch: 125%; font-weight: 800; text-transform: uppercase;
     font-size: clamp(1.7rem, 5.4vw, 3.2rem); line-height: 1.05; letter-spacing: -.01em; margin: 0; text-wrap: balance;
   }
+  /* welcome heading always sits on one line; size scales with screen width so it fits a 320px phone */
+  .welcome h1 { white-space: nowrap; font-size: clamp(1.2rem, 6.3vw, 3.2rem); }
   .q { display: block; margin: 0; font-size: clamp(1.5rem, 4.2vw, 2.4rem); line-height: 1.18; font-weight: 700; letter-spacing: -.02em; text-wrap: balance; }
   .help, .lead { font-size: 1.0625rem; color: var(--muted); margin: 14px 0 0; line-height: 1.55; max-width: 560px; }
   .meta { display: flex; gap: 18px; flex-wrap: wrap; margin: 26px 0 0; padding: 0; list-style: none; color: var(--muted); font-size: .95rem; }
@@ -112,7 +114,8 @@
     background: var(--panel); border: 1.5px solid var(--line); border-radius: 10px; cursor: pointer; font-size: 1.0625rem;
     transition: border-color .15s, background-color .15s, transform .15s;
   }
-  .choice:hover { border-color: color-mix(in srgb, var(--accent) 70%, var(--line)); }
+  /* .fresh: the pointer left over from the last click must not make an option look picked */
+  @media (hover: hover) { .choices:not(.fresh) .choice:hover { border-color: color-mix(in srgb, var(--accent) 70%, var(--line)); } }
   .choice:active { transform: scale(.99); }
   .choice .key {
     flex: none; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center;
@@ -131,8 +134,11 @@
     transition: background-color .18s, transform .12s;
   }
   .btn .arr { transition: transform .18s var(--ease); }
-  .btn:hover { background: var(--accent-deep); }
-  .btn:hover .arr { transform: translateX(3px); }
+  /* hover only on real pointers: on phones a tap leaves :hover stuck on the next screen's button */
+  @media (hover: hover) {
+    .btn:hover { background: var(--accent-deep); }
+    .btn:hover .arr { transform: translateX(3px); }
+  }
   .btn:active { transform: translateY(1px); }
   .btn[disabled] { opacity: .6; cursor: default; }
   .hint { color: var(--muted); font-size: .875rem; }
@@ -143,7 +149,11 @@
   @keyframes turn { to { transform: rotate(360deg); } }
 
   .link { color: var(--text); text-decoration-color: var(--detail); text-underline-offset: 3px; }
-  .cal { margin: 20px -8px 0; min-width: 300px; height: 720px; }
+  /* Starting height while Calendly loads; after that Calendly sets the real height inline. */
+  /* min-height: while a Calendly step loads it briefly reports ~2px, which would collapse the box and jump the page */
+  /* scroll-margin-top: Calendly scrolls the box into view between steps; keep its top (and its back arrow) clear of the fixed logo bar */
+  .cal { margin: 20px -8px 0; min-width: 300px; height: 720px; min-height: 600px; scroll-margin-top: 72px; }
+  .cal iframe { display: block; width: 100%; height: 100%; }
   .fallback { margin-top: 12px; color: var(--muted); font-size: .95rem; }
   .screen.wide { max-width: 1000px; justify-content: flex-start; padding-top: 104px; }
 
@@ -321,7 +331,8 @@
 
     if (q.type === 'choice') {
       field.className = '';
-      group = el('div', 'choices');
+      group = el('div', 'choices fresh');
+      group.addEventListener('mousemove', function () { group.classList.remove('fresh'); }, { once: true });
       group.setAttribute('role', 'radiogroup');
       group.setAttribute('aria-labelledby', label.id);
       (q.options || []).forEach(function (opt, k) {
@@ -346,7 +357,8 @@
         input.type = q.type === 'email' ? 'email' : (q.type === 'tel' ? 'tel' : 'text');
         if (q.type === 'email') input.autocomplete = 'email';
         if (q.type === 'tel') input.autocomplete = 'tel';
-        if (q.id === 'first_name') input.autocomplete = 'given-name';
+        if (q.type === 'name') input.autocomplete = 'name';
+        else if (q.id === 'first_name') input.autocomplete = 'given-name';
       }
       input.id = inputId;
       input.name = q.id;
@@ -397,6 +409,7 @@
   function validate(q, val) {
     var v = (val || '').trim();
     if (!v) return q.required ? 'This one is required.' : '';
+    if (q.type === 'name' && v.split(/\s+/).length < 2) return 'Add your last name too.';
     if (q.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return 'Enter a valid email address.';
     if (q.type === 'tel') {
       var digits = v.replace(/\D/g, '');
@@ -430,7 +443,7 @@
     }
     var msg = validate(q, val);
     if (msg) { showError(q, msg); return; }
-    if (q.type !== 'choice') state.answers[q.id] = val;
+    if (q.type !== 'choice') state.answers[q.id] = q.type === 'name' ? val.replace(/\s+/g, ' ') : val;
     if (i === N - 1) finish(); else go(i + 1);
   }
 
@@ -450,6 +463,18 @@
   }
 
   // Finish
+  // Name parts from the "name" (full name) question, or an older "first_name" question.
+  function nameParts() {
+    var nq = QS.filter(function (q) { return q.type === 'name'; })[0];
+    if (nq) {
+      var full = (state.answers[nq.id] || '').trim();
+      var parts = full ? full.split(/\s+/) : [];
+      return { asked: true, full: full, first: parts[0] || '', last: parts.slice(1).join(' ') };
+    }
+    var f = state.answers.first_name || '';
+    return { asked: QS.some(function (q) { return q.id === 'first_name'; }), full: f, first: f, last: '' };
+  }
+
   function isQualified() {
     for (var i = 0; i < QS.length; i++) {
       var q = QS[i];
@@ -469,6 +494,12 @@
     var qualified = isQualified();
     var payload = {};
     QS.forEach(function (q) { payload[q.id] = state.answers[q.id] || ''; });
+    // The Sheet script names the Pipeline row from first_name, so send the parts too.
+    if (QS.some(function (q) { return q.type === 'name'; })) {
+      var np = nameParts();
+      payload.first_name = np.first;
+      payload.last_name = np.last;
+    }
     payload.qualified = qualified ? 'yes' : 'no';
     // Flag-only options: the person still books, but the Sheet row is marked.
     var flags = [];
@@ -531,17 +562,19 @@
       return;
     }
     var url = CFG.calendlyUrl || '';
-    var name = state.answers.first_name;
+    var np = nameParts();
+    var name = np.first;
     var email = state.answers.email;
-    var hasPrefill = QS.some(function (q) { return q.id === 'first_name'; }) &&
-                     QS.some(function (q) { return q.id === 'email'; });
+    var hasPrefill = np.asked && QS.some(function (q) { return q.id === 'email'; });
 
     if (CFG.calendlyMode === 'redirect') {
       var target = url;
       try {
         var u = new URL(url);
         if (hasPrefill) {
-          if (name) u.searchParams.set('name', name);
+          if (np.full) u.searchParams.set('name', np.full);
+          if (np.first) u.searchParams.set('first_name', np.first);
+          if (np.last) u.searchParams.set('last_name', np.last);
           if (email) u.searchParams.set('email', email);
         }
         target = u.toString();
@@ -586,15 +619,57 @@
       cu.searchParams.set('primary_color', '2a66c8');
       calUrl = cu.toString();
     } catch (e) {}
-    var opts = { url: calUrl, parentElement: cal };
+    // resize: Calendly reports its own height and the box grows to fit it,
+    // so the page is the only thing that scrolls (no scroll-inside-a-scroll on phones).
+    var opts = { url: calUrl, parentElement: cal, resize: true };
     if (hasPrefill) {
       opts.prefill = {};
-      if (name) opts.prefill.name = name;
+      // name fills a single "Name" field; firstName/lastName fill the split First/Last name fields
+      if (np.full) opts.prefill.name = np.full;
+      if (np.first) opts.prefill.firstName = np.first;
+      if (np.last) opts.prefill.lastName = np.last;
       if (email) opts.prefill.email = email;
+    }
+    // Same shape Calendly's widget sends: { name, first_name, last_name, email }
+    calPrefill = null;
+    if (opts.prefill) {
+      calPrefill = {};
+      if (opts.prefill.name) calPrefill.name = opts.prefill.name;
+      if (opts.prefill.firstName) calPrefill.first_name = opts.prefill.firstName;
+      if (opts.prefill.lastName) calPrefill.last_name = opts.prefill.lastName;
+      if (opts.prefill.email) calPrefill.email = opts.prefill.email;
     }
     loadCalendly(function () {
       try { window.Calendly.initInlineWidget(opts); } catch (e) {}
     });
+    if (!calHooked) {
+      calHooked = true;
+      window.addEventListener('message', onCalendlyMessage);
+    }
+  }
+
+  var calPrefill = null;
+  var calHooked = false;
+  function onCalendlyMessage(e) {
+    if (e.origin !== 'https://calendly.com' || !e.data || !e.data.event) return;
+    var box = main.querySelector('.cal');
+    if (!box) return;
+    if (e.data.event === 'calendly.event_type_viewed' && calPrefill) {
+      // Calendly's widget only sends the prefill up to 250ms after the frame loads.
+      // On a slow phone the booking page is not listening yet and name/email are lost.
+      // It says it is ready with event_type_viewed, so send the prefill again then.
+      var f = box.querySelector('iframe');
+      if (f && f.contentWindow) f.contentWindow.postMessage({ event: 'calendly.prefill', payload: calPrefill }, 'https://calendly.com');
+    }
+    if (e.data.event === 'calendly.page_height') {
+      // When Calendly changes step (day -> times -> details), bring the top of the
+      // calendar back into view below the fixed logo bar so its back arrow is visible.
+      var barH = document.querySelector('.top').offsetHeight;
+      var top = box.getBoundingClientRect().top;
+      if (top < barH && top > -box.offsetHeight) {
+        window.scrollTo(0, window.scrollY + top - barH - 8);
+      }
+    }
   }
 
   function loadCalendly(cb) {

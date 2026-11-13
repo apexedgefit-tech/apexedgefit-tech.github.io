@@ -4,7 +4,8 @@
 window.FORM_CONFIG = {
   // Welcome screen
   eyebrow: "Apply for coaching",
-  title: "Let's see if we're a fit",
+  // Kept to one line on every screen size, so keep it short.
+  title: "Let's get started",
   intro: "A few questions about you and your goals, then you pick a time for a short call with me.",
   meta: ["6 questions", "About a minute", "Then book your call"],
   startLabel: "Start",
@@ -14,7 +15,9 @@ window.FORM_CONFIG = {
 
   // QUESTIONS
   // id:          short name, no spaces. Becomes the column name in your Sheet.
-  // type:        text | email | tel | longtext | choice
+  // type:        text | name | email | tel | longtext | choice
+  //              "name" asks for a full name: it needs a first and last name,
+  //              and both get filled in on Calendly.
   // label:       the question people see
   // help:        optional small line under the question
   // placeholder: optional greyed hint inside the box
@@ -23,13 +26,14 @@ window.FORM_CONFIG = {
   //              Add disqualify: true to an option that should NOT get the booking page.
   //              Add flag: "a short note" to an option that should still book,
   //              but be marked in the "flagged" column of your Sheet.
-  // Keep the ids "first_name" and "email" if you want Calendly pre-filled.
+  // Keep the "name" question and the "email" id if you want Calendly pre-filled.
+  // The Sheet gets full_name, first_name and last_name columns from the name question.
   questions: [
     {
-      id: "first_name",
-      type: "text",
-      label: "What's your first name?",
-      placeholder: "First name",
+      id: "full_name",
+      type: "name",
+      label: "What's your full name?",
+      placeholder: "First and last name",
       required: true
     },
     {
