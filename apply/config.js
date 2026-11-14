@@ -4,11 +4,10 @@
 window.FORM_CONFIG = {
   // Welcome screen
   eyebrow: "Apply for coaching",
-  // Kept to one line on every screen size, so keep it short.
   title: "Let's get started",
-  intro: "A few questions about you and your goals, then you pick a time for a short call with me.",
-  meta: ["6 questions", "About a minute", "Then book your call"],
-  startLabel: "Start",
+  intro: "Six quick questions so I can see where you are now and where you want to be. Then you pick a time for a call with me.",
+  meta: ["6 quick questions", "No wrong answers", "Then book your call"],
+  startLabel: "Let's go",
   finishLabel: "See call times",
   // Line under "Pick a time". {name} becomes their first name.
   bookingLead: "Thanks, {name}. Pick a time that suits you and I'll see you on the call.",

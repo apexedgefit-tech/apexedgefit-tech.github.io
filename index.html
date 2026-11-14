@@ -34,8 +34,8 @@ posthog.init("phc_qUhyLMQeWnzGD58wmeWAahimTZfME2Y2oRizTG3kn6CX",{api_host:"https
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script>document.documentElement.classList.add('js')</script>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');/* Always open at the top (logo showing): stop phones restoring an old scroll position */if ('scrollRestoration' in history) history.scrollRestoration = 'manual';addEventListener('load', function () { if (!location.hash) scrollTo(0, 0); });</script>
 <style>
 /* Mockup v4 (2026-11-12): one calm system modeled on the closing panel.
    One dark foundation, hairlines instead of boxes, headline left and content right in every section.
@@ -556,6 +556,200 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
 }
 .progress { position: fixed; z-index: 50; top: 0; left: 0; right: 0; height: 2px; background: var(--bronze); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); pointer-events: none; }
 
+/* v8 (2026-11-13): bigger phone headings; client results stack on phones instead of a sideways swipe
+   (the swipe hid five of six results and caught vertical scrolls) */
+@media (max-width: 640px) {
+  h1 { font-size: clamp(1.75rem, 8.4vw, 2.25rem); line-height: 1.04; }
+  h2 { font-size: clamp(1.5rem, 6.6vw, 1.875rem); line-height: 1.06; }
+  .fit-h { font-size: 1.25rem; }
+}
+.more-res { display: none; }
+/* Client avatars: round, a little larger (photos are 96px, so 64px stays sharp enough) */
+.voices img, .by img { border-radius: 50%; }
+.voices img { width: 52px; height: 52px; }
+.by img { width: 64px; height: 64px; flex: none; }
+@media (max-width: 720px) {
+  .swipe-hint { display: none; }
+  .rgrid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 44px; overflow: visible; scroll-snap-type: none; margin-inline: 0; padding: 0; }
+  .rcard { flex: none; }
+  .js .rgrid:not(.all) > .rcard:nth-child(n+4) { display: none; }
+  .js .rgrid:not(.all) + .more-res { display: flex; }
+  .more-res { width: 100%; min-height: 52px; margin-top: 32px; align-items: center; justify-content: center; gap: 10px; color: var(--white); background: rgba(243, 244, 242, .06); border: 1px solid rgba(243, 244, 242, .22); font: 600 var(--t-body)/1 Inter, system-ui, sans-serif; cursor: pointer; }
+  .more-res svg { width: 14px; height: 14px; }
+}
+
+/* v9 (2026-11-13): Astryx review fixes */
+/* 2. Hero: client quotes sit above the photo so proof is on the first screen */
+.hero-in .voices { margin-top: clamp(28px, 3.4vw, 48px); }
+.hero-in .hero-media { margin-top: clamp(32px, 4vw, 52px); }
+/* 3. App screens on phones: three across, no sideways scroll, tap to see all five */
+@media (max-width: 900px) {
+  .screens { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; overflow: visible; scroll-snap-type: none; margin-inline: 0; padding-inline: 0; }
+  .screens figure { flex: none; max-width: none; padding: 3px; border-radius: 14px; }
+  .screens img { border-radius: 11px; }
+  .screens figure:nth-child(n+4) { display: none; }
+}
+/* 4. Closing panel: a normal Apply button instead of a clickable block (START word removed) */
+.final { display: block; }
+.final:hover, .final:focus-visible, .final:focus-within { background: none; color: var(--white); }
+.final:hover::after { opacity: 1; }
+.final-in { min-height: 0; justify-content: flex-start; gap: clamp(28px, 3vw, 40px); padding-block: var(--sec) clamp(20px, 2.4vw, 32px); }
+@media (max-width: 720px) { .final-cta .btn { width: 100%; } }
+/* 5. Rhythm on phones: roomier gaps between sections, tighter inside them */
+@media (max-width: 720px) {
+  :root { --sec: 64px; }
+  .head { margin-bottom: 24px; }
+  .head .lab { margin-bottom: 12px; }
+}
+/* 6. Results on phones: long quotes fold to four lines with a "Read the full quote" link */
+.qmore { display: none; }
+@media (max-width: 720px) {
+  .rcard blockquote.fold { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; }
+  .qmore { display: inline-flex; align-self: flex-start; min-height: 44px; align-items: center; margin-top: -10px; padding: 0; color: var(--blue-lit); background: none; border: 0; font: 600 var(--t-small)/1 Inter, system-ui, sans-serif; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+}
+/* 8. Pain section: closing line aligns left with the list above it */
+.s-pain .sb > p.lead { text-align: left; }
+/* 9. Who it's for: real subheadings under a hidden section heading */
+.fit-h { line-height: 1.1; }
+.vh { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* v11 (2026-11-13): footer. Desktop: logo and copyright on the left, links on the right, one slim row.
+   Phone: centred stack (logo, copyright, links), smaller and tighter. */
+.foot { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 16px 32px; padding-block: 28px; border-top: 1px solid var(--line); font-size: 0.8125rem; color: var(--steel); }
+.foot-brand { display: flex; align-items: center; gap: 16px; }
+.foot-brand p { margin: 0; }
+.foot img { height: 28px; width: auto; opacity: .9; }
+.foot nav { display: flex; gap: 24px; }
+.foot a { min-height: 32px; text-decoration: none; }
+.foot a:hover, .foot a:focus-visible { color: var(--white); text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 720px) {
+  .foot { flex-direction: column; justify-content: center; gap: 10px; padding-block: 28px calc(28px + env(safe-area-inset-bottom)); text-align: center; font-size: 0.75rem; }
+  .foot-brand { flex-direction: column; gap: 10px; }
+  .foot img { height: 24px; }
+  .foot nav { justify-content: center; gap: 0; }
+  .foot nav a { position: relative; min-height: 44px; padding-inline: 14px; }
+  .foot nav a + a::before { content: ""; position: absolute; left: 0; top: 50%; height: 12px; margin-top: -6px; border-left: 1px solid rgba(243, 244, 242, .25); }
+}
+
+/* v13 (2026-11-13): pricing shown as information (three equal terms, no badges, nothing to pick) */
+.plan, .plan:first-child { grid-template-rows: auto; }
+.plan .lab { color: var(--bronze); }
+
+/* v13: headlines keep the caps style, a touch lighter and roomier, with quiet depth:
+   a soft top-to-bottom sheen in the letters and a shadow that lifts them off the background */
+h1, h2, .band-in p, .final-h { font-weight: 700; letter-spacing: .012em; word-spacing: .08em; }
+h1 { line-height: 1.12; }
+h2, .band-in p { line-height: 1.14; }
+/* The sheen repeats once per line (1lh), so every line gets the same light-to-steel fall.
+   Titles the reveal script splits into lines carry it on each line instead of the whole block. */
+:is(h1, h2, .band-in p, .final-h):not(:has(.tr-line)), .tr-line > span {
+  background-image: linear-gradient(180deg, #FFFFFF 0%, #F1F3F8 45%, #BFC8DA 100%);
+  background-size: 100% 1lh; background-repeat: repeat-y;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+}
+h1, h2, .band-in p, .final-h { filter: drop-shadow(0 1px 0 rgba(255, 255, 255, .06)) drop-shadow(0 8px 20px rgba(0, 0, 0, .55)) drop-shadow(0 0 28px rgba(74, 122, 230, .16)); }
+.vh { filter: none; }
+
+/* v14 (2026-11-13): pricing cards in the brand blue (the old "pick" card style, now on all three; the section stays black) */
+.plan.pick .lab { color: var(--bronze); }
+.plan.pick .save { color: var(--white); }
+.plans .plan.pick { background: #0F2046; }
+/* v15: the 12-month card sits slightly forward (same colour, just lifted: larger, a deeper shadow, a crisper edge) */
+.plans .plan.lift { z-index: 1; transform: scale(1.05); outline-color: rgba(150, 186, 245, .7); box-shadow: 0 22px 48px rgba(0, 0, 0, .6), 0 6px 14px rgba(0, 0, 0, .4); }
+@media (max-width: 720px) { .plans .plan.lift { transform: scale(1.035); margin-block: 6px; } }
+
+/* v14: app screens roll right to left on phones; tap to pause or play. Desktop keeps the still row with tap to enlarge. */
+.screens:not(.marquee) .screens-track { display: contents; }
+.screens:not(.marquee) .clone { display: none; }
+.screens.marquee { display: block; overflow: hidden; margin-inline: calc(-1 * var(--m)); padding: 6px 0 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.screens.marquee .screens-track { display: flex; gap: 12px; width: max-content; animation: screens-roll 28s linear infinite; }
+.screens.marquee figure, .screens.marquee figure:nth-child(n+4) { display: block; flex: 0 0 auto; width: 46vw; max-width: 220px; padding: 4px; border-radius: 18px; cursor: inherit; }
+.screens.marquee img { border-radius: 14px; }
+.screens.marquee.paused .screens-track { animation-play-state: paused; }
+@keyframes screens-roll { from { transform: translateX(0); } to { transform: translateX(calc(-50% - 6px)); } }
+
+/* v16 (2026-11-13): bronze logo top and bottom; top logo sits a little lower on phones */
+.foot img { opacity: 1; }
+@media (max-width: 720px) { .bar-in { min-height: 0; padding-top: 30px; padding-bottom: 6px; } .brandbar img { height: 42px; } }
+
+/* v17 (2026-11-13): quiet "See pricing" jump links (hero, and the desktop top bar); Apply stays the one main button */
+.hero-cta { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.hero-alt { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding-inline: 8px; color: var(--mist); font-size: .9375rem; font-weight: 500; text-decoration: underline; text-decoration-color: rgba(243, 244, 242, .35); text-underline-offset: 4px; }
+.hero-alt:hover, .hero-alt:focus-visible { color: var(--white); text-decoration-color: currentColor; }
+#pricing { scroll-margin-top: 72px; }
+@media (max-width: 720px) { #pricing { scroll-margin-top: 0; } }
+
+/* v18 (2026-11-13): desktop opens like the phone (logo centred on top, nothing else). Once the hero's Apply
+   button scrolls away, a slim translucent bar slides in: logo left, Apply right. Phones keep the bottom dock instead. */
+.brandbar { position: static; background: none; }
+.bar-in { justify-content: center; min-height: 0; padding-top: 30px; padding-bottom: 6px; }
+.brandbar img { height: 42px; }
+.topbar { position: fixed; z-index: 45; top: 0; left: 0; right: 0; background: rgba(11, 12, 14, .72); -webkit-backdrop-filter: saturate(140%) blur(14px); backdrop-filter: saturate(140%) blur(14px); border-bottom: 1px solid rgba(243, 244, 242, .08); transform: translateY(-100%); visibility: hidden; transition: transform .32s var(--ease), visibility 0s linear .32s; }
+.topbar.show { transform: none; visibility: visible; transition: transform .32s var(--ease); }
+.topbar-in { display: flex; align-items: center; justify-content: space-between; min-height: 64px; }
+.topbar img { height: 32px; width: auto; }
+@media (max-width: 720px) { .topbar { display: none; } }
+
+/* v19 (2026-11-13): Apply buttons that feel like a win.
+   Rest: a soft blue glow under the button and a faint top highlight.
+   Hover (mouse/trackpad only): lifts 2px, brightens, a light sheen sweeps across once, the arrow leans forward.
+   Press (any device): a quick squeeze, a ripple of light from the exact tap point, and the arrow shoots off and returns.
+   Reduced motion: colour changes only. Touch screens never get a stuck hover state. */
+.btn { position: relative; isolation: isolate; overflow: hidden; -webkit-tap-highlight-color: transparent;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), 0 8px 22px -10px rgba(42, 102, 200, .7);
+  transition: transform .22s var(--ease), box-shadow .22s var(--ease), background-color .2s ease; }
+.btn > span, .btn > svg { position: relative; z-index: 1; }
+.btn::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, .26) 50%, transparent 70%); transform: translateX(-130%); }
+.btn .ripple { position: absolute; z-index: 0; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 255, 255, .5) 0%, rgba(255, 255, 255, .18) 45%, rgba(255, 255, 255, 0) 70%);
+  transform: scale(0); animation: btn-ripple .6s cubic-bezier(.2, .7, .3, 1) forwards; }
+@keyframes btn-ripple { to { transform: scale(var(--rs, 24)); opacity: 0; } }
+@keyframes btn-arrow-go { 0% { transform: translateX(0); } 45% { transform: translateX(18px); opacity: 0; } 46% { transform: translateX(-12px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+.btn.go > svg { animation: btn-arrow-go .42s var(--ease); }
+.btn:active { transform: scale(.97); transition-duration: .08s; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 4px 12px -8px rgba(42, 102, 200, .6); }
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { background: #3574DA; transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 16px 34px -12px rgba(53, 116, 218, .85), 0 0 0 1px rgba(150, 186, 245, .3); }
+  .btn:hover::after { transform: translateX(130%); transition: transform .75s var(--ease); }
+  .btn:hover > svg { transform: translateX(5px); }
+  .btn:active { transform: translateY(0) scale(.97); }
+}
+@media (hover: none), (pointer: coarse) {
+  .btn:hover { background: var(--blue); }
+  .btn:hover > svg { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn, .btn:hover, .btn:active { transform: none; }
+  .btn::after, .btn .ripple { display: none; }
+  .btn.go > svg { animation: none; }
+}
+
+/* v19: layout fixes from the screen-size audit */
+@media (min-width: 721px) { .hero-cta .btn { width: auto; min-width: 280px; } }
+@media (pointer: coarse) { .foot a { min-height: 44px; } }
+@media (max-width: 720px) { .foot { font-size: .8125rem; } }
+
+/* v20 (2026-11-13): review fixes */
+/* Closing headline: same line spacing as the other headlines */
+.final-copy p.final-h { line-height: 1.12; }
+/* Before / After labels a size up */
+.about-tx figcaption, .ba span { font-size: .8125rem; }
+/* Hero photo (VSL stand-in) shorter on phones so the page moves on sooner */
+@media (max-width: 720px) { .hero-media { aspect-ratio: 4 / 3; } }
+/* Before / after photos: edge to edge on phones, and tap any photo to see it full size */
+@media (max-width: 720px) {
+  .rcard .ba { margin-inline: calc(-1 * var(--m)); width: auto; gap: 3px; }
+  .about-tx { max-width: none; margin-inline: calc(-1 * var(--m)); gap: 3px; }
+  .s-about .about-tx { max-width: none; margin-inline: calc(-1 * var(--m)); }
+}
+.ba figure, .about-tx figure { cursor: zoom-in; }
+.photo-hint { display: none; }
+@media (max-width: 720px) { .photo-hint { display: block; margin: -12px 0 20px; color: var(--steel); text-align: center; } }
+.photo-lb img { border-radius: 0; max-width: 94vw; max-height: 86dvh; }
+.photo-cap { position: absolute; top: 22px; left: 20px; margin: 0; padding: 4px 10px; background: var(--obsidian); color: var(--white); font-size: .8125rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.photo-cap:empty { display: none; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; }
@@ -568,37 +762,45 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
 <!-- 1. Logo -->
 <header class="brandbar">
   <div class="wrap bar-in">
-    <img class="logo" src="images/redesign/logo-am.png" alt="Alex Maywood" width="37" height="40">
-    <a class="btn btn-sm" data-cta href="https://www.alexmaywood.com/apply/"><span class="cta-label">Apply for coaching</span></a>
+    <img class="logo" src="images/redesign/logo-am-bronze.png" alt="Alex Maywood" width="37" height="40">
   </div>
 </header>
+
+<!-- Desktop: slides in once the hero testimonials have scrolled away -->
+<div class="topbar" id="topbar">
+  <div class="wrap topbar-in">
+    <img src="images/redesign/logo-am-bronze.png" alt="Alex Maywood" width="37" height="40">
+    <a class="btn btn-sm" data-cta href="https://www.alexmaywood.com/apply/"><span class="cta-label">Apply for coaching</span></a>
+  </div>
+</div>
 
 <main>
 
 <!-- 2. Hero -->
-<section class="hero tx tx-top" id="hero" aria-labelledby="hero-t">
+<section class="hero" id="hero" aria-labelledby="hero-t">
   <div class="wrap hero-in">
     <h1 id="hero-t">For people ready to make this the last time they start over.</h1>
     <p class="hero-sub">Every plan you've tried was built for someone else. This is 1:1 coaching, individually designed for you, so you can keep going long after coaching ends.</p>
     <div class="hero-cta">
       <a class="btn" data-cta href="https://www.alexmaywood.com/apply/"><span class="cta-label">Apply for coaching</span>
           <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M1 8h13M9 3l5 5-5 5" stroke="currentColor" stroke-width="2"/></svg></a>
+      <a class="hero-alt" href="#pricing" data-jump="hero">See pricing <span aria-hidden="true">↓</span></a>
     </div>
-    <!-- VSL: the video replaces this photo once it is filmed -->
-    <figure class="hero-media"><img src="images/redesign/hero-lunge.jpg" alt="Alex Maywood training a split-stance lunge in the gym" width="1179" height="2077" fetchpriority="high"></figure>
     <ul class="voices" aria-label="Client results">
       <li><img src="images/avatars/luke.jpg" alt="" width="44" height="44"><div><p class="hv-q">"I was already working out and putting in the effort but wasn't seeing real results."</p><p class="hv-by"><b>Luke M.</b> · 20 lb of fat lost, muscle gained</p></div></li>
       <li><img src="images/avatars/maha.jpg" alt="" width="44" height="44"><div><p class="hv-q">"He asked me questions nobody had asked me before."</p><p class="hv-by"><b>Maha Mahmood</b> · Deadlift from 35 lb to 115 lb</p></div></li>
       <li><img src="images/avatars/raghda.jpg" alt="" width="44" height="44"><div><p class="hv-q">"I've had three coaches in the last two years, and Alex has been the best coach I've had so far."</p><p class="hv-by"><b>Raghda</b> · Size 6 to size 4</p></div></li>
     </ul>
+    <!-- VSL: the video replaces this photo once it is filmed -->
+    <figure class="hero-media"><img src="images/redesign/hero-lunge.jpg" alt="Alex Maywood training a split-stance lunge in the gym" width="1179" height="2077" fetchpriority="high"></figure>
   </div>
 </section>
 
 <!-- 3. Pain -->
-<section class="sec s-pain" aria-labelledby="pain-t">
+<section class="sec tx s-pain" aria-labelledby="pain-t">
   <div class="wrap">
     <div class="split">
-      <div class="sh stick rv"><div class="sig"><h2 id="pain-t">You've never been short on effort. You've been short on a system.</h2></div></div>
+      <div class="sh stick rv"><div class="sig"><h2 id="pain-t">You've never been short on effort.<br>You've been short on a system.</h2></div></div>
       <div class="sb">
         <ul class="rows plain">
           <li class="rv">You've lost the same 15 pounds more than once, and every time it came back with extra.</li>
@@ -615,7 +817,7 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
 </section>
 
 <!-- 4. Why the usual approaches fail -->
-<section class="sec tx s-fail" aria-labelledby="fail-t">
+<section class="sec s-fail" aria-labelledby="fail-t">
   <div class="wrap">
     <div class="split">
       <div class="sh stick rv">
@@ -635,7 +837,7 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
 </section>
 
 <!-- 5. Method: AAEM, all four phases open -->
-<section class="sec s-method" id="method" aria-labelledby="method-t">
+<section class="sec tx s-method" id="method" aria-labelledby="method-t">
   <div class="wrap">
     <div class="split">
       <div class="sh stick rv">
@@ -656,7 +858,7 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
 </section>
 
 <!-- 6. What you get -->
-<section class="sec tx s-offer" id="offer" aria-labelledby="offer-t">
+<section class="sec s-offer" id="offer" aria-labelledby="offer-t">
   <div class="wrap">
     <div class="split">
       <div class="sh rv"><div class="sig"><h2 id="offer-t">What you get inside my coaching</h2></div></div>
@@ -681,7 +883,7 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
       <figure><img src="images/redesign/app-nutrition.png" alt="Trends screen with daily calories, macros and training load" width="780" height="1560" loading="lazy"></figure>
       <figure><img src="images/redesign/app-profile.png" alt="Client profile with workouts completed and current streak" width="780" height="1560" loading="lazy"></figure>
     </div>
-    <p class="screens-cap small">Example screens from my coaching app.</p>
+    <p class="screens-cap small">Example screens from my coaching app. Tap one to see it full size.</p>
   </div>
 </section>
 
@@ -765,7 +967,7 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
       <p class="lab">Client results</p>
       <div class="sig"><h2 id="results-t">In their own words.</h2></div>
     </div>
-    <p class="swipe-hint small" aria-hidden="true">Swipe to see all six →</p>
+    <p class="photo-hint small">Tap a photo to see it full size.</p>
     <div class="rgrid">
       <article class="rcard rv">
         <div class="ba"><figure><img src="images/photo-5.jpg" alt="Luke before coaching" loading="lazy"><span>Before</span></figure><figure><img src="images/photo-6.jpg" alt="Luke after coaching" loading="lazy"><span>After</span></figure></div>
@@ -800,6 +1002,7 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
         <div class="by"><img src="images/avatars/lana.jpg" alt="" width="56" height="56" loading="lazy"><p><b>Lana Adnan</b><span>Geotechnical Project Engineer</span></p></div>
       </article>
     </div>
+    <button class="more-res" type="button" aria-expanded="false">See 3 more results<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="2"/></svg></button>
     <div class="endrow rv">
       <p>Every one of them started with an assessment, not a template.</p>
       <a class="btn" data-cta href="https://www.alexmaywood.com/apply/"><span class="cta-label">Apply for coaching</span>
@@ -809,11 +1012,12 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
 </section>
 
 <!-- 12a. Who it's for -->
-<section class="sec tx fit" aria-label="Who this coaching is for">
+<section class="sec tx fit" aria-labelledby="fit-t">
   <div class="wrap">
+    <h2 class="vh" id="fit-t">Who this coaching is for</h2>
     <div class="fit-grid">
       <div class="fit-yes rv">
-        <h2 class="fit-h">This is for you if:</h2>
+        <h3 class="fit-h x">This is for you if:</h3>
         <ul class="rows plain">
           <li>You've tried the diets, apps and classes, and you're done starting over.</li>
           <li>You want to lose fat, build muscle or get stronger, and you're ready to give it the time it takes.</li>
@@ -821,7 +1025,7 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
         </ul>
       </div>
       <div class="fit-no rv">
-        <h2 class="fit-h">This isn't for you if:</h2>
+        <h3 class="fit-h x">This isn't for you if:</h3>
         <ul class="rows plain">
           <li>You're looking for a quick fix.</li>
           <li>You won't train on your own or do your weekly check-ins.</li>
@@ -847,22 +1051,20 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
       </div>
     </div>
     <div class="plans rv">
-      <div class="plan">
-        <p class="lab">Foundation · 6 months</p>
+      <div class="plan pick">
+        <p class="lab">6-month term</p>
         <p class="price"><span class="x">$450</span>/mo</p>
         <p class="save">Pay in full and save $405</p>
       </div>
-      <div class="plan pick">
-        <p class="lab">Elite · 12 months</p>
-        <span class="badge">Recommended</span>
+      <div class="plan pick lift">
+        <p class="lab">12-month term</p>
         <p class="price"><span class="x">$350</span>/mo</p>
-        <p class="save">Save up to $1,830</p>
+        <p class="save">Pay in full and save up to $1,830</p>
       </div>
-      <div class="plan">
-        <p class="lab">Apex · 24 months</p>
-        <span class="badge bz">Best value</span>
+      <div class="plan pick">
+        <p class="lab">24-month term</p>
         <p class="price"><span class="x">$300</span>/mo</p>
-        <p class="save">Save up to $4,680</p>
+        <p class="save">Pay in full and save up to $4,680</p>
       </div>
     </div>
     <p class="plans-note small">Savings compared with the 6-month rate. The maximum saving includes 15% off when you pay in full.</p>
@@ -897,7 +1099,7 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
     <div class="split">
       <div class="sh stick rv">
         <p class="lab">Before you apply</p>
-        <div class="sig"><h2 id="faq-t">Questions I get every week.</h2></div>
+        <div class="sig"><h2 id="faq-t">Frequently asked questions.</h2></div>
       </div>
       <div class="sb faq-list rv">
         <details class="q" name="faq" open><summary>How much time does this take each week?</summary><p>Your plan works around your time, not the other way around. This isn't a template you have to squeeze into. I design your program around your current life and build it in the right order to support your long-term goals.</p></details>
@@ -912,7 +1114,7 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
 </section>
 
 <!-- 15. Closing -->
-<a class="final tx tx-end" id="final" data-cta href="https://www.alexmaywood.com/apply/" aria-label="Apply for coaching">
+<section class="final tx tx-end" id="final" aria-label="Start coaching">
   <div class="final-in">
     <div class="final-top">
       <div class="final-copy">
@@ -920,12 +1122,12 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
         <p>Real fitness isn't about surviving another 45-minute sweat circuit or chasing the next quick fix. It's about a body that moves without pain, a mind that stays sharp and a daily life that supports what you want from it.</p>
         <p>The best time to start was the first time you started over. Make today the last.</p>
       </div>
-      <svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M8 40 40 8M14 8h26v26" stroke="currentColor" stroke-width="5"/></svg>
     </div>
-    <span class="final-word x" aria-hidden="true">Start</span>
+    <div class="final-cta"><a class="btn" data-cta href="https://www.alexmaywood.com/apply/"><span class="cta-label">Apply for coaching</span>
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M1 8h13M9 3l5 5-5 5" stroke="currentColor" stroke-width="2"/></svg></a></div>
     <p class="final-guar">Covered by the Right Fit Guarantee: 30 days, full refund, no questions asked.</p>
   </div>
-</a>
+</section>
 
 </main>
 
@@ -936,9 +1138,17 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
   <button class="lb-nav lb-next" type="button" aria-label="Next screen">›</button>
 </dialog>
 
+<dialog class="lightbox photo-lb" id="photo-lb" aria-label="Photo">
+  <button class="lb-close" type="button" aria-label="Close">×</button>
+  <p class="photo-cap" aria-hidden="true"></p>
+  <img alt="">
+</dialog>
+
 <footer class="wrap foot">
-  <img src="images/redesign/logo-am.png" alt="Alex Maywood" width="33" height="36">
-  <p>&copy; 2026 APEX EDGE FIT LLC. All rights reserved.</p>
+  <div class="foot-brand">
+    <img src="images/redesign/logo-am-bronze.png" alt="Alex Maywood" width="33" height="36">
+    <p>&copy; 2026 APEX EDGE FIT LLC. All rights reserved.</p>
+  </div>
   <nav aria-label="Footer">
     <a href="terms.html">Terms &amp; Conditions</a>
     <a href="privacy.html">Privacy Policy</a>
@@ -966,14 +1176,15 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
   /* Masked headline reveal: split each headline into its rendered lines, then slide each line up from behind a mask */
   const heads = $$('h2, .band-in p, .final-h');
   const splitHead = el => {
-    const text = el.dataset.trText || (el.dataset.trText = el.textContent.trim().replace(/\s+/g, ' '));
+    /* A <br> in the headline is kept as a forced line break (marked \n) */
+    const text = el.dataset.trText || (el.dataset.trText = [...el.childNodes].map(n => n.nodeName === 'BR' ? ' \n ' : n.textContent).join('').trim().replace(/[ \t\r]+/g, ' '));
     el.textContent = '';
-    const words = text.split(' ').map(w => { const sp = document.createElement('span'); sp.style.display = 'inline-block'; sp.textContent = w; el.append(sp, ' '); return sp; });
+    const words = text.split(' ').filter(Boolean).map(w => { if (w === '\n') { el.append(document.createElement('br')); return null; } const sp = document.createElement('span'); sp.style.display = 'inline-block'; sp.textContent = w; el.append(sp, ' '); return sp; }).filter(Boolean);
     const lines = []; let top = null;
     words.forEach(w => { if (top === null || w.offsetTop > top + 2) { lines.push([]); top = w.offsetTop; } lines[lines.length - 1].push(w.textContent); });
     el.textContent = '';
     lines.forEach((ws, i) => { const line = document.createElement('span'); line.className = 'tr-line'; const inner = document.createElement('span'); inner.style.setProperty('--l', i); inner.textContent = ws.join(' '); line.append(inner); el.append(line); });
-    el.setAttribute('aria-label', text);
+    el.setAttribute('aria-label', text.replace(/\s*\n\s*/g, ' '));
     el.classList.add('tr-ready');
   };
   if (!calm) {
@@ -1037,7 +1248,7 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
     const lab = $('.cta-label', el);
     if (lab) lab.textContent = LABELS[cv]; else el.setAttribute('aria-label', LABELS[cv]);
     el.addEventListener('click', () => {
-      const where = el.closest('section, .dock, .final, header');
+      const where = el.closest('section, .dock, .final, header, .topbar');
       if (window.posthog && posthog.capture) posthog.capture('cta_click', { cta_variant: cv, cta_label: LABELS[cv], cta_location: where ? (where.id || where.className.split(' ')[0]) : '' });
     });
   });
@@ -1049,6 +1260,8 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
   let ticking = false;
   const io = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? vis.add(e.target) : vis.delete(e.target)); paint(); });
   ['#pricing', '#final'].forEach(s => io.observe($(s)));
+  /* Step aside whenever an in-page Apply button is on screen, so only one shows at a time */
+  $$('a.btn[data-cta]').filter(b => !b.closest('.dock, header, .topbar')).forEach(b => io.observe(b));
   function paint() {
     ticking = false;
     const y = scrollY;
@@ -1058,6 +1271,129 @@ h3 { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(paint); } }, { passive: true });
   addEventListener('resize', paint);
   paint();
+})();
+</script>
+<script>
+document.querySelectorAll('.more-res').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var g = b.previousElementSibling, next = g.children[3];
+    g.classList.add('all');
+    b.setAttribute('aria-expanded', 'true');
+    if (next) { next.setAttribute('tabindex', '-1'); next.focus({ preventScroll: true }); }
+    if (window.posthog) posthog.capture('results_expanded');
+  });
+});
+</script>
+<script>
+/* Results on phones: fold long quotes to four lines (the words themselves never change) */
+function foldQuotes(root) {
+  if (!matchMedia('(max-width: 720px)').matches) return;
+  root.querySelectorAll('.rcard:not(.quote) blockquote:not([data-folded])').forEach(function (q) {
+    if (!q.offsetParent) return;
+    q.classList.add('fold');
+    q.setAttribute('data-folded', '');
+    if (q.scrollHeight <= q.clientHeight + 2) { q.classList.remove('fold'); return; }
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'qmore'; b.textContent = 'Read the full quote';
+    b.setAttribute('aria-expanded', 'false');
+    b.addEventListener('click', function () { q.classList.remove('fold'); b.remove(); });
+    q.after(b);
+  });
+}
+foldQuotes(document);
+document.querySelectorAll('.more-res').forEach(function (b) {
+  b.addEventListener('click', function () { requestAnimationFrame(function () { foldQuotes(document); }); });
+});
+</script>
+<script>
+/* App screens marquee on phones: a second copy of the screens makes the loop seamless */
+(function () {
+  var box = document.querySelector('.screens'), cap = document.querySelector('.screens-cap');
+  if (!box || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var mq = matchMedia('(max-width: 900px)'), capDesk = cap ? cap.textContent : '';
+  var track = document.createElement('div');
+  track.className = 'screens-track';
+  Array.prototype.slice.call(box.children).forEach(function (f) { track.appendChild(f); });
+  Array.prototype.slice.call(track.children).forEach(function (f) {
+    var c = f.cloneNode(true);
+    c.classList.add('clone'); c.setAttribute('aria-hidden', 'true'); c.removeAttribute('tabindex'); c.removeAttribute('role');
+    track.appendChild(c);
+  });
+  box.appendChild(track);
+  box.addEventListener('click', function (e) {
+    if (!box.classList.contains('marquee')) return;
+    e.stopPropagation();
+    box.classList.toggle('paused');
+    if (cap) cap.textContent = 'Example screens from my coaching app. ' + (box.classList.contains('paused') ? 'Tap to play.' : 'Tap to pause.');
+    if (window.posthog) posthog.capture('screens_marquee_toggle', { paused: box.classList.contains('paused') });
+  }, true);
+  function mode() {
+    box.classList.toggle('marquee', mq.matches);
+    box.classList.remove('paused');
+    if (cap) cap.textContent = mq.matches ? 'Example screens from my coaching app. Tap to pause.' : capDesk;
+  }
+  mq.addEventListener ? mq.addEventListener('change', mode) : mq.addListener(mode);
+  mode();
+})();
+</script>
+<script>
+document.querySelectorAll('a[data-jump]').forEach(function (a) {
+  a.addEventListener('click', function () { if (window.posthog) posthog.capture('pricing_jump', { from: a.getAttribute('data-jump') }); });
+});
+</script>
+<script>
+/* Desktop top bar: show once the three hero testimonials have scrolled fully off the top */
+(function () {
+  var bar = document.getElementById('topbar'), heroBtn = document.querySelector('.hero .voices');
+  if (!bar || !heroBtn || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver(function (es) {
+    var e = es[0];
+    bar.classList.toggle('show', !e.isIntersecting && e.boundingClientRect.top < 0);
+  }).observe(heroBtn);
+})();
+</script>
+<script>
+/* Apply buttons: ripple from the tap point, arrow shoots forward, then go (a short beat so the moment registers) */
+(function () {
+  var calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('a.btn, button.btn').forEach(function (b) {
+    b.addEventListener('pointerdown', function (e) {
+      if (calm || e.button > 0) return;
+      var r = b.getBoundingClientRect(), d = document.createElement('span');
+      d.className = 'ripple';
+      d.style.left = (e.clientX - r.left) + 'px';
+      d.style.top = (e.clientY - r.top) + 'px';
+      d.style.setProperty('--rs', String(Math.ceil(Math.max(r.width, r.height) * 2.4 / 16)));
+      b.appendChild(d);
+      setTimeout(function () { d.remove(); }, 700);
+    });
+    b.addEventListener('click', function (e) {
+      if (calm) return;
+      b.classList.remove('go'); void b.offsetWidth; b.classList.add('go');
+      setTimeout(function () { b.classList.remove('go'); }, 450);
+      var href = b.getAttribute('href');
+      if (!href || href.charAt(0) === '#' || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || b.target === '_blank') return;
+      e.preventDefault();
+      setTimeout(function () { location.href = b.href; }, 170);
+    });
+  });
+})();
+</script>
+<script>
+/* Before / after photos: tap or click to see one full size */
+(function () {
+  var lb = document.getElementById('photo-lb'), im = lb && lb.querySelector('img');
+  if (!lb || !lb.showModal) return;
+  document.querySelectorAll('.ba figure, .about-tx figure').forEach(function (f) {
+    var src = f.querySelector('img');
+    f.tabIndex = 0; f.setAttribute('role', 'button'); f.setAttribute('aria-label', 'Enlarge: ' + src.alt);
+    var tag = f.querySelector('span, figcaption');
+    function open() { lb.querySelector('.photo-cap').textContent = tag ? tag.textContent : ''; im.src = src.currentSrc || src.src; im.alt = src.alt; lb.showModal(); if (window.posthog) posthog.capture('photo_enlarge', { photo: src.alt }); }
+    f.addEventListener('click', open);
+    f.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+  });
+  lb.querySelector('.lb-close').addEventListener('click', function () { lb.close(); });
+  lb.addEventListener('click', function (e) { if (e.target === lb || e.target === im) lb.close(); });
 })();
 </script>
 </body>
