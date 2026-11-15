@@ -5,8 +5,8 @@ window.FORM_CONFIG = {
   // Welcome screen
   eyebrow: "Apply for coaching",
   title: "Let's get started",
-  intro: "Six quick questions so I can see where you are now and where you want to be. Then you pick a time for a call with me.",
-  meta: ["6 quick questions", "No wrong answers", "Then book your call"],
+  intro: "Four quick questions so I can see where you want to go. Then you pick a time for a 45-minute call with me.",
+  meta: ["4 quick questions", "Takes 60 seconds", "Then book your call"],
   startLabel: "Let's go",
   finishLabel: "See call times",
   // Line under "Pick a time". {name} becomes their first name.
@@ -39,54 +39,33 @@ window.FORM_CONFIG = {
       id: "email",
       type: "email",
       label: "What's your email?",
-      help: "This is where your booking confirmation goes.",
+      help: "This is where your booking confirmation goes. I may also send you occasional emails, and you can unsubscribe anytime.",
       placeholder: "name@example.com",
       required: true
     },
     {
       id: "goal",
       type: "longtext",
-      label: "What result do you want, as specifically as you can say it?",
-      required: true
-    },
-    {
-      id: "tried",
-      type: "longtext",
-      label: "What have you already tried, and how long did you give it?",
+      label: "What is your main goal for 1:1 coaching with me?",
+      help: "Tell me what you want to achieve and what you're looking for help with.",
       required: true
     },
     {
       id: "start",
       type: "choice",
-      label: "If this is the right fit, when would you want to start?",
+      label: "If we decide we're a strong fit on our call, how soon would you want to get started?",
       required: true,
+      // tag: goes into the lead_tag column of your Sheet
       options: [
-        { label: "Next week", value: "next_week" },
-        { label: "Next month", value: "next_month" },
-        { label: "I'm just looking around", value: "just_looking", flag: "Just looking" }
-      ]
-    },
-    {
-      id: "decision",
-      type: "choice",
-      label: "Is this decision yours alone, or is someone else part of it?",
-      required: true,
-      options: [
-        { label: "Mine alone", value: "mine_alone" },
-        { label: "Someone else is part of it", value: "someone_else",
-          note: "You can add them as a guest when you book the call." }
+        { label: "As soon as possible (within the next week)", value: "asap", tag: "Hot / Ready Now" },
+        { label: "Within the next month", value: "next_month", tag: "Warm / Planning Ahead" },
+        { label: "I'm still exploring my options and have a few questions first", value: "exploring", tag: "Exploring" }
       ]
     }
   ],
 
-  // Extra line on the booking screen, shown only for the matching answer.
-  guestNote: {
-    when: { id: "decision", value: "someone_else" },
-    text: "To bring them along, tap \"Add Guests\" after you pick a time and enter their email."
-  },
-
   // CALENDLY
-  calendlyUrl: "https://calendly.com/alex-maywood/30min",
+  calendlyUrl: "https://calendly.com/alex-maywood/45min",
   // "embed" shows the calendar on the page. "redirect" sends people to Calendly.
   calendlyMode: "embed",
 

@@ -560,6 +560,15 @@
       });
     });
     payload.flagged = flags.join('; ');
+    // Lead tag from the chosen option (e.g. Hot / Warm / Exploring)
+    var tags = [];
+    QS.forEach(function (q) {
+      if (q.type !== 'choice') return;
+      (q.options || []).forEach(function (o) {
+        if (o.value === state.answers[q.id] && o.tag) tags.push(String(o.tag));
+      });
+    });
+    payload.lead_tag = tags.join('; ');
     payload.submittedAt = new Date().toISOString();
     payload.page = location.href;
     payload.website = honeypot ? honeypot.value : '';
