@@ -179,36 +179,16 @@
     .bar > div, .choice, .btn, .back { transition: none; }
   }
   /* 2026-11-13: match the landing page. Square corners, lighter caps headline with the same sheen and lift,
-     and the same Apply-button feel (glow, hover lift and sheen, press squeeze, ripple from the tap point). */
+     Button effects removed 2026-11-15, see below. */
   h1 { font-stretch: 125%; font-weight: 700; letter-spacing: .012em; word-spacing: .08em; line-height: 1.12;
     background-image: linear-gradient(180deg, #FFFFFF 0%, #F1F3F8 45%, #BFC8DA 100%); background-size: 100% 1lh; background-repeat: repeat-y;
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
     filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .55)) drop-shadow(0 0 28px rgba(74, 122, 230, .16)); }
   .welcome h1 { white-space: normal; font-size: clamp(1.75rem, 7.4vw, 3.2rem); }
   .btn, .btn.ghost, .choice, .choice .key { border-radius: 0; }
-  .btn { position: relative; isolation: isolate; overflow: hidden; -webkit-tap-highlight-color: transparent;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), 0 8px 22px -10px rgba(42, 102, 200, .7);
-    transition: transform .22s var(--ease), box-shadow .22s var(--ease), background-color .2s ease; }
+  /* 2026-11-15: buttons plain like Typeform (glow, lift, sheen, squeeze and ripple removed at Alex's request).
+     Hover is only the darker blue from the base .btn rules above. Old version: _archive/index-v3-with-button-fx-2026-11-15.html */
   .btn.ghost { box-shadow: none; }
-  .btn > span { position: relative; z-index: 1; }
-  .btn:not(.ghost)::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-    background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, .26) 50%, transparent 70%); transform: translateX(-130%); }
-  .btn .ripple { position: absolute; z-index: 0; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; pointer-events: none;
-    background: radial-gradient(circle, rgba(255, 255, 255, .5) 0%, rgba(255, 255, 255, .18) 45%, rgba(255, 255, 255, 0) 70%);
-    transform: scale(0); animation: btn-ripple .6s cubic-bezier(.2, .7, .3, 1) forwards; }
-  @keyframes btn-ripple { to { transform: scale(var(--rs, 24)); opacity: 0; } }
-  .btn:active { transform: scale(.97); transition-duration: .08s; }
-  @media (hover: hover) and (pointer: fine) {
-    .btn:not(.ghost):hover { background: #3574DA; transform: translateY(-2px);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 16px 34px -12px rgba(53, 116, 218, .85), 0 0 0 1px rgba(150, 186, 245, .3); }
-    .btn:not(.ghost):hover::after { transform: translateX(130%); transition: transform .75s var(--ease); }
-    .btn:hover .arr { transform: translateX(5px); }
-    .btn:active { transform: translateY(0) scale(.97); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .btn, .btn:hover, .btn:active { transform: none; }
-    .btn::after, .btn .ripple { display: none; }
-  }
 </style>
 </head>
 <body>
@@ -777,20 +757,6 @@
         pick(state.step, opts[idx].value, main.querySelector('.choices'));
       }
     }
-  });
-
-  // Ripple of light from the tap point on any button
-  var calmFx = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  document.addEventListener('pointerdown', function (e) {
-    var b = e.target.closest && e.target.closest('.btn');
-    if (!b || calmFx || e.button > 0) return;
-    var r = b.getBoundingClientRect(), d = document.createElement('span');
-    d.className = 'ripple';
-    d.style.left = (e.clientX - r.left) + 'px';
-    d.style.top = (e.clientY - r.top) + 'px';
-    d.style.setProperty('--rs', String(Math.ceil(Math.max(r.width, r.height) * 2.4 / 16)));
-    b.appendChild(d);
-    setTimeout(function () { d.remove(); }, 700);
   });
 
   backBtn.addEventListener('click', back);
