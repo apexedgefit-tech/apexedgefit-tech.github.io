@@ -202,6 +202,8 @@ h3 { font-size: var(--t22); font-weight: 600; line-height: 1.3; }
 .vid .play svg { width: 22px; height: 22px; margin-left: 4px; }
 .vid:hover .play { background: var(--blue-hover); }
 .vid iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.vid.loopbox video { opacity: .82; transition: opacity .2s; }
+.vid.loopbox:hover video { opacity: 1; }
 .loopbox { background: var(--frame); display: flex; justify-content: center; overflow: hidden; }
 .loopbox video { height: 100%; width: auto; max-width: 100%; object-fit: cover; }
 .more-res, .qmore, .photo-hint { display: none; }
@@ -519,7 +521,7 @@ h3 { font-size: var(--t22); font-weight: 600; line-height: 1.3; }
         <div class="by"><img src="images/avatars/luke.jpg" alt="" aria-hidden="true" width="56" height="56" loading="lazy"><p><b>Luke M.</b><span>Senior Data Analyst</span></p></div>
       </article>
       <article class="rcard rv">
-        <div class="loopbox"><video muted loop playsinline autoplay preload="metadata" poster="images/redesign/maha-deadlift-poster.jpg" aria-label="Maha deadlifting 115 lb on a trap bar"><source src="images/redesign/maha-deadlift-loop.mp4" type="video/mp4"></video></div>
+        <button class="vid loopbox" type="button" data-yt="50ob_YVjnE4"><video muted loop playsinline autoplay preload="metadata" poster="images/redesign/maha-deadlift-poster.jpg" aria-hidden="true"><source src="images/redesign/maha-deadlift-loop.mp4" type="video/mp4"></video><i class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg></i><span class="vlab">Play Maha's story</span></button>
         <div><p class="rcard-r hd">35 to 115 lb</p><p class="rcard-s">Deadlift, with no back or knee pain</p></div>
         <blockquote>"He asked me questions nobody had asked me before, about my schedule, my pain history, my actual goal, and my lifestyle as a whole. I went from deadlifting a 35lb kettlebell to deadlifting 115lb using a trap bar and no back pain or knee pain."</blockquote>
         <div class="by"><img src="images/avatars/maha.jpg" alt="" aria-hidden="true" width="56" height="56" loading="lazy"><p><b>Maha Mahmood</b><span>Lead Technical Architect</span></p></div>
