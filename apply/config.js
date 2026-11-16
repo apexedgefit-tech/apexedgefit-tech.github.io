@@ -2,12 +2,8 @@
 // Save the file, then refresh index.html in your browser.
 
 window.FORM_CONFIG = {
-  // Welcome screen
-  eyebrow: "Apply for coaching",
-  title: "Let's get started",
+  // Line shown above "1 of 4" on the first question
   intro: "Four quick questions so I can see where you want to go. Then you pick a time for a 45-minute call with me.",
-  meta: ["4 quick questions", "Takes 60 seconds", "Then book your call"],
-  startLabel: "Let's go",
   finishLabel: "See call times",
   // Line under "Pick a time". {name} becomes their first name.
   bookingLead: "Thanks, {name}. Pick a time that suits you and I'll see you on the call.",
