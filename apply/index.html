@@ -84,13 +84,10 @@
     font-family: var(--display); font-stretch: 125%; font-weight: 800; text-transform: uppercase;
     font-size: clamp(1.7rem, 5.4vw, 3.2rem); line-height: 1.05; letter-spacing: -.01em; margin: 0; text-wrap: balance;
   }
-  /* welcome heading always sits on one line; size scales with screen width so it fits a 320px phone */
-  .welcome h1 { white-space: nowrap; font-size: clamp(1.2rem, 6.3vw, 3.2rem); }
   .q { display: block; margin: 0; font-size: clamp(1.5rem, 4.2vw, 2.4rem); line-height: 1.18; font-weight: 700; letter-spacing: -.02em; text-wrap: balance; }
   .help, .lead { font-size: 1.0625rem; color: var(--muted); margin: 14px 0 0; line-height: 1.55; max-width: 560px; }
-  .meta { display: flex; gap: 18px; flex-wrap: wrap; margin: 26px 0 0; padding: 0; list-style: none; color: var(--muted); font-size: .95rem; }
-  .meta li { position: relative; padding-left: 14px; }
-  .meta li::before { content: ""; position: absolute; left: 0; top: .32em; width: 4px; height: .8em; background: var(--detail); }
+  /* 2026-11-15: no welcome screen; question 1 carries the intro line above "1 of 4" */
+  .lead.intro { margin: 0 0 28px; }
 
   .field { margin-top: 34px; }
   .text-in {
@@ -169,7 +166,6 @@
   @media (max-width: 560px) {
     .screen { padding: 96px 20px 48px; justify-content: flex-start; }
     .screen.q-screen { padding-top: 18vh; }
-    .screen.welcome { justify-content: center; padding-bottom: 96px; }
     .actions .btn { flex: 1 1 0; }
     .actions .btn.ghost { flex: 0 0 auto; }
     .cal { margin: 16px -20px 0; height: 1000px; }
@@ -184,7 +180,6 @@
     background-image: linear-gradient(180deg, #FFFFFF 0%, #F1F3F8 45%, #BFC8DA 100%); background-size: 100% 1lh; background-repeat: repeat-y;
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
     filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .55)) drop-shadow(0 0 28px rgba(74, 122, 230, .16)); }
-  .welcome h1 { white-space: normal; font-size: clamp(1.75rem, 7.4vw, 3.2rem); }
   .btn, .btn.ghost, .choice, .choice .key { border-radius: 0; }
   /* 2026-11-15: buttons plain like Typeform (glow, lift, sheen, squeeze and ripple removed at Alex's request).
      Hover is only the darker blue from the base .btn rules above. Old version: _archive/index-v3-with-button-fx-2026-11-15.html */
@@ -224,7 +219,7 @@
   if (th.text) root.setProperty('--text', th.text);
   if (th.fontFamily) root.setProperty('--font', th.fontFamily);
 
-  // State: step -1 = welcome, 0..N-1 = questions, N = finished
+  // State: step -1 = not started, 0..N-1 = questions, N = finished
   var state = { step: -1, answers: {} };
   window.__formState = state;
   var submitting = false;
@@ -272,7 +267,7 @@
     else if (state.step >= 0) pct = Math.round(((state.step + 1) / N) * 100);
     fill.style.width = pct + '%';
     bar.setAttribute('aria-valuenow', String(pct));
-    backBtn.className = 'back' + (state.step >= 0 && state.step < N ? ' show' : '');
+    backBtn.className = 'back' + (state.step > 0 && state.step < N ? ' show' : '');
   }
 
   function focusSoon(node) {
@@ -295,28 +290,10 @@
   function grow(t) { t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px'; }
 
   // Screens
-  function renderWelcome(backwards) {
-    var s = el('section', 'welcome');
-    if (CFG.eyebrow) s.appendChild(el('p', 'num', CFG.eyebrow));
-    s.appendChild(el('h1', '', CFG.title || 'Welcome'));
-    if (CFG.intro) s.appendChild(el('p', 'lead', CFG.intro));
-    if (CFG.meta && CFG.meta.length) {
-      var m = el('ul', 'meta');
-      CFG.meta.forEach(function (t) { m.appendChild(el('li', '', t)); });
-      s.appendChild(m);
-    }
-    var actions = el('div', 'actions');
-    var b = btn(CFG.startLabel || 'Start');
-    b.addEventListener('click', function () { go(0); });
-    actions.appendChild(b);
-    actions.appendChild(hint('Enter'));
-    s.appendChild(actions);
-    mount(s, backwards, false, touch ? null : b);
-  }
-
   function renderQuestion(i, backwards) {
     var q = QS[i];
     var s = el('section', 'q-screen');
+    if (i === 0 && CFG.intro) s.appendChild(el('p', 'lead intro', CFG.intro));
     var num = el('p', 'num', (i + 1) + ' of ' + N);
     if (!q.required) num.appendChild(el('span', 'opt', 'Optional'));
     s.appendChild(num);
@@ -395,14 +372,16 @@
     s.appendChild(err);
 
     var actions = el('div', 'actions');
-    var bk = el('button', 'btn ghost');
-    bk.type = 'button';
-    bk.setAttribute('aria-label', 'Back to the previous question');
-    var ba = el('span', 'arr', '\u2190'); ba.setAttribute('aria-hidden', 'true');
-    bk.appendChild(ba);
-    bk.appendChild(el('span', '', 'Back'));
-    bk.addEventListener('click', function () { back(); });
-    actions.appendChild(bk);
+    if (i > 0) {
+      var bk = el('button', 'btn ghost');
+      bk.type = 'button';
+      bk.setAttribute('aria-label', 'Back to the previous question');
+      var ba = el('span', 'arr', '\u2190'); ba.setAttribute('aria-hidden', 'true');
+      bk.appendChild(ba);
+      bk.appendChild(el('span', '', 'Back'));
+      bk.addEventListener('click', function () { back(); });
+      actions.appendChild(bk);
+    }
     var ok = btn(i === N - 1 ? (CFG.finishLabel || 'Finish') : 'Next');
     ok.addEventListener('click', function () { next(); });
     if (q.type !== 'choice' || cur) actions.appendChild(ok);
@@ -480,16 +459,14 @@
   function back() {
     clearTimeout(advanceTimer);
     if (submitting || swapping) return;
-    if (state.step === 0) go(-1);
-    else if (state.step > 0 && state.step < N) go(state.step - 1);
+    if (state.step > 0 && state.step < N) go(state.step - 1);
   }
 
   function go(step) {
     var backwards = step < state.step;
     state.step = step;
     setProgress();
-    if (step < 0) renderWelcome(backwards);
-    else renderQuestion(step, backwards);
+    renderQuestion(step, backwards);
   }
 
   // Finish
@@ -735,10 +712,6 @@
     var t = e.target;
     var tag = t && t.tagName;
     if (e.key === 'Enter') {
-      if (state.step === -1) {
-        if (tag === 'BUTTON') return;
-        e.preventDefault(); go(0); return;
-      }
       if (state.step >= 0 && state.step < N) {
         if (tag === 'BUTTON') return;
         if (tag === 'TEXTAREA' && (e.shiftKey || touch)) return;
@@ -761,8 +734,7 @@
 
   backBtn.addEventListener('click', back);
 
-  setProgress();
-  renderWelcome(false);
+  go(0);
 })();
 </script>
 </body>
